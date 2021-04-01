@@ -1,3 +1,7 @@
-.Header {
-    
+.Header nav{
+  position: fixed;
+  width: 100%;
+  height: wrap-content;
+  background-color: #32BB64;
+  padding: 10px 0;
 }

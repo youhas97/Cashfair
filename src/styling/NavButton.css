@@ -1,0 +1,26 @@
+.navBarDiv {
+  margin: 0 0.5cm;
+}
+
+.navBarText {
+  padding: 5px 10px;
+  color: whitesmoke;
+  -webkit-user-select: none; /* Safari */        
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+} 
+
+.navBarText:hover {
+  border-radius: 10px;
+  background-color: #308551;
+  color: aquamarine;
+}
+
+.toTheRight {
+  float: right;
+}
+
+.toTheLeft {
+  float: left;
+}
