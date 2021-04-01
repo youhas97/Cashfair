@@ -1,9 +1,9 @@
-.navBarDiv {
+.navButtonDiv {
+  padding: 5px 10px;
   margin: 0 0.5cm;
 }
 
-.navBarText {
-  padding: 5px 10px;
+.navButtonText {
   color: whitesmoke;
   -webkit-user-select: none; /* Safari */        
   -moz-user-select: none; /* Firefox */
@@ -11,16 +11,20 @@
   user-select: none; /* Standard */
 } 
 
-.navBarText:hover {
+.navButtonDiv:hover{
   border-radius: 10px;
   background-color: #308551;
+}
+
+.navButtonDiv:hover > * {
   color: aquamarine;
 }
 
-.toTheRight {
-  float: right;
+.active {
+  border-radius: 10px;
+  background-color: #308551;
 }
 
-.toTheLeft {
-  float: left;
+.active > * {
+  color: aquamarine;
 }

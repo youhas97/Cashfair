@@ -7,14 +7,26 @@ import Header from './components/Header'
 import Main from './components/Main'
 import Footer from './components/Footer'
 
+import Login from './components/Login'
+
 function App() {
-  return (
-    <div className="App">
-      <Header />
-      <Main />
-      <Footer />
-    </div>
-  );
+  const loggedIn = false;
+  if (!loggedIn) {
+    return (
+      <div className="App">
+        <Login />
+      </div>
+    )
+  }
+  else {
+    return (
+      <div className="App">
+        <Header />
+        <Main />
+        <Footer />
+      </div>
+    )
+  }
 }
 
 export default App;

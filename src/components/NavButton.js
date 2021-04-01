@@ -5,16 +5,17 @@ import "../styling/NavButton.css"
 function NavButton(props) {
   function handleClick(e) {
     e.preventDefault(e);
-    alert(props.name);
+    props.handleChange(props.item.id)
   }
 
   return (
-    <div className={"navBarDiv " + (props.className || "toTheLeft")}>
+    <div className={"navButtonDiv " + (props.item.active ? "active" : "")} 
+    style={{float: props.item.float}}
+    onClick = {handleClick}>
     <a 
-      className = "navBarText"
-      onClick = {handleClick}
+      className = "navButtonText"
     >
-        {props.name}
+        {props.item.name}
       </a>
     </div>
   )
