@@ -1,0 +1,6 @@
+.contentDiv {
+  margin: 0 auto;
+  flex-direction: row;
+  width: 70%;
+  margin-top: 15em;
+}
