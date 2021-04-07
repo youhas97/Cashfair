@@ -14,17 +14,3 @@
 .registerBtnText:hover {
   cursor: pointer;
 }
-
-.formInput {
-  margin: 2em auto;
-  font-size: large;
-  display: block;
-  align-content: center;
-  text-align: center;
-}
-
-.formBtn {
-  font-size: large;
-  border-radius: 10px;
-  border-style: hidden;
-}
