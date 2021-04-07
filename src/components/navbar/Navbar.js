@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 
-import "../styling/Navbar.css"
-import NavButton from "./NavButton";
+import "../../styling/navbar/Navbar.css"
+import NavButton from "./NavButton"
 
-import buttonData from "./data/buttonData"
+import buttonData from "../data/buttonData"
 
 class Navbar extends Component {
   constructor() {
