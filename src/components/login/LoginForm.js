@@ -47,7 +47,7 @@ class LoginForm extends Component {
             required/>
           <input
             className="formBtn"
-            type="button"
+            type="submit"
             onClick={this.submitForm}
             value="Sign in"/>
         </form>
