@@ -7,7 +7,7 @@ function Main() {
     e.preventDefault();
     alert("get fucked");
   }
-  
+
   return (
     <main className="Main">
       <button onClick={handleClick}>Click me!</button>

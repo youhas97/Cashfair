@@ -1,0 +1,48 @@
+.LoginForm {
+  display: inline-block;
+  text-align: center;
+  margin: 0 auto;
+  min-width: 20em;
+  min-height: 20em;
+  background-color: whitesmoke;
+  border: 20px;
+  border-radius: 25px;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.24), -2px -2px 12px rgba(0, 0, 0, 0.24);
+}
+
+.LoginForm form {
+  display: inline-block;
+  text-align: center;
+}
+
+.formInput {
+  margin: 1.5em auto;
+  font-size: large;
+  display: block;
+  align-content: center;
+  text-align: center;
+  border-radius: 15px;
+  border-width: thin;
+  outline: none;
+}
+
+.formBtn {
+  font-size: large;
+  border-radius: 10px;
+  border-width: thin;
+  border-style: solid;
+  outline: none;
+}
+
+/* Hide increment buttons on number input field */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
