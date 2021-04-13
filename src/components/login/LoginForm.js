@@ -12,7 +12,7 @@ class LoginForm extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.submitForm = this.submitForm.bind(this)
   }
-  
+
   handleChange(e) {
     this.setState({
         [e.target.name]: e.target.value
@@ -22,7 +22,7 @@ class LoginForm extends Component {
   submitForm(e) {
     e.preventDefault(e)
   }
-  
+
   render() {
     return (
       <div className="LoginForm">
@@ -31,24 +31,24 @@ class LoginForm extends Component {
           {this.state.phoneNumber} {this.state.password}
         </label>
         <form>
-          <input 
+          <input
             className="formInput"
             name="phoneNumber"
-            onChange={this.handleChange} 
-            type="number" 
-            placeholder="Phone number" 
+            onChange={this.handleChange}
+            type="number"
+            placeholder="Phone number"
             required/>
-          <input 
-            className="formInput" 
+          <input
+            className="formInput"
             name="password"
-            onChange={this.handleChange} 
-            type="password" 
-            placeholder="Password" 
+            onChange={this.handleChange}
+            type="password"
+            placeholder="Password"
             required/>
-          <input 
-            className="formBtn" 
-            type="submit"
-            onClick={this.submitForm} 
+          <input
+            className="formBtn"
+            type="button"
+            onClick={this.submitForm}
             value="Sign in"/>
         </form>
       </div>

@@ -8,7 +8,7 @@ function Header() {
   return (
     <header className="Header">
       <Navbar />
-      {/* 
+      {/*
       <nav>
         <NavButton name="Home"/>
         <NavButton name="Balance"/>

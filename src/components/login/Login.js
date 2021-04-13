@@ -21,7 +21,7 @@ class Login extends Component {
       }
     })
   }
-  
+
   render() {
     return (
       <main>
@@ -29,8 +29,8 @@ class Login extends Component {
           {this.state.showLoginScreen ? <LoginForm /> : <RegisterForm />}
         </div>
         <a className="registerBtnText" onClick={this.handleChange}>
-            {this.state.showLoginScreen ? 
-              "Register an account" : 
+            {this.state.showLoginScreen ?
+              "Register an account" :
               "Sign in"}
         </a>
       </main>

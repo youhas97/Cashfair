@@ -7,9 +7,9 @@ function RegisterForm() {
     e.preventDefault()
     alert("get fucked")
   }
-  
+
   return (
-    <div className="LoginForm"> 
+    <div className="LoginForm">
       <h1>Register Account</h1>
       <form>
         <input className="formInput" type="number" placeholder="Phone number" required/>

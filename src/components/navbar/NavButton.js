@@ -9,10 +9,10 @@ function NavButton(props) {
   }
 
   return (
-    <div className={"navButtonDiv " + (props.item.active ? "active" : "")} 
+    <div className={"navButtonDiv " + (props.item.active ? "active" : "")}
     style={{float: props.item.float}}
     onClick = {handleClick}>
-      <a 
+      <a
         className = "navButtonText"
       >
         {props.item.name}
