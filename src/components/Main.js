@@ -2,15 +2,17 @@ import React from "react";
 
 import "../styling/Main.css"
 
+import Dashboard from "./dashboard/Dashboard"
+
 function Main() {
   function handleClick(e) {
     e.preventDefault();
-    alert("get fucked");
+    alert("hello world");
   }
 
   return (
     <main className="Main">
-      <button onClick={handleClick}>Click me!</button>
+      <Dashboard />
     </main>
   )
 }

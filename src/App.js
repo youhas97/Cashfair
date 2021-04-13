@@ -10,7 +10,7 @@ import Footer from './components/Footer'
 import Login from './components/login/Login'
 
 function App() {
-  const loggedIn = false;
+  const loggedIn = true;
   if (!loggedIn) {
     return (
       <div className="App">
