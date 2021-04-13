@@ -1,4 +1,5 @@
 .Main {
   position: relative;
   top: 41px;
+  display: flex;
 }
