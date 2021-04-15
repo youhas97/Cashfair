@@ -1,15 +1,15 @@
 .navButtonDiv {
   padding: 5px 10px;
-  margin: 0 0.5cm;
+  margin: 0 1vw;
 }
 
 .navButtonText {
   color: whitesmoke;
-  -webkit-user-select: none; /* Safari */        
+  -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+/Edge */
   user-select: none; /* Standard */
-} 
+}
 
 .navButtonDiv:hover{
   border-radius: 10px;
