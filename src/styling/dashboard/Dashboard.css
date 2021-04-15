@@ -4,5 +4,22 @@
   min-height: 100vh;
   scroll-behavior: auto;
   overflow: auto;
-  flex-grow: 1.5;
+  flex: 1 1 30%;
+}
+
+.self-balance-card {
+  width: 60%;
+  margin: 10px auto 10px auto;
+  padding: 10px;
+}
+
+.groups-card-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+.groups-card {
+  flex: 0.4 1 25em;
+  margin: 5px 0 0 0;
 }

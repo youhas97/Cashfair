@@ -2,12 +2,6 @@
   /* Add shadows to create the "card" effect */
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   border-radius: 10px;
-
-  max-width: 30vw;
-  min-width: fit-content;
-  height: fit-content;
-  margin: 10px auto 10px auto;
-  padding: 10px;
 }
 
 /* On mouse-over, add a deeper shadow */

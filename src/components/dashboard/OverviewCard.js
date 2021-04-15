@@ -4,7 +4,7 @@ import "../../styling/dashboard/OverviewCard.css"
 
 function OverviewCard(props) {
   return (
-    <div className="overview-card">
+    <div className={"overview-card " + props.item.className}>
         <h1>Your balance</h1>
         <h1
           className={props.item.value >= 0 ? "positive-balance":"negative-balance"}>

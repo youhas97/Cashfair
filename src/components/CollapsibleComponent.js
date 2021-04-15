@@ -53,7 +53,9 @@ class CollapsibleComponent extends Component {
             <a className="collapse-button">{this.state.isCollapsed ? "+" : "-"}</a>
         </div>
         <Collapse in={!this.state.isCollapsed}>
-          {this.props.item.children}
+          <div className={this.props.item.className}>
+            {this.props.item.children}
+          </div>
         </Collapse>
       </div>
     )
