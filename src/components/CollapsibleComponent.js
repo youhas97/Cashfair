@@ -8,41 +8,17 @@ class CollapsibleComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isCollapsed: false
+      show: true
     }
     this.handleChange = this.handleChange.bind(this)
-    this.collapseBar = this.collapseBar.bind(this)
   }
 
   handleChange(event) {
-    //this.collapseBar(event)
-
     this.setState(prevState => {
       return {
-        isCollapsed: !prevState.isCollapsed
+        show: !prevState.show
       }
     })
-  }
-
-  collapseBar(event) {
-    let target = undefined
-    switch(event.target.className) {
-      case "collapse-button":
-      case "collapse-bar-title":
-        target = event.target.parentNode.parentNode;
-        break
-      default:
-        target = event.target.parentNode;
-    }
-    console.log(target)
-    let collapsibleElement = target.querySelector(".visible-component")
-
-    if(collapsibleElement) {
-      setTimeout(() => {
-        console.log(collapsibleElement)
-        collapsibleElement.style={height:0}
-      }, 500)
-    }
   }
 
   render() {
@@ -50,9 +26,9 @@ class CollapsibleComponent extends Component {
       <div className="collapsible-component-container">
         <div className="collapse-div-bar"  onClick={this.handleChange}>
             <label className="collapse-bar-title" >{this.props.item.title}</label>
-            <a className="collapse-button">{this.state.isCollapsed ? "+" : "-"}</a>
+            <a className="collapse-button">{this.state.show ? "+" : "-"}</a>
         </div>
-        <Collapse in={!this.state.isCollapsed}>
+        <Collapse in={this.state.show}>
           <div className={this.props.item.className}>
             {this.props.item.children}
           </div>

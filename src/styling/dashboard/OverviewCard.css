@@ -1,12 +1,16 @@
 .overview-card {
   /* Add shadows to create the "card" effect */
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  box-shadow: 2px 4px 8px 0 rgba(0,0,0,0.2);
   border-radius: 10px;
+
+  border-style: outset;
+  border-width: 1px;
+  border-color: #32BB64;
 }
 
 /* On mouse-over, add a deeper shadow */
 .overview-card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 5px 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 .positive-balance {
@@ -15,4 +19,5 @@
 
 .negative-balance {
   color: orange;
+
 }

@@ -8,9 +8,6 @@ import CollapseableComponent from "../CollapsibleComponent"
 class Dashboard extends Component {
   constructor() {
       super()
-      this.state = {
-        value:-100
-      }
       this.handleChange = this.handleChange.bind(this)
   }
 
@@ -23,13 +20,14 @@ class Dashboard extends Component {
     return (
       <div className="dashboard" onClick={this.handleChange}>
         <CollapseableComponent
-        item={{children: [<OverviewCard key={1} item={{value: this.state.value, className: "self-balance-card"}} />],
-               title: "Self"}}
+        item={{children: [<OverviewCard key={1} item={{value: -19, className: "self-balance-card"}} />],
+               title: "Self",
+              className: "self-balance-card-container"}}
         />
         <CollapseableComponent
           item={{
             children: [
-              <OverviewCard key={1} item={{value: this.state.value, className: "groups-card"}}/>, 
+              <OverviewCard key={1} item={{value: -100, className: "groups-card"}}/>,
               <OverviewCard key={2} item={{value: 150, className:"groups-card"}}/>,
               <OverviewCard key={3} item={{value: -69, className:"groups-card"}}/>
             ],
