@@ -4,7 +4,7 @@
   margin: 0 auto;
   min-width: 20em;
   min-height: 20em;
-  background-color: whitesmoke;
+  background-color: rgba(238, 253, 238, 0.363);
   border: 20px;
   border-radius: 25px;
   box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.24), -2px -2px 12px rgba(0, 0, 0, 0.24);
