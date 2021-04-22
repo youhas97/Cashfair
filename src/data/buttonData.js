@@ -4,35 +4,35 @@ const buttonData = [
     name: "Home",
     float: "left",
     active: true,
-    order: 1
+    dropdown: false
   },
   {
     id: 2,
     name: "Balance",
     float: "left",
     active: false,
-    order: 2
+    dropdown: false
   },
   {
     id: 3,
     name: "Groups",
     float: "left",
     active: false,
-    order: 3
+    dropdown: false
   },
   {
     id: 4,
     name: "Settings",
     float: "right",
     active: false,
-    order: 4
+    dropdown: false
   },
   {
     id: 5,
     name: "Account",
     float: "right",
     active: false,
-    order: 5
+    dropdown: false
   }
 ]
 

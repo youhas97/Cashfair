@@ -1,7 +1,9 @@
-import React from "react";
+import React from "react"
 import { useDispatch } from "react-redux"
 
 import "../../styling/navbar/NavButton.css"
+
+import NavDropdownMenu from "./NavDropdownMenu"
 
 function NavButton(props) {
   const dispatch = useDispatch()
@@ -9,18 +11,18 @@ function NavButton(props) {
   function handleClick(e) {
     e.preventDefault(e);
     props.handleChange(props.item.id)
-    dispatch({type: e.target.innerHTML})
+    dispatch({type: "DROPDOWN"})
   }
 
   return (
     <div className={"navButtonDiv " + (props.item.active ? "active" : "")}
     style={{float: props.item.float}}
     onClick = {handleClick}>
-      <a
-        className = "navButtonText"
-      >
+      <a className = "navButtonText">
         {props.item.name}
       </a>
+      {props.item.dropdown ? "hello" : "hejdå"}
+      {props.item.dropdown ? <NavDropdownMenu /> : undefined}
     </div>
   )
 }

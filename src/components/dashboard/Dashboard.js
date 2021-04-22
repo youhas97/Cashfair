@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 import "../../styling/dashboard/Dashboard.css"
 
@@ -29,19 +29,5 @@ function Dashboard() {
     </div>
   )
 }
-
-/*class Dashboard extends Component {
-  constructor() {
-      super()
-      this.handleChange = this.handleChange.bind(this)
-  }
-
-  handleChange() {
-  }
-
-  render() {
-
-  }
-}*/
 
 export default Dashboard

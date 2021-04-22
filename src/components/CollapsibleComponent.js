@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Collapse } from "@material-ui/core";
+import React, { useState } from "react"
+import { Collapse } from "@material-ui/core"
 
 import "../styling/CollapsibleComponent.css"
-import OverviewCard from "./dashboard/OverviewCard";
+import OverviewCard from "./dashboard/OverviewCard"
 
 function CollapsibleComponent(props) {
   const [show, toggleShow] = useState(true)
