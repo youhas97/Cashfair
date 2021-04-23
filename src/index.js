@@ -11,8 +11,6 @@ import navButtonReducer from './redux/reducers/navButtonReducer'
 import App from './App';
 import reportWebVitals from './reportWebVitals'
 
-const MS_TO_S_CONVERTION = 1000
-
 const rootReducer = combineReducers({test: testReducer, navButton: navButtonReducer})
 const store = createStore(navButtonReducer)
 
@@ -24,17 +22,6 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-
-window.onload = () => {
-  if (Date.now() - localStorage.sinceLastClose > 30 * MS_TO_S_CONVERTION) {
-    localStorage.removeItem("btnData")
-    console.log("clear!")
-  }
-}
-
-window.onunload = () => {
-  localStorage.sinceLastClose = Date.now()
-}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

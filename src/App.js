@@ -9,7 +9,17 @@ import Footer from './components/Footer'
 
 import Login from './components/login/Login'
 
+const MS_TO_S_CONVERTION = 1000
+
 function App() {
+  if (localStorage.sinceLastClose && (Date.now() - localStorage.sinceLastClose > 30 * MS_TO_S_CONVERTION)) {
+    localStorage.removeItem("btnData")
+  }
+
+  window.onunload = () => {
+    localStorage.sinceLastClose = Date.now()
+  }
+
   const loggedIn = true;
   if (!loggedIn) {
     return (
