@@ -1,19 +1,14 @@
 import React, { useState } from "react"
-import { Collapse } from "@material-ui/core"
-import { useSelector } from "react-redux"
-
 import "../../styling/navbar/NavDropdownMenu.css"
 
 function NavDropdownMenu(props) {
-  const [show, toggleShow] = useState(true)
-  //useSelector(button => toggleShow(button.dropdown))
 
-  return <h1>Henlo</h1>
+  const menuItems = props.item.menuItems.map(item => <div className="nav-menu-item">{item}</div>)
 
   return (
-    <Collapse in={show}>
-      <h1>This is a text</h1>
-    </Collapse>
+    <ul className="nav-menu-list" >
+      {menuItems}
+    </ul>
   )
 }
 

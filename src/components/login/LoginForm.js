@@ -11,25 +11,25 @@ function LoginForm() {
   }
 
   return (
-    <div className="LoginForm">
+    <div className="login-form">
       <h1>Login</h1>
       <form>
         <input
-          className="formInput"
+          className="form-input"
           name="phoneNumber"
           onChange={(e) => {setPhoneNumber(e.target.value)}}
           type="number"
           placeholder="Phone number"
           required/>
         <input
-          className="formInput"
+          className="form-input"
           name="password"
           onChange={(e) => setPassword(e.target.value)}
           type="password"
           placeholder="Password"
           required/>
         <input
-          className="formBtn"
+          className="form-btn"
           type="submit"
           onClick={submitForm}
           value="Sign in"/>

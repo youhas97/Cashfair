@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import logo from './logo.svg';
 import './styling/App.css';
@@ -12,7 +12,7 @@ import Login from './components/login/Login'
 const MS_TO_S_CONVERTION = 1000
 
 function App() {
-  if (localStorage.sinceLastClose && (Date.now() - localStorage.sinceLastClose > 30 * MS_TO_S_CONVERTION)) {
+  if (localStorage.sinceLastClose && (Date.now() - localStorage.sinceLastClose > 2 * MS_TO_S_CONVERTION)) {
     localStorage.removeItem("btnData")
   }
 

@@ -5,7 +5,7 @@ import "../../styling/dashboard/DashboardLeft.css"
 
 function DashboardLeft() {
   return (
-    <div className="dashboardLeft">
+    <div className="dashboard-left">
       <h1>Left</h1>
     </div>
   )

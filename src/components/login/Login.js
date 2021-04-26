@@ -10,10 +10,10 @@ function Login() {
 
   return (
     <main>
-      <div className="contentDiv">
+      <div className="content-div">
         {showLoginScreen ? <LoginForm /> : <RegisterForm />}
       </div>
-      <a className="registerBtnText" onClick={() => setShowLoginScreen(prevState => !prevState)}>
+      <a className="register-btn-text" onClick={() => setShowLoginScreen(prevState => !prevState)}>
           {showLoginScreen ?
             "Register an account" :
             "Sign in"}

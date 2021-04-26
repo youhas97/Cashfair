@@ -4,8 +4,8 @@ import "../../styling/dashboard/DashboardRight.css"
 
 function DashboardRight() {
   return (
-    <div className="dashboardLeft">
-      <h1>Left</h1>
+    <div className="dashboard-right">
+      <h1>Right</h1>
     </div>
   )
 }
