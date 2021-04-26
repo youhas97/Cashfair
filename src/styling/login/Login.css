@@ -1,16 +1,16 @@
-.contentDiv {
+.content-div {
   margin: 0 auto;
   flex-direction: row;
   width: 70%;
   margin-top: 15em;
 }
 
-.registerBtnText {
+.register-btn-text {
   color: darkslategrey;
   text-decoration: underline;
 
 }
 
-.registerBtnText:hover {
+.register-btn-text:hover {
   cursor: pointer;
 }

@@ -1,10 +1,12 @@
 .dashboard {
   margin: 0 auto;
   background-color: rgba(238, 253, 238, 0.363);
-  min-height: 100vh;
+  /*min-height: 100vh;*/
+  flex: 1 1 30%;
+
+  height: 100%;
   scroll-behavior: auto;
   overflow: auto;
-  flex: 1 1 30%;
 }
 
 .self-balance-card {
@@ -27,5 +29,5 @@
 
 .groups-card {
   flex: 0 1 25em;
-  margin: 5px 0 0 0;
+  margin: 10px auto 10px auto;
 }

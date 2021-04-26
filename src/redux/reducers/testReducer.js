@@ -2,7 +2,7 @@ const initState = {
   text: ""
 }
 
-const rootReducer = (state = initState, action) => {
+const testReducer = (state = initState, action) => {
   switch(action.type) {
     case 'Settings':
       return {... state, text: 'Get fucked'}
@@ -11,4 +11,4 @@ const rootReducer = (state = initState, action) => {
   }
 }
 
-export default rootReducer
+export default testReducer

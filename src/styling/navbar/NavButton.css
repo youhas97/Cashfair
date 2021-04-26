@@ -1,9 +1,10 @@
-.navButtonDiv {
+.nav-button-div {
   padding: 5px 10px;
   margin: 0 1vw;
+  position: relative;
 }
 
-.navButtonText {
+.nav-button-text {
   color: whitesmoke;
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
@@ -11,12 +12,12 @@
   user-select: none; /* Standard */
 }
 
-.navButtonDiv:hover{
+.nav-button-div:hover{
   border-radius: 10px;
   background-color: #308551;
 }
 
-.navButtonDiv:hover > * {
+.nav-button-div:hover > a {
   color: aquamarine;
 }
 

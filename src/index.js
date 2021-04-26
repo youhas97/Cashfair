@@ -1,16 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './styling/index.css';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './styling/index.css'
 
 
-import { Provider } from 'react-redux';
-import { createStore } from 'redux'
-import rootReducer from './redux/reducers/rootReducer'
+import { Provider } from 'react-redux'
+import { createStore, combineReducers} from 'redux'
+import testReducer from './redux/reducers/testReducer'
+import navButtonReducer from './redux/reducers/navButtonReducer'
 
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './reportWebVitals'
 
-const store = createStore(rootReducer)
+const rootReducer = combineReducers({test: testReducer, navButton: navButtonReducer})
+const store = createStore(navButtonReducer)
 
 ReactDOM.render(
   <Provider store={store} >

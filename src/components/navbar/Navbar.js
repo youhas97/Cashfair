@@ -1,44 +1,34 @@
-import React, {Component} from "react";
+import React, { useState, useEffect } from "react"
 
 import "../../styling/navbar/Navbar.css"
 import NavButton from "./NavButton"
 
 import buttonData from "../../data/buttonData"
 
-class Navbar extends Component {
-  constructor() {
-      super()
-      this.state = {
-          buttons: localStorage.btnData ? JSON.parse(localStorage.btnData) : buttonData,
-          activeButtonId: 1
-      }
-      this.handleChange = this.handleChange.bind(this)
+function Navbar() {
+  const [buttons, setButtons] = useState(localStorage.btnData ? JSON.parse(localStorage.btnData) : buttonData)
+
+  function handleChange(id) {
+    // Button id is always the same as index
+    if (buttons[id].menuItems) return // dropdown menus should not be active when clicked.
+    setButtons(prevButtons => prevButtons.map(btn => {
+      btn.active = (btn.id === id) ? true : false
+      return btn
+    }))
   }
 
-  handleChange(id) {
-    this.setState(prevState => {
-      const updatedButtons = prevState.buttons.map(btn => {
-        btn.active = (btn.id === id) ? true : false;
-        return btn;
-      })
-      localStorage.btnData = JSON.stringify(updatedButtons)
-      return {
-        buttons: updatedButtons,
-        activeButtonId: id
-      }
-    })
-  }
+  useEffect(() => {
+    localStorage.btnData = JSON.stringify(buttons)
+  }, [buttons])
 
-  render() {
-    const navButtons = this.state.buttons.map(btn =>
-      <NavButton key={btn.id} item={btn} handleChange={this.handleChange}/>)
+  const navButtons = buttons.map(btn =>
+    <NavButton key={btn.id} item={btn} handleChange={handleChange}/>)
 
-    return (
-      <nav className="Navbar">
-        {navButtons}
-      </nav>
-    )
-  }
+  return (
+  <nav className="Navbar">
+    {navButtons}
+  </nav>
+  )
 }
 
 export default Navbar

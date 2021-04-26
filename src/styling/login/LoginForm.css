@@ -1,21 +1,21 @@
-.LoginForm {
+.login-form {
   display: inline-block;
   text-align: center;
   margin: 0 auto;
   min-width: 20em;
   min-height: 20em;
-  background-color: whitesmoke;
+  background-color: rgba(238, 253, 238, 0.363);
   border: 20px;
   border-radius: 25px;
   box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.24), -2px -2px 12px rgba(0, 0, 0, 0.24);
 }
 
-.LoginForm form {
+.login-form form {
   display: inline-block;
   text-align: center;
 }
 
-.formInput {
+.form-input {
   margin: 1.5em auto;
   font-size: large;
   display: block;
@@ -26,7 +26,7 @@
   outline: none;
 }
 
-.formBtn {
+.form-btn {
   font-size: large;
   border-radius: 10px;
   border-width: thin;
