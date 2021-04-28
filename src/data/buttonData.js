@@ -4,18 +4,21 @@ const buttonData = [
     name: "Home",
     float: "left",
     active: true,
+    pathName: "/"
   },
   {
     id: 1,
     name: "Balance",
     float: "left",
     active: false,
+    pathName: "/balance"
   },
   {
     id: 2,
     name: "Groups",
     float: "left",
     active: false,
+    pathName: "/groups"
   },
   {
     id: 3,

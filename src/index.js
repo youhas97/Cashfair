@@ -2,24 +2,17 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './styling/index.css'
 
-
-import { Provider } from 'react-redux'
-import { createStore, combineReducers} from 'redux'
-import testReducer from './redux/reducers/testReducer'
-import navButtonReducer from './redux/reducers/navButtonReducer'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import App from './App';
 import reportWebVitals from './reportWebVitals'
 
-const rootReducer = combineReducers({test: testReducer, navButton: navButtonReducer})
-const store = createStore(navButtonReducer)
-
 ReactDOM.render(
-  <Provider store={store} >
-    <React.StrictMode>
+  <React.StrictMode>
+    <Router>
       <App />
-    </React.StrictMode>
-  </Provider>,
+    </Router>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 

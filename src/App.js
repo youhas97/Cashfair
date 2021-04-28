@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-
-import logo from './logo.svg';
+import React from "react";
 import './styling/App.css';
 
 import Header from './components/Header'

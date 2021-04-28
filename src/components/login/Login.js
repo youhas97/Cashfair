@@ -13,11 +13,11 @@ function Login() {
       <div className="content-div">
         {showLoginScreen ? <LoginForm /> : <RegisterForm />}
       </div>
-      <a className="register-btn-text" onClick={() => setShowLoginScreen(prevState => !prevState)}>
+      <label className="register-btn-text" onClick={() => setShowLoginScreen(prevState => !prevState)}>
           {showLoginScreen ?
             "Register an account" :
             "Sign in"}
-      </a>
+      </label>
     </main>
   )
 }

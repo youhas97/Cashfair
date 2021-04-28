@@ -4,9 +4,6 @@ import { useDispatch, useSelector } from "react-redux"
 import "../../styling/dashboard/OverviewCard.css"
 
 function OverviewCard(props) {
-  const text = useSelector(state => state.text)
-
-
   return (
     <div
       className={"overview-card " + props.item.className}
@@ -18,9 +15,6 @@ function OverviewCard(props) {
           >
             {props.item.value}kr
         </h1>
-        <h2>
-          {text}
-        </h2>
     </div>
   )
 }
