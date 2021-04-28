@@ -29,4 +29,4 @@ yarn-error.log*
 *.ps1
 
 # virtual environment
-/venv
+**/venv
