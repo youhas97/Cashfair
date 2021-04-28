@@ -1,0 +1,33 @@
+.dashboard {
+  margin: 0 auto;
+  background-color: rgba(238, 253, 238, 0.363);
+  /*min-height: 100vh;*/
+  flex: 1 1 30%;
+
+  height: 100%;
+  scroll-behavior: auto;
+  overflow: auto;
+}
+
+.self-balance-card {
+  flex: 0 1 25em;
+  margin: 10px auto 10px auto;
+  padding: 10px;
+}
+
+.self-balance-card-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+.groups-card-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+
+.groups-card {
+  flex: 0 1 25em;
+  margin: 10px auto 10px auto;
+}

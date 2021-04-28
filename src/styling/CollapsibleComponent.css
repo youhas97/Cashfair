@@ -1,0 +1,41 @@
+.collapse-button {
+  cursor: pointer;
+  font-size: 26px;
+  float: right;
+  margin-right: 10px;
+}
+
+.collapse-bar-title {
+  font-size: 26px;
+  float: left;
+  margin-left: 10px;
+
+}
+
+.collapse-div-bar {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  background-color: #308551;
+  color: whitesmoke;
+  display:inline-block;
+
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+}
+
+.collapse-div-bar:hover {
+  background-color: #308551;
+}
+
+.collapse-div-bar:hover > * {
+  color: aquamarine;
+}
+
+.collapsible-component-container {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}

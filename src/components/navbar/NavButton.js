@@ -1,22 +1,28 @@
-import React from "react";
+import React, { useState } from "react"
+import { useDispatch } from "react-redux"
 
 import "../../styling/navbar/NavButton.css"
 
+import NavDropdownMenu from "./NavDropdownMenu"
+
 function NavButton(props) {
+
   function handleClick(e) {
     e.preventDefault(e);
     props.handleChange(props.item.id)
   }
 
+  const menuItems = props.item.menuItems ? props.item.menuItems : undefined
+
   return (
-    <div className={"navButtonDiv " + (props.item.active ? "active" : "")}
+    <div className={"nav-button-div " + (props.item.active ? "active" : "")}
     style={{float: props.item.float}}
-    onClick = {handleClick}>
-      <a
-        className = "navButtonText"
-      >
-        {props.item.name}
-      </a>
+    onClick = {handleClick}
+    >
+      <a className = "nav-button-text">{props.item.name}</a>
+      <div class="nav-menu-bridge">
+        {menuItems ? <NavDropdownMenu item={{menuItems: menuItems}} /> : undefined}
+      </div>
     </div>
   )
 }

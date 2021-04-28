@@ -1,33 +1,39 @@
 const buttonData = [
   {
-    id: 1,
+    id: 0,
     name: "Home",
     float: "left",
-    active: true
+    active: true,
+  },
+  {
+    id: 1,
+    name: "Balance",
+    float: "left",
+    active: false,
   },
   {
     id: 2,
-    name: "Balance",
+    name: "Groups",
     float: "left",
-    active: false
+    active: false,
   },
   {
     id: 3,
-    name: "Groups",
-    float: "left",
-    active: false
+    name: "Settings",
+    float: "right",
+    active: false,
+    menuItems: [
+      "Get fucked", "Hello", "Testing"
+    ]
   },
   {
     id: 4,
-    name: "Settings",
-    float: "right",
-    active: false
-  },
-  {
-    id: 5,
     name: "Account",
     float: "right",
-    active: false
+    active: false,
+    menuItems: [
+      "Majmun", "Hello", "Testing"
+    ]
   }
 ]
 

@@ -1,16 +1,22 @@
-import React from "react";
+import React from "react"
 
 import "../styling/Main.css"
+
+import Dashboard from "./dashboard/Dashboard"
+import DashboardLeft from "./dashboard/DashboardLeft"
+import DashboardRight from "./dashboard/DashboardRight"
 
 function Main() {
   function handleClick(e) {
     e.preventDefault();
-    alert("get fucked");
+    alert("hello world");
   }
 
   return (
     <main className="Main">
-      <button onClick={handleClick}>Click me!</button>
+      <DashboardLeft />
+      <Dashboard />
+      <DashboardRight />
     </main>
   )
 }
