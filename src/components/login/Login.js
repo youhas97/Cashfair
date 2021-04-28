@@ -9,7 +9,7 @@ function Login() {
   const [showLoginScreen, setShowLoginScreen] = useState(true)
 
   return (
-    <main>
+    <main className="login-main">
       <div className="content-div">
         {showLoginScreen ? <LoginForm /> : <RegisterForm />}
       </div>
