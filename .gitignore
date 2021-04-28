@@ -27,3 +27,6 @@ yarn-error.log*
 
 #powershell scripts
 *.ps1
+
+# virtual environment
+/venv
