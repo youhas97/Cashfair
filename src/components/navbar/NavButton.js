@@ -14,7 +14,7 @@ function NavButton(props) {
     <NavLink className = "nav-button-div"
     activeClassName = "active"
     style = {{float: props.item.float}}
-    to={(location) => {
+    to={() => {
       if (props.item.pathName) return props.item.pathName
       else return {} // Do not want drop-down menus to reroute somewhere
     }}
