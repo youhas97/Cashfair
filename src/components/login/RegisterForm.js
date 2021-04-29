@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useContext } from "react"
+import { useStore } from "../../context/store"
 
 import "../../styling/login/RegisterForm.css"
 
@@ -14,7 +15,7 @@ function RegisterForm() {
   return (
     <div className="LoginForm">
     <h1>Register Account</h1>
-    <form>
+    <form onSubmit={submitForm}>
       <input
       className="formInput"
       type="number"
@@ -36,7 +37,6 @@ function RegisterForm() {
       <input
       className="formBtn"
       type="submit"
-      onClick={submitForm}
       value="Register"/>
     </form>
   </div>

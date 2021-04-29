@@ -1,10 +1,14 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
+import { useStore } from "../../context/store"
+import { io } from "socket.io-client"
 
 import "../../styling/login/LoginForm.css"
 
 function LoginForm() {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [password, setPassword] = useState("")
+
+  const {store} = useStore()
 
   function submitForm(e) {
     e.preventDefault(e)

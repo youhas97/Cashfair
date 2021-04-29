@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import "../../styling/navbar/NavDropdownMenu.css"
 
 function NavDropdownMenu(props) {

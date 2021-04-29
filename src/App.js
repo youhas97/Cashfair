@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 
 import logo from './logo.svg';
 import './styling/App.css';
@@ -8,6 +8,8 @@ import Main from './components/Main'
 import Footer from './components/Footer'
 
 import Login from './components/login/Login'
+
+import { useStore } from './context/store'
 
 const MS_TO_S_CONVERTION = 1000
 
@@ -20,7 +22,7 @@ function App() {
     localStorage.sinceLastClose = Date.now()
   }
 
-  const loggedIn = true;
+  const loggedIn = false;
   if (!loggedIn) {
     return (
       <div className="App">
@@ -29,6 +31,7 @@ function App() {
     )
   }
   else {
+    // TODO: Verify token. If false, unset token
     return (
       <div className="App">
         <Header />
