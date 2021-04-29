@@ -8,14 +8,6 @@ import Footer from './components/Footer'
 import Login from './components/login/Login'
 
 function App() {
-  // TODO: Do we really want to save location for the user? Facebook says no. Refresh will remember with Router.
-  /*if (localStorage.sinceLastClose && (Date.now() - localStorage.sinceLastClose > 2 * MS_TO_S_CONVERTION)) {
-    localStorage.removeItem("btnData")
-  }
-
-  window.onunload = () => {
-    localStorage.sinceLastClose = Date.now()
-  }*/
 
   const loggedIn = true;
   if (!loggedIn) {

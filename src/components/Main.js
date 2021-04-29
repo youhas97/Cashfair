@@ -13,7 +13,6 @@ function Main() {
   useEffect(() => {
     //Backend API calls maybe
     console.log(location.pathname)
-    localStorage.lastKnownLocation = location
   }, [location])
 
   return (
