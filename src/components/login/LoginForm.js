@@ -9,16 +9,16 @@ function LoginForm() {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [password, setPassword] = useState("")
 
-  const {store} = useStore()
+  const {actions, dispatch, store} = useStore()
 
   function submitForm(e) {
     e.preventDefault(e)
-    const socket = io("http://localhost:5000", {
-      reconnection: false
-    })
+    const socket = store.socket
+    socket.open()
     socket.on("connect", () => {
-      console.log(socket.id)
+      dispatch({type: actions.WS_CONNECT, value: socket})
     })
+    console.log(socket)
   }
 
   return (

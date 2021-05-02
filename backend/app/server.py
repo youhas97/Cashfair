@@ -36,7 +36,7 @@ def create_app():
   #app.config['JWT_BLACKLIST_ENABLED'] = True
   #app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 
-  socketio = SocketIO(app, cors_allowed_origin='*')
+  socketio = SocketIO(app, cors_allowed_origins='*')
 
   @socketio.on("connect")
   def connect_handler():

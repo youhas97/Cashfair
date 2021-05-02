@@ -2,17 +2,14 @@ import React, { useContext, createContext, useReducer } from 'react';
 
 const initialState = {
   socket: undefined,
-  token: undefined,
-  print_out: "Get fucked",
-  count: 0
+  token: undefined
 }
 
 const actions = {
+  CREATE_SOCKET: "CREATE_SOCKET",
   WS_CONNECT: "WS_CONNECT",
   WS_DISCONNECT: "WS_DISCONNECT",
   SET_TOKEN: "SET_TOKEN",
-  PRINT: "PRINT",
-  INCREMENT: "INCREMENT"
 }
 
 const store = createContext(initialState)
@@ -21,16 +18,14 @@ const { Provider } = store
 function StoreProvider( { children } ) {
   const [state, dispatch] = useReducer((state, action) => {
       switch(action.type) {
+        case actions.CREATE_SOCKET:
+          return { ...state, socket: action.value}
         case actions.WS_CONNECT:
           return { ...state, socket: action.value}
         case actions.WS_DISCONNECT:
           return { ...state, socket: action.value}
         case actions.SET_TOKEN:
           return { ...state, token: action.value}
-        case actions.PRINT:
-          return {...state, print_out: action.value}
-        case actions.INCREMENT:
-          return {...state, count: state.count+1}
         default:
           throw new Error()
       }
