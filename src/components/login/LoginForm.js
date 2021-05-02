@@ -3,6 +3,7 @@ import { useStore } from "../../context/store"
 import { io } from "socket.io-client"
 
 import "../../styling/login/LoginForm.css"
+import { findAllByDisplayValue } from "@testing-library/dom"
 
 function LoginForm() {
   const [phoneNumber, setPhoneNumber] = useState("")
@@ -12,6 +13,12 @@ function LoginForm() {
 
   function submitForm(e) {
     e.preventDefault(e)
+    const socket = io("http://localhost:5000", {
+      reconnection: false
+    })
+    socket.on("connect", () => {
+      console.log(socket.id)
+    })
   }
 
   return (
