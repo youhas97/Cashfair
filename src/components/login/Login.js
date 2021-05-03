@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 
 import "../../styling/login/Login.css"
 
@@ -9,15 +9,15 @@ function Login() {
   const [showLoginScreen, setShowLoginScreen] = useState(true)
 
   return (
-    <main>
+    <main className="login-main">
       <div className="content-div">
         {showLoginScreen ? <LoginForm /> : <RegisterForm />}
       </div>
-      <a className="register-btn-text" onClick={() => setShowLoginScreen(prevState => !prevState)}>
+      <label className="register-btn-text" onClick={() => setShowLoginScreen(prevState => !prevState)}>
           {showLoginScreen ?
             "Register an account" :
             "Sign in"}
-      </a>
+      </label>
     </main>
   )
 }

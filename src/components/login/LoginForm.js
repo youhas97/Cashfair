@@ -1,13 +1,24 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
+import { useStore } from "../../context/store"
+import { io } from "socket.io-client"
 
 import "../../styling/login/LoginForm.css"
+import { findAllByDisplayValue } from "@testing-library/dom"
 
 function LoginForm() {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [password, setPassword] = useState("")
 
+  const {actions, dispatch, store} = useStore()
+
   function submitForm(e) {
     e.preventDefault(e)
+    const socket = store.socket
+    socket.open()
+    socket.on("connect", () => {
+      dispatch({type: actions.WS_CONNECT, value: socket})
+    })
+    console.log(socket)
   }
 
   return (
