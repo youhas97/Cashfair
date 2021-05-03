@@ -6,26 +6,13 @@ import NavButton from "./NavButton"
 import buttonData from "../../data/buttonData"
 
 function Navbar() {
-  const [buttons, setButtons] = useState(localStorage.btnData ? JSON.parse(localStorage.btnData) : buttonData)
-
-  function handleChange(id) {
-    // Button id is always the same as index
-    if (buttons[id].menuItems) return // dropdown menus should not be active when clicked.
-    setButtons(prevButtons => prevButtons.map(btn => {
-      btn.active = (btn.id === id) ? true : false
-      return btn
-    }))
-  }
-
-  useEffect(() => {
-    localStorage.btnData = JSON.stringify(buttons)
-  }, [buttons])
+  const [buttons] = useState(buttonData)
 
   const navButtons = buttons.map(btn =>
-    <NavButton key={btn.id} item={btn} handleChange={handleChange}/>)
+    <NavButton key={btn.id} item={btn} />)
 
   return (
-  <nav className="Navbar">
+  <nav className="navbar">
     {navButtons}
   </nav>
   )

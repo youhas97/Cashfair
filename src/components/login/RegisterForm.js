@@ -13,32 +13,33 @@ function RegisterForm() {
   }
 
   return (
-    <div className="LoginForm">
-    <h1>Register Account</h1>
-    <form onSubmit={submitForm}>
-      <input
-      className="formInput"
-      type="number"
-      placeholder="Phone number"
-      onChange={(e) => updatePhoneNumber(e.target.value)}
-      required/>
-      <input
-      className="formInput"
-      type="password"
-      placeholder="Password"
-      onChange={(e) => updatePassword(e.target.value)}
-      required/>
-      <input
-      className="formInput"
-      type="password"
-      onChange={(e) => updateRepeatPassword(e.target.value)}
-      placeholder="Repeat password"
-      required/>
-      <input
-      className="formBtn"
-      type="submit"
-      value="Register"/>
-    </form>
+    <div className="login-form">
+      <h1>Register Account</h1>
+      <form>
+        <input
+        className="form-input"
+        type="number"
+        placeholder="Phone number"
+        onChange={(e) => updatePhoneNumber(e.target.value)}
+        required/>
+        <input
+        className="form-input"
+        type="password"
+        placeholder="Password"
+        onChange={(e) => updatePassword(e.target.value)}
+        required/>
+        <input
+        className="form-input"
+        type="password"
+        onChange={(e) => updateRepeatPassword(e.target.value)}
+        placeholder="Repeat password"
+        required/>
+        <input
+        className="form-btn"
+        type="submit"
+        onClick={submitForm}
+        value="Register"/>
+      </form>
   </div>
   )
 }

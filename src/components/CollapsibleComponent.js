@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { Collapse } from "@material-ui/core"
 
 import "../styling/CollapsibleComponent.css"
-import OverviewCard from "./dashboard/OverviewCard"
 
 function CollapsibleComponent(props) {
   const [show, toggleShow] = useState(true)
@@ -11,7 +10,7 @@ function CollapsibleComponent(props) {
     <div className="collapsible-component-container">
       <div className="collapse-div-bar"  onClick={() => toggleShow(prevShow => !prevShow)}>
           <label className="collapse-bar-title" >{props.item.title}</label>
-          <a className="collapse-button">{show ? "-" : "+"}</a>
+          <label className="collapse-button">{show ? "-" : "+"}</label>
       </div>
       <Collapse in={show}>
         <div className={props.item.className}>

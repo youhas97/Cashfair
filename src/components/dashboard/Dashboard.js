@@ -6,8 +6,6 @@ import OverviewCard from "./OverviewCard"
 import CollapseableComponent from "../CollapsibleComponent"
 
 function Dashboard() {
-  const groupCards = {}
-
   return (
     <div className="dashboard">
       <CollapseableComponent

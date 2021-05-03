@@ -1,5 +1,6 @@
-import React, { useState } from "react"
-import { useDispatch } from "react-redux"
+import React from "react"
+
+import { NavLink } from 'react-router-dom'
 
 import "../../styling/navbar/NavButton.css"
 
@@ -7,23 +8,29 @@ import NavDropdownMenu from "./NavDropdownMenu"
 
 function NavButton(props) {
 
-  function handleClick(e) {
-    e.preventDefault(e);
-    props.handleChange(props.item.id)
-  }
-
   const menuItems = props.item.menuItems ? props.item.menuItems : undefined
 
   return (
-    <div className={"nav-button-div " + (props.item.active ? "active" : "")}
-    style={{float: props.item.float}}
-    onClick = {handleClick}
+    <NavLink className = "nav-button-div"
+    activeClassName = "active"
+    style = {{float: props.item.float}}
+    to={() => {
+      if (props.item.pathName) return props.item.pathName
+      else return {} // Do not want drop-down menus to reroute somewhere
+    }}
+    exact isActive={(match, location) => {
+      if(!match)
+        return false
+      return true
+    }}
     >
-      <a className = "nav-button-text">{props.item.name}</a>
+      <label className = "nav-button-text">
+        {props.item.name}
+      </label>
       <div class="nav-menu-bridge">
         {menuItems ? <NavDropdownMenu item={{menuItems: menuItems}} /> : undefined}
       </div>
-    </div>
+    </NavLink>
   )
 }
 

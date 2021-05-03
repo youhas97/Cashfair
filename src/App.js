@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-
-import logo from './logo.svg';
+import React from "react";
 import './styling/App.css';
 
 import Header from './components/Header'
@@ -19,13 +17,6 @@ const socket = io("http://localhost:5000", {
 })
 
 function App() {
-  if (localStorage.sinceLastClose && (Date.now() - localStorage.sinceLastClose > 2 * MS_TO_S_CONVERTION)) {
-    localStorage.removeItem("btnData")
-  }
-
-  window.onunload = () => {
-    localStorage.sinceLastClose = Date.now()
-  }
 
   const { actions, dispatch, store } = useStore()
 

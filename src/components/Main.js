@@ -1,4 +1,6 @@
-import React from "react"
+import React, { useEffect } from "react"
+
+import { useLocation, Route, Switch, NoMatch } from 'react-router-dom'
 
 import "../styling/Main.css"
 
@@ -7,16 +9,27 @@ import DashboardLeft from "./dashboard/DashboardLeft"
 import DashboardRight from "./dashboard/DashboardRight"
 
 function Main() {
-  function handleClick(e) {
-    e.preventDefault();
-    alert("hello world");
-  }
+  let location = useLocation()
+  useEffect(() => {
+    //Backend API calls maybe
+    console.log(location.pathname)
+  }, [location])
 
   return (
     <main className="Main">
-      <DashboardLeft />
-      <Dashboard />
-      <DashboardRight />
+      <Switch>
+        <Route exact path="/">
+          <DashboardLeft />
+          <Dashboard />
+          <DashboardRight />
+        </Route>
+        <Route exact path="/balance">
+          <h1 style={{margin: "auto", color: "red", marginTop: "10vh"}}>TODO: Implement balance page</h1>
+        </Route>
+        <Route exact path="/groups">
+          <h1 style={{margin: "auto", color: "red", marginTop: "10vh"}}>TODO: Implement groups page</h1>
+        </Route>
+      </Switch>
     </main>
   )
 }

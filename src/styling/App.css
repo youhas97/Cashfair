@@ -3,7 +3,8 @@
   background-color: #1f974b7c;
   height:100%;
   width: 100%;
-  position: absolute;
+  position: flex;
+  flex-direction: row;
 }
 
 button {
