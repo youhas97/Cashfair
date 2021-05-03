@@ -2,8 +2,12 @@ import functools
 from flask import Flask, request
 from flask_login import current_user
 from flask_socketio import disconnect, emit, SocketIO
+import re
+
+from .database import database as db
 
 secret_key = 'ZrBXTvPcZpntfyL5J1GU7gABNXYJGwd6o92RY6TLHRflOcmCy5R68JDfyrr2Syk0'
+
 
 #app = Flask(__name__)
 #app.config['SECRET_KEY'] = secret_key
@@ -48,5 +52,13 @@ def create_app():
     #   return False  # not allowed here
     emit("welcome_response",
     {"message": "Hello and welcome to your API server."})
+
+  @socketio.on("register")
+  def register_handler(phoneNumber, password):
+    if not db.register(phoneNumber, password):
+      emit("register_fail")
+    else:
+      emit("register_success")
+    disconnect()
 
   return app

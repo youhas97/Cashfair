@@ -10,8 +10,6 @@ import Login from './components/login/Login'
 import { useStore } from './context/store'
 import { io } from "socket.io-client"
 
-const MS_TO_S_CONVERTION = 1000
-
 const socket = io("http://localhost:5000", {
   autoConnect: false
 })

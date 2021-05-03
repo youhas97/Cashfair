@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import { useStore } from "../../context/store"
+import { io } from "socket.io-client"
 
 import "../../styling/login/RegisterForm.css"
 
@@ -10,6 +11,34 @@ function RegisterForm() {
 
   function submitForm(e) {
     e.preventDefault(e)
+
+    // TODO: Check validity of phoneNumber
+
+    if(password != repeatPassword) {
+      // TODO: popup or some other method to show user that passwords don't match
+      console.log("Passwords don't match!")
+      return
+    }
+
+    let socket = io("http://localhost:5000", {
+      reconnection: false
+    })
+    socket.on("connect", () => {
+      console.log("Sending user creds")
+      socket.emit("register", phoneNumber, password)
+    })
+
+    socket.on("register_success", () => {
+      console.log("User registered!")
+    })
+
+    socket.on("register_fail", () => {
+      console.log("User was unable to register")
+    })
+
+    socket.on("disconnect", () => {
+      socket.disconnect()
+    })
   }
 
   return (
