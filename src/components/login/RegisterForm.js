@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useState, useEffect, useContext } from "react"
+import { useStore } from "../../context/store"
 
 import "../../styling/login/RegisterForm.css"
 
