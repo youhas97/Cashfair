@@ -27,7 +27,7 @@ function NavButton(props) {
       <label className = "nav-button-text">
         {props.item.name}
       </label>
-      <div class="nav-menu-bridge">
+      <div className="nav-menu-bridge">
         {menuItems ? <NavDropdownMenu item={{menuItems: menuItems}} /> : undefined}
       </div>
     </NavLink>
