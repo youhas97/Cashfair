@@ -20,7 +20,7 @@ function App() {
 
   useEffect(() => {
     if (!store.socket)
-      dispatch({type: actions.CREATE_SOCKET, value: socket})
+      dispatch({type: actions.UPDATE_SOCKET, value: socket})
   }, [store.socket])
 
   if (!store.socket || store.socket.disconnected) {

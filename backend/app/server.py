@@ -61,4 +61,13 @@ def create_app():
       emit("register_success")
     disconnect()
 
+  @socketio.on("login")
+  def login_handler(phoneNumber, password):
+    token = db.login(phoneNumber, password)
+    if not token:
+      emit("login_fail")
+      disconnect()
+    else:
+      emit("login_success", token)
+
   return app

@@ -20,3 +20,18 @@
 .register-btn-text:hover {
   cursor: pointer;
 }
+
+.alert-style-success {
+  /*Using important to overwrite component CSS since it is
+  an importet component, otherwise our custom CSS will be overwritten
+  by the component built in CSS*/
+  position: absolute;
+  width: 70%;
+  top: 5px;
+  left: 0 !important;
+  right: 0 !important;
+  margin: 0 auto;
+
+  background-color: rgb(20, 88, 35) !important;
+  color: whitesmoke !important;
+}
