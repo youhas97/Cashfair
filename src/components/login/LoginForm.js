@@ -1,32 +1,47 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { useStore } from "../../context/store"
-import { io } from "socket.io-client"
-import { Redirect, Link } from 'react-router-dom'
-import { Alert } from '@material-ui/lab'
+import { Alert } from "@material-ui/lab"
+import { Link } from 'react-router-dom'
 
 import "../../styling/login/LoginForm.css"
-import { findAllByDisplayValue } from "@testing-library/dom"
 
 function LoginForm() {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [password, setPassword] = useState("")
-
+  const [showLoginFailAlert, setShowLoginFailAlert] = useState(false)
   const {actions, dispatch, store} = useStore()
+
+  const socket = store.socket
+
+  socket.on("connect", () => {
+    socket.emit("login", phoneNumber, password)
+  })
+
+  socket.on("login_success", (token) => {
+    dispatch({type: actions.UPDATE_SOCKET, value: socket})
+    dispatch({type: actions.UPDATE_TOKEN, value: token})
+  })
+
+  socket.on("login_fail", () => {
+    setShowLoginFailAlert(true)
+  })
 
   function submitForm(e) {
     e.preventDefault(e)
-    const socket = store.socket
-    socket.open()
-    socket.on("connect", () => {
-      dispatch({type: actions.UPDATE_SOCKET, value: socket})
-    })
-    console.log(socket)
+    setShowLoginFailAlert(true)
   }
 
   return (
     <div className="content-div">
       <div className="login-form">
         <h1>Login</h1>
+        {showLoginFailAlert ? <Alert style={{
+          margin: "auto"
+        }}
+        severity="error"
+        >
+          Invalid username or password.
+        </Alert> : undefined }
         <form>
           <input
             className="form-input"

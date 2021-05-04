@@ -34,7 +34,7 @@ function Login() {
       <Switch>
         <Route exact path="/login">
         {showAlert ?
-          <Alert className="alert-style-success"
+          <Alert className="alert alert-style-success"
           onClose={() => {
             dispatch({type: actions.UPDATE_SUC_REG, value: false})
           }}>

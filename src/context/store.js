@@ -1,7 +1,10 @@
 import React, { useContext, createContext, useReducer } from 'react';
+import { io } from 'socket.io-client'
 
 const initialState = {
-  socket: undefined,
+  socket: io("http://localhost:5000", {
+    autoConnect: false
+  }),
   token: undefined,
   successfulRegistration: false
 }
@@ -39,7 +42,7 @@ function StoreProvider( { children } ) {
 
 function useStore() {
   const context = useContext(store)
-  if (context == undefined)
+  if (context === undefined)
     throw new Error("useStore must be used within a StoreProvider")
 
     return context

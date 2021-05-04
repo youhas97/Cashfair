@@ -2,6 +2,7 @@ import React, { useState, useEffect} from "react"
 import { useStore } from "../../context/store"
 import { Redirect, Link } from 'react-router-dom'
 import { io } from "socket.io-client"
+import { Alert } from "@material-ui/lab"
 
 import "../../styling/login/RegisterForm.css"
 
@@ -10,6 +11,7 @@ function RegisterForm() {
   const [password, updatePassword] = useState("")
   const [repeatPassword, updateRepeatPassword] = useState("")
   const [successfulRegistration, setSuccessfulRegistration] = useState(false)
+  const [showRegFailAlert, setShowRegFailAlert] = useState(false)
 
   let socket = io("http://localhost:5000", {
     reconnection: false,
@@ -21,7 +23,7 @@ function RegisterForm() {
 
     // TODO: Check validity of phoneNumber
 
-    if(password != repeatPassword) {
+    if(password !== repeatPassword) {
       // TODO: popup or some other method to show user that passwords don't match
       alert("Passwords don't match!")
       return
@@ -43,6 +45,7 @@ function RegisterForm() {
   })
 
   socket.on("register_fail", () => {
+    setShowRegFailAlert(true)
     console.log("User was unable to register")
   })
 
@@ -54,6 +57,13 @@ function RegisterForm() {
     <div className="content-div">
       <div className="login-form">
         <h1>Register Account</h1>
+        {showRegFailAlert ? <Alert style={{
+          margin: "auto"
+        }}
+        severity="error"
+        >
+          Unable to register user.
+        </Alert> : undefined }
         <form id="register-form">
           <input
           className="form-input"
