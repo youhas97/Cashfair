@@ -1,5 +1,8 @@
-
 # <span style="color:#32BB64">cash</span><span style="color:orange">fair</span>
+
+## Link to mid-course screencast:
+
+https://www.youtube.com/watch?v=avGOSQFu8PI
 
 ## Functional specification
 
