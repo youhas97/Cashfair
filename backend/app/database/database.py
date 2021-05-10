@@ -1,9 +1,8 @@
 import re
 
-
 db = {}
 uid = 0
-token = 0
+token = 1
 db["users"] = {}
 db["tokens"] = {}
 
@@ -28,8 +27,9 @@ def register(phoneNumber, password):
 
 def login(phoneNumber, password):
   users = db["users"]
+  pNum = phoneNumber[-1:-10:-1][::-1]
   for uid, user in users.items():
-    if user["phoneNumber"] == phoneNumber and user["password"] == password:
+    if (user["phoneNumber"] == pNum and user["password"] == password):
       global token
       db["tokens"][token] = uid
       cur_token = token

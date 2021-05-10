@@ -13,10 +13,33 @@ function RegisterForm() {
   const [successfulRegistration, setSuccessfulRegistration] = useState(false)
   const [showRegFailAlert, setShowRegFailAlert] = useState(false)
 
-  let socket = io("http://localhost:5000", {
+  const { actions, dispatch } = useStore()
+
+  var socket = io("http://localhost:5000", {
     reconnection: false,
     autoConnect:false
   })
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Sending user creds")
+      socket.emit("register", phoneNumber, password)
+    })
+
+    socket.on("register_success", () => {
+      setSuccessfulRegistration(true)
+      console.log("User registered!")
+    })
+
+    socket.on("register_fail", () => {
+      setShowRegFailAlert(true)
+      console.log("User was unable to register")
+    })
+
+    return () => {
+      socket.removeAllListeners()
+    }
+  }, [socket])
 
   function submitForm(e) {
     e.preventDefault(e)
@@ -32,22 +55,6 @@ function RegisterForm() {
     socket.connect()
   }
 
-  const {actions, dispatch} = useStore()
-
-  socket.on("connect", () => {
-    console.log("Sending user creds")
-    socket.emit("register", phoneNumber, password)
-  })
-
-  socket.on("register_success", () => {
-    setSuccessfulRegistration(true)
-    console.log("User registered!")
-  })
-
-  socket.on("register_fail", () => {
-    setShowRegFailAlert(true)
-    console.log("User was unable to register")
-  })
 
   useEffect(() => {
     dispatch({type: actions.UPDATE_SUC_REG, value: successfulRegistration})
