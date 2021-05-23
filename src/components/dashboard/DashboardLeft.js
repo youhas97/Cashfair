@@ -3,10 +3,10 @@ import React from "react"
 import "../../styling/dashboard/DashboardLeft.css"
 
 
-function DashboardLeft() {
+function DashboardLeft(props) {
   return (
     <div className="dashboard-left">
-      <h1>Left</h1>
+      {props.children}
     </div>
   )
 }

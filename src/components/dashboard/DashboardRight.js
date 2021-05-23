@@ -2,10 +2,10 @@ import React from "react"
 
 import "../../styling/dashboard/DashboardRight.css"
 
-function DashboardRight() {
+function DashboardRight(props) {
   return (
     <div className="dashboard-right">
-      <h1>Right</h1>
+      {props.children}
     </div>
   )
 }

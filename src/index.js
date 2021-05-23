@@ -4,15 +4,31 @@ import './styling/index.css'
 
 import { BrowserRouter as Router } from 'react-router-dom'
 import { StoreProvider } from './context/store'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 
 import App from './App';
 import reportWebVitals from './reportWebVitals'
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#32BB64",
+      contrastText: "#f5f5f5"
+    },
+    secondary: {
+      main: "#308551",
+      contrastText: "#f5f5f5"
+    },
+  },
+})
 
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>
       <Router>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </Router>
     </StoreProvider>,
   </React.StrictMode>,

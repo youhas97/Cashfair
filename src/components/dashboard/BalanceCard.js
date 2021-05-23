@@ -1,9 +1,9 @@
 import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import "../../styling/dashboard/OverviewCard.css"
+import "../../styling/dashboard/BalanceCard.css"
 
-function OverviewCard(props) {
+function BalanceCard(props) {
   return (
     <div
       className={"overview-card " + props.item.className}
@@ -19,4 +19,4 @@ function OverviewCard(props) {
   )
 }
 
-export default OverviewCard
+export default BalanceCard

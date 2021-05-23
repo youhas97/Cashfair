@@ -25,7 +25,7 @@ function App() {
       dispatch({type: actions.CREATE_SOCKET, value: socket})
   }, [store.socket])
 
-  if (!store.socket || store.socket.disconnected) {
+  if (false) {
     return (
       <div className="App">
         <Login />
