@@ -40,7 +40,10 @@ def create_app():
   #app.config['JWT_BLACKLIST_ENABLED'] = True
   #app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 
-  socketio = SocketIO(app, cors_allowed_origins='*')
+  socketio = SocketIO(app, cors_allowed_origins='*', logger=True, engineio_logger=True)
+  @socketio.on("disconnect")
+  def disconnect_handler():
+    print("---------------- DISCONNECTED ----------------")
 
   @socketio.on("connect")
   def connect_handler():
@@ -50,8 +53,7 @@ def create_app():
     #     broadcast=True)
     # else:
     #   return False  # not allowed here
-    emit("welcome_response",
-    {"message": "Hello and welcome to your API server."})
+    print("---------------- CONNECTED ----------------")
 
   @socketio.on("register")
   def register_handler(phoneNumber, password):
@@ -60,5 +62,14 @@ def create_app():
     else:
       emit("register_success")
     disconnect()
+
+  @socketio.on("login")
+  def login_handler(phoneNumber, password):
+    token = db.login(phoneNumber, password)
+    if not token:
+      emit("login_fail")
+      disconnect()
+    else:
+      emit("login_success", token)
 
   return app

@@ -8,22 +8,18 @@ import Footer from './components/Footer'
 import Login from './components/login/Login'
 
 import { useStore } from './context/store'
-import { io } from "socket.io-client"
-
-const socket = io("http://localhost:5000", {
-  autoConnect: false
-})
 
 function App() {
-
-  const { actions, dispatch, store } = useStore()
+  const { socket } = useStore()
 
   useEffect(() => {
-    if (!store.socket)
-      dispatch({type: actions.CREATE_SOCKET, value: socket})
-  }, [store.socket])
+    return () => {
+      socket.removeAllListeners()
+      socket.disconnect()
+    }
+  }, [socket])
 
-  if (!store.socket || store.socket.disconnected) {
+  if (!socket || socket.disconnected) {
     return (
       <div className="App">
         <Login />
