@@ -10,25 +10,16 @@ import CollapseableComponent from "../CollapsibleComponent"
 function Home() {
   return (
     <div className="main">
-      <DashboardLeft>
-      </DashboardLeft>
+      <DashboardLeft />
       <Dashboard>
-        <CollapseableComponent
-          item={{children: [<BalanceCard key={1} item={{value: -19, className: "self-balance-card"}} />],
-                title: "Self",
-                className: "self-balance-card-container"}}
-          />
-        <CollapseableComponent
-          item={{
-            children: [
-              <BalanceCard key={1} item={{value: -100, className: "groups-card"}}/>,
-              <BalanceCard key={2} item={{value: 150, className:"groups-card"}}/>,
-              <BalanceCard key={3} item={{value: -69, className:"groups-card"}}/>
-            ],
-            title: "Groups",
-            className: "groups-card-container"
-          }}
-        />
+        <CollapseableComponent title="Self"className="self-balance-card-container">
+          <BalanceCard key={1} value={-19} className="self-balance-card" />
+        </CollapseableComponent>
+        <CollapseableComponent title="Groups" className="groups-card-container">
+          <BalanceCard key={1} value={-100} className="groups-card"/>
+          <BalanceCard key={2} value={150} className="groups-card"/>
+          <BalanceCard key={3} value={-69} className="groups-card"/>
+        </CollapseableComponent>
       </Dashboard>
       <DashboardRight />
     </div>

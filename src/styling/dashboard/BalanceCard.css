@@ -13,10 +13,9 @@
 }
 
 .positive-balance {
-  color: #32BB64;
+  color: #388e3c;
 }
 
 .negative-balance {
-  color: orange;
-
+  color: #f57c00;
 }

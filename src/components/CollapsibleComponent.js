@@ -9,12 +9,19 @@ function CollapsibleComponent(props) {
   return(
     <div className="collapsible-component-container">
       <div className="collapse-div-bar"  onClick={() => toggleShow(prevShow => !prevShow)}>
-          <label className="collapse-bar-title" >{props.item.title}</label>
-          <label className="collapse-button">{show ? "-" : "+"}</label>
+          <label className="collapse-bar-title" >
+            {props.title + (props.totalBalance ? " :" : "")}
+          </label>
+          <label className={"collapse-bar-balance " + (props.totalBalance >= 0 ? "collapse-bar-pos" : "collapse-bar-neg")}>
+            {props.totalBalance}
+          </label>
+          <label className="collapse-button">
+            {show ? "-" : "+"}
+          </label>
       </div>
       <Collapse in={show}>
-        <div className={props.item.className}>
-          {props.item.children}
+        <div className={props.className}>
+          {props.children}
         </div>
       </Collapse>
     </div>

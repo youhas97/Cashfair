@@ -4,7 +4,9 @@ import './styling/index.css'
 
 import { BrowserRouter as Router } from 'react-router-dom'
 import { StoreProvider } from './context/store'
+
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+import { green } from '@material-ui/core/colors'
 
 import App from './App';
 import reportWebVitals from './reportWebVitals'
@@ -16,7 +18,7 @@ const theme = createMuiTheme({
       contrastText: "#f5f5f5"
     },
     secondary: {
-      main: "#308551",
+      main: "#5c6bc0",
       contrastText: "#f5f5f5"
     },
   },
