@@ -5,7 +5,8 @@ import { List, ListItem, ListItemText } from "@material-ui/core"
 import Dashboard from "../dashboard/Dashboard"
 import DashboardLeft from "../dashboard/DashboardLeft"
 import DashboardRight from "../dashboard/DashboardRight"
-import BalanceText from "../dashboard/BalanceText"
+import BalanceText from "../balance/BalanceText"
+import BalanceCard from "../balance/BalanceCard"
 
 import CollapseableComponent from "../CollapsibleComponent"
 

@@ -3,7 +3,7 @@ import React from "react"
 import Dashboard from "../dashboard/Dashboard"
 import DashboardLeft from "../dashboard/DashboardLeft"
 import DashboardRight from "../dashboard/DashboardRight"
-import BalanceCard from "../dashboard/BalanceCard"
+import BalanceCard from "../balance/BalanceCard"
 
 import CollapseableComponent from "../CollapsibleComponent"
 

@@ -1,6 +1,6 @@
 import React from "react"
 
-import "../../styling/dashboard/BalanceCard.css"
+import "../../styling/balance/BalanceCard.css"
 
 function BalanceText(props) {
   return (

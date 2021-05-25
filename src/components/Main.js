@@ -6,6 +6,7 @@ import "../styling/Main.css"
 
 import Home from "./home/Home"
 import Groups from "./groups/Groups"
+import Balance from "./balance/Balance"
 
 import CollapseableComponent from "./CollapsibleComponent"
 
@@ -23,7 +24,7 @@ function Main() {
           <Home />
         </Route>
         <Route exact path="/balance">
-          <h1 style={{margin: "auto", color: "red", marginTop: "10vh"}}>TODO: Implement balance page</h1>
+          <Balance />
         </Route>
         <Route exact path="/groups">
           <Groups />
