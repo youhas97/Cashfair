@@ -12,7 +12,7 @@ if __name__ == '__main__':
 """
 
 from gevent.pywsgi import WSGIServer
-from app.server import create_app
+from .app import create_app
 
 from geventwebsocket.handler import WebSocketHandler
 
