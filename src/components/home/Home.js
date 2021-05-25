@@ -13,12 +13,12 @@ function Home() {
       <DashboardLeft />
       <Dashboard>
         <CollapseableComponent title="Self"className="self-balance-card-container">
-          <BalanceCard key={1} value={-19} className="self-balance-card" />
+          <BalanceCard key={1} title="Your Balance" value={-19} className="self-balance-card" />
         </CollapseableComponent>
         <CollapseableComponent title="Groups" className="groups-card-container">
-          <BalanceCard key={1} value={-100} className="groups-card"/>
-          <BalanceCard key={2} value={150} className="groups-card"/>
-          <BalanceCard key={3} value={-69} className="groups-card"/>
+          <BalanceCard key={1} title="Group 1" value={-100} className="groups-card"/>
+          <BalanceCard key={2} title="Group 2" value={150} className="groups-card"/>
+          <BalanceCard key={3} title="Group 3" value={-69} className="groups-card"/>
         </CollapseableComponent>
       </Dashboard>
       <DashboardRight />
