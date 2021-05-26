@@ -27,7 +27,7 @@ function StoreProvider( { children } ) {
         case actions.SET_TOKEN:
           return { ...state, token: action.value}
         default:
-          throw new Error()
+          throw new Error("Undeclared action")
       }
   }, initialState);
 

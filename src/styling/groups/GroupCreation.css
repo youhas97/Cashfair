@@ -8,6 +8,8 @@
   height: fit-content;
   width: fit-content;
   margin: 10vh auto;
+  max-height: 80vh;
+  overflow: auto;
 }
 
 .create-group-modal-content {
@@ -24,4 +26,9 @@
 .create-group-title {
   background-color: #32BB64;
   color: whitesmoke;
+}
+
+.create-group-title > h3 {
+  font-weight: normal;
+  color: black;
 }

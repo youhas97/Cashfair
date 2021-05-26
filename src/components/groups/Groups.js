@@ -2,6 +2,8 @@ import React, { useEffect } from "react"
 
 import { List, ListItem, ListItemText, Divider } from "@material-ui/core"
 
+import { useGroupStore, GroupStoreProvider } from "../../context/groupStore"
+
 import Dashboard from "../dashboard/Dashboard"
 import DashboardLeft from "../dashboard/DashboardLeft"
 import DashboardRight from "../dashboard/DashboardRight"
@@ -67,8 +69,10 @@ function Groups() {
         </List>
        </CollapseableComponent>
       </Dashboard>
-      <DashboardRight >
-        <GroupCreation />
+      <DashboardRight>
+        <GroupStoreProvider>
+          <GroupCreation />
+        </GroupStoreProvider>
       </DashboardRight>
     </div>
   )
