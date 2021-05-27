@@ -1,14 +1,12 @@
 import React, { useEffect } from "react"
 
-import { useLocation, Route, Switch, NoMatch } from 'react-router-dom'
+import { useLocation, Route, Switch } from 'react-router-dom'
 
 import "../styling/Main.css"
 
 import Home from "./home/Home"
 import Groups from "./groups/Groups"
 import Balance from "./balance/Balance"
-
-import CollapseableComponent from "./CollapsibleComponent"
 
 function Main() {
   let location = useLocation()

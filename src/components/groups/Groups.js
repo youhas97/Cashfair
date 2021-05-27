@@ -7,7 +7,7 @@ import { useGroupStore, GroupStoreProvider } from "../../context/groupStore"
 import Dashboard from "../dashboard/Dashboard"
 import DashboardLeft from "../dashboard/DashboardLeft"
 import DashboardRight from "../dashboard/DashboardRight"
-import GroupBalanceList from "./GroupBalanceList"
+import BalanceList from "../balance/BalanceList"
 
 import BalanceCard from "../balance/BalanceCard"
 import GroupCreation from "./GroupCreation"
@@ -24,9 +24,9 @@ function Groups() {
           <BalanceCard key={1} title="Your Balance" value={-19} className="independent-balance-card" />
         </DashboardLeft>
         <Dashboard>
-          <GroupBalanceList groupName="Group 1" members={{"Johnny": -160, "Bertil": 60}} />
-          <GroupBalanceList groupName="Group 2" members={{"Tim": 85, "Calle": 65}} />
-          <GroupBalanceList groupName="Group 3" members={{"Mary": -43, "Sven-Göran": -26}} />
+          <BalanceList type="groupList" title="Group 1" members={{"Johnny": -160, "Bertil": 60}} />
+          <BalanceList type="groupList" title="Group 2" members={{"Tim": 85, "Calle": 65}} />
+          <BalanceList type="groupList" title="Group 3" members={{"Mary": -43, "Sven-Göran": -26}} />
         </Dashboard>
         <DashboardRight>
             <GroupCreation />

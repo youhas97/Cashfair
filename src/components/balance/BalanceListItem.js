@@ -1,9 +1,9 @@
 import React from "react"
 
 import {ListItem, ListItemText} from "@material-ui/core"
-import BalanceText from "../balance/BalanceText"
+import BalanceText from "./BalanceText"
 
-function GroupBalanceListItem(props) {
+function BalanceListItem(props) {
 
   return (
     <ListItem divider={true} button={props.clickable}>
@@ -13,4 +13,4 @@ function GroupBalanceListItem(props) {
   )
 }
 
-export default GroupBalanceListItem
+export default BalanceListItem
