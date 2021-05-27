@@ -21,19 +21,19 @@ function Groups() {
 
   return (
     <div className="main">
-      <DashboardLeft>
-        <BalanceCard key={1} title="Your Balance" value={-19} className="independent-balance-card" />
-      </DashboardLeft>
-      <Dashboard>
-        <GroupBalanceList groupName="Group 1" members={{"Johnny": -160, "Bertil": 60}} />
-        <GroupBalanceList groupName="Group 2" members={{"Tim": 85, "Calle": 65}} />
-        <GroupBalanceList groupName="Group 3" members={{"Mary": -43, "Sven-Göran": -26}} />
-      </Dashboard>
-      <DashboardRight>
-        <GroupStoreProvider>
-          <GroupCreation />
-        </GroupStoreProvider>
-      </DashboardRight>
+      <GroupStoreProvider>
+        <DashboardLeft>
+          <BalanceCard key={1} title="Your Balance" value={-19} className="independent-balance-card" />
+        </DashboardLeft>
+        <Dashboard>
+          <GroupBalanceList groupName="Group 1" members={{"Johnny": -160, "Bertil": 60}} />
+          <GroupBalanceList groupName="Group 2" members={{"Tim": 85, "Calle": 65}} />
+          <GroupBalanceList groupName="Group 3" members={{"Mary": -43, "Sven-Göran": -26}} />
+        </Dashboard>
+        <DashboardRight>
+            <GroupCreation />
+        </DashboardRight>
+      </GroupStoreProvider>
     </div>
   )
 }
