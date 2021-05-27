@@ -4,6 +4,7 @@ import { useStore } from "../../context/store"
 import "../../styling/login/RegisterForm.css"
 
 function RegisterForm() {
+  const [nickname, setNickName] = useState("")
   const [phoneNumber, updatePhoneNumber] = useState("")
   const [password, updatePassword] = useState("")
   const [repeatPassword, updateRepeatPassword] = useState("")
@@ -16,6 +17,12 @@ function RegisterForm() {
     <div className="login-form">
       <h1>Register Account</h1>
       <form>
+      <input
+        className="form-input"
+        type="text"
+        placeholder="Nickname"
+        onChange={(e) => setNickName(e.target.value)}
+        required/>
         <input
         className="form-input"
         type="number"
