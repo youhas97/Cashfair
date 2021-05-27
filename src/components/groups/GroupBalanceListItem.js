@@ -6,7 +6,7 @@ import BalanceText from "../balance/BalanceText"
 function GroupBalanceListItem(props) {
 
   return (
-    <ListItem divider={true}>
+    <ListItem divider={true} button={props.clickable}>
       <ListItemText primary={props.name} />
       {props.value ? <BalanceText value={props.value}></BalanceText> : undefined}
     </ListItem>
