@@ -14,7 +14,7 @@ import CollapseableComponent from "../CollapsibleComponent"
 
 function Groups() {
   useEffect(() => {
-    // Fetch Groups data with API
+    // TODO: Fetch Groups data with API
   }, [])
 
   return (

@@ -21,16 +21,16 @@ const buttonData = [
     id: 3,
     name: "Settings",
     float: "right",
-    menuItems: [
-      "Get fucked", "Hello", "Testing"
-    ]
+    // menuItems: [
+    //   "Get fucked", "Hello", "Testing"
+    // ]
   },
   {
     id: 4,
     name: "Account",
     float: "right",
     menuItems: [
-      "Majmun", "Hello", "Testing"
+      "Log out"
     ]
   }
 ]

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useGroupStore } from "../../context/groupStore"
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core"
 
@@ -7,9 +8,7 @@ import GroupCreationForm from "./GroupCreationForm"
 
 function GroupCreation() {
   const [open, setOpen] = useState(false)
-  useEffect(() => {
-    // Fetch Groups data with API
-  }, [])
+  const {groupData} = useGroupStore()
 
   const handleOpen = (e) => {
     e.preventDefault(e)
@@ -22,7 +21,13 @@ function GroupCreation() {
   }
 
   const handleSubmit = (e) => {
+    // TODO: Transmit group data to server using API
     e.preventDefault(e)
+    console.log(groupData.name)
+    var members = groupData.members
+    for (const key in groupData.members) {
+      console.log("name: " + members[key].name + " num: " + members[key].phoneNum)
+    }
     setOpen(false)
   }
 

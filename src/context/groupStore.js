@@ -2,39 +2,46 @@ import React, { useContext, createContext, useReducer } from 'react';
 import GroupCreationFormInput from "../components/groups/GroupCreationFormInput"
 
 const initialState = {
-  1: {component: <GroupCreationFormInput key={1} id={1} />, name: "", phoneNum: ""},
-  2: {component: <GroupCreationFormInput key={2} id={2} />, name: "", phoneNum: ""},
-  3: {component: <GroupCreationFormInput key={3} id={3} />, name: "", phoneNum: ""}
+  name: "",
+  members: {
+    0: {component: <GroupCreationFormInput key={0} id={0} />, name: "", phoneNum: ""},
+    1: {component: <GroupCreationFormInput key={1} id={1} />, name: "", phoneNum: ""},
+    2: {component: <GroupCreationFormInput key={2} id={2} />, name: "", phoneNum: ""},
+    3: {component: <GroupCreationFormInput key={3} id={3} />, name: "", phoneNum: ""}
+  }
 }
 
 const actions = {
   SET_INPUT_DICT: "SET_INPUT_DICT",
   ADD_INPUT: "ADD_INPUT",
   REMOVE_INPUT: "REMOVE_INPUT",
+  SET_GROUP_NAME: "SET_GROUP_NAME"
 }
 
-const inputDict = createContext(initialState)
-const { Provider } = inputDict
+const groupData = createContext(initialState)
+const { Provider } = groupData
 
 function GroupStoreProvider( { children } ) {
   const [state, dispatch] = useReducer((state, action) => {
       switch(action.type) {
         case actions.SET_INPUT_DICT:
-          var newDict = {...state}
-          newDict[action.value.id].name = action.value.name
-          newDict[action.value.id].phoneNum = action.value.phoneNum
-          return newDict
+          var members = {... state.members}
+          members[action.value.id].name = action.value.name
+          members[action.value.id].phoneNum = action.value.phoneNum
+          return {...state, members: members}
         case actions.ADD_INPUT:
-          var newDict = {...state}
-          var len = Object.keys(newDict).length + 1
-          newDict[len] = {component: <GroupCreationFormInput key={len} id={len}/>, name: "", phoneNum: ""}
-          return newDict
+          var members = {... state.members}
+          var len = Object.keys(members).length
+          members[len] = {component: <GroupCreationFormInput key={len} id={len}/>, name: "", phoneNum: ""}
+          return {... state, members: members}
         case actions.REMOVE_INPUT:
-          var len = Object.keys(state).length
-          if (len == 1) return state
-          var newDict = {...state}
-          delete newDict[len]
-          return newDict
+          var len = Object.keys(state.members).length
+          if (len <= 2) return state
+          var members = {... state.members}
+          delete members[len-1]
+          return {...state, members: members}
+        case actions.SET_GROUP_NAME:
+          return {...state, name: action.value}
         default:
           throw new Error("Undeclared action")
       }
@@ -42,14 +49,14 @@ function GroupStoreProvider( { children } ) {
 
   const value = {
     actions: actions,
-    inputDict: state,
+    groupData: state,
     dispatch: dispatch
   }
   return <Provider value={value}>{children}</Provider>;
 };
 
 function useGroupStore() {
-  const context = useContext(inputDict)
+  const context = useContext(groupData)
   if (context == undefined)
     throw new Error("useGroupStore must be used within a GroupStoreProvider")
 

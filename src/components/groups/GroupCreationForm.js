@@ -7,25 +7,31 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import GroupCreationFormInput from "./GroupCreationFormInput"
 
 function GroupCreationForm() {
-  const { inputDict, actions, dispatch } = useGroupStore()
+  const { groupData, actions, dispatch } = useGroupStore()
 
   const addInput = () => {
     dispatch({type: actions.ADD_INPUT})
   }
 
-  const removeInput =() => {
+  const removeInput = () => {
     dispatch({type: actions.REMOVE_INPUT})
+  }
+
+  const handleTitleChange = (e) => {
+    dispatch({type: actions.SET_GROUP_NAME, value: e.target.value})
   }
 
   useEffect(() => {
     // Fetch Groups data with API
   }, [])
 
-  const childComponents = Object.values(inputDict).map(e => e.component)
+  const childComponents = Object.values(groupData.members).map(e => e.component)
+  childComponents.splice(0, 1)
 
   return (
     <div>
-      <TextField required autoComplete="nope" className="create-group-input" color="secondary" label="Group Name"/>
+      <TextField onChange={handleTitleChange}
+        required autoComplete="nope" className="create-group-input" color="secondary" label="Group Name"/>
       <h3 className="create-group-title">Members</h3>
       <Box component="span" mr={2}>
         <IconButton onClick={addInput} variant="outlined" color="secondary">
@@ -37,7 +43,7 @@ function GroupCreationForm() {
           <RemoveIcon />
         </IconButton>
       </Box>
-      <GroupCreationFormInput type="self" name="Johnny" number="0763123728"/>
+      <GroupCreationFormInput type="self" id={0} name="Johnny" phoneNum="0763123728" />
       {childComponents}
     </div>
   )

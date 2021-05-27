@@ -4,18 +4,15 @@ import { TextField, FormGroup, Box } from "@material-ui/core"
 import { useGroupStore } from "../../context/groupStore"
 
 function GroupCreationFormInput(props) {
-  const { inputDict, actions, dispatch } = useGroupStore()
-  const [phoneNum, setPhoneNum] = useState("")
-  const [name, setName] = useState("")
+  const { groupData, actions, dispatch } = useGroupStore()
+  const [phoneNum, setPhoneNum] = useState(props.phoneNum)
+  const [name, setName] = useState(props.name)
 
   useEffect(() => {
-    if(props.type !== "self") {
-      console.log(props)
-      dispatch({
-        type: actions.SET_INPUT_DICT,
-        value: {id: props.id, name: name, phoneNum: phoneNum}
-      })
-    }
+    dispatch({
+      type: actions.SET_INPUT_DICT,
+      value: {id: props.id, name: name, phoneNum: phoneNum}
+    })
   }, [phoneNum, name])
 
   const handleChangeName = (e) => {
@@ -34,14 +31,14 @@ function GroupCreationFormInput(props) {
         <Box mr={2}>
           <TextField
             required margin="dense" defaultValue={props.name} autoComplete="nope"
-            className="create-group-input" color="secondary" label="Name"
+            className="create-group-input" color="secondary" label="Name" type="text"
             InputProps={{
               readOnly: true,
             }}/>
         </Box>
         <Box mr={2}>
           <TextField
-            required margin="dense" defaultValue={props.number} autoComplete="nope"
+            required margin="dense" defaultValue={props.phoneNum} autoComplete="nope"
             className="create-group-input" color="secondary" label="Phone number" type="number"
             InputProps={{
               readOnly: true,
