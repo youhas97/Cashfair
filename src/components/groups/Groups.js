@@ -9,10 +9,8 @@ import DashboardLeft from "../dashboard/DashboardLeft"
 import DashboardRight from "../dashboard/DashboardRight"
 import GroupBalanceList from "./GroupBalanceList"
 
-import BalanceText from "../balance/BalanceText"
 import BalanceCard from "../balance/BalanceCard"
 import GroupCreation from "./GroupCreation"
-import CollapseableComponent from "../CollapsibleComponent"
 
 function Groups() {
   useEffect(() => {

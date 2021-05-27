@@ -6,8 +6,8 @@ import BalanceText from "../balance/BalanceText"
 function GroupBalanceListItem(props) {
 
   return (
-    <ListItem>
-      <ListItemText primary={props.name}></ListItemText>
+    <ListItem divider={true}>
+      <ListItemText primary={props.name} />
       {props.value ? <BalanceText value={props.value}></BalanceText> : undefined}
     </ListItem>
   )

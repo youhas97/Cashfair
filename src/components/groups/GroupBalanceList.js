@@ -12,15 +12,12 @@ function GroupBalanceList(props) {
     setTotalBalance(Object.values(props.members).reduce((a, b) => a+b, 0))
   }, [props.members])
 
-  const listItems = Object.keys(props.members).map(member => {
-    return <GroupBalanceListItem name={member} value={props.members[member]} />
-    }
-  )
+  const listItems = Object.keys(props.members).map(member => <GroupBalanceListItem name={member} value={props.members[member]} />)
+  listItems.unshift(<GroupBalanceListItem name="You" />)
 
   return (
     <CollapseableComponent title={props.groupName} totalBalance={totalBalance}>
       <List>
-        <GroupBalanceListItem name="You" />
         {listItems}
       </List>
     </CollapseableComponent>
