@@ -9,6 +9,10 @@ from . import whitelist
 
 @app.after_request
 def add_cors_headers(response):
+  """
+  Allow only whitelisted origins. These are needed for jwt cookies
+  to work. Append necessary headers after each request.
+  """
   r = request.referrer[:-1]
   if r in whitelist:
     response.headers.add('Access-Control-Allow-Origin', r)
@@ -29,6 +33,12 @@ def register():
 
 @app.route("/login", methods=["POST"])
 def login():
+  """
+  Login a user and return cookies for authentication use.
+  Mostly used for socket connection authentication,
+  but can also be used for other protected endpoints if
+  there is a need (e.g. change password).
+  """
   phoneNum = escape(request.json["phoneNum"])
   password = request.json["password"]
   resp = con.login_user(phoneNum, password)

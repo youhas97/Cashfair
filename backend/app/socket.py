@@ -27,5 +27,18 @@ def connect_handler():
   #     broadcast=True)
   # else:
   #   return False  # not allowed here
-  print("USER: " + User.query.get(get_jwt_identity()).phoneNum)
+  phoneNum = User.query.get(get_jwt_identity()).phoneNum
+  print("USER: " + phoneNum)
   print("---------------- CONNECTED ----------------")
+
+  emit("balance", con.get_balance(phoneNum))
+
+
+@socketio.on("register_payment")
+def register_payment(userPhone, affiliatePhone, affiliateNickname, amount):
+  emit("register_payment_response", json.dumps(con.register_payment(userPhone, affiliatePhone, affiliateNickname, amount)))
+
+
+@socketio.on("get_balance")
+def get_balance(phoneNum):
+  emit("balance_update", json.dumps(con.get_balance(phoneNum)))

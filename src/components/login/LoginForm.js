@@ -13,6 +13,7 @@ function LoginForm() {
 
   const connect_socket = (token) => {
     socket.once("connect", () => {
+      dispatch({type: actions.SET_PHONE, value: phoneNumber})
       dispatch({type: actions.SET_TOKEN, value: token})
       console.log("We have officially connected boiiiiiiiiiis.")
     })

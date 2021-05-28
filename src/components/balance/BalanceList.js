@@ -9,7 +9,7 @@ function BalanceList(props) {
   const [totalBalance, setTotalBalance] = useState(0)
 
   useEffect(() => {
-    if (props.members)
+    if (props.members.length)
       setTotalBalance(Object.values(props.members).reduce((a, b) => a+b), 0)
   }, [props.members])
 
