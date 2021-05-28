@@ -32,7 +32,7 @@ function RegisterForm() {
     req.open("POST", url + "/register")
     req.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     req.responseType = 'json'
-    req.send(JSON.stringify({"phoneNum": phoneNumber, "password": password, "nickname": "testname"}))
+    req.send(JSON.stringify({"phoneNum": phoneNumber, "password": password, "nickname": nickname}))
     req.onload = () => {
       console.log("RESPONSE: " + JSON.stringify(req.response))
       if(req.status === 200 && req.response["success"]) {
