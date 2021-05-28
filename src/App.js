@@ -12,15 +12,26 @@ import { useStore } from './context/store'
 function App() {
   const { store, socket } = useStore()
 
+  /**
+   * Careful about cleaning socket on store token.
+   * Socket will be cleaned up on every change for token.
+   * Now we check if token is undefined before deciding to cleanup,
+   * which works on the initial socket connect.
+   */
+  useEffect(() => {
+    if(store.token) {
+      return () => {
+        socket.removeAllListeners()
+        socket.disconnect()
+      }
+    }
+  }, [store.token])
+
   useEffect(() => {
     return () => {
       socket.removeAllListeners()
       socket.disconnect()
     }
-  }, [store.token])
-
-  useEffect(() => {
-
   }, [socket])
 
   if (!store.token) {
