@@ -15,7 +15,8 @@ function BalanceList(props) {
 
   var listItems
   if (props.members)  {
-    listItems = Object.keys(props.members).map(member => <BalanceListItem clickable={true} name={member} value={props.members[member]} />)
+    var key = 0;
+    listItems = Object.keys(props.members).map(member => <BalanceListItem key={key++} clickable={true} name={member} value={props.members[member]} />)
   }
 
   return (

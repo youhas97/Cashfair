@@ -46,7 +46,7 @@ function RegisterForm() {
 
 
   useEffect(() => {
-    dispatch({type: actions.UPDATE_SUC_REG, value: successfulRegistration})
+    dispatch({type: actions.SET_SUC_REG, value: successfulRegistration})
   }, [successfulRegistration])
 
   return (

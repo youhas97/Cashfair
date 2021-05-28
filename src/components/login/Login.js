@@ -24,7 +24,7 @@ function Login() {
     if (store.successfulRegistration) {
       // Auto-close modal after 10s.
       setTimeout(() => {
-        dispatch({type: actions.UPDATE_SUC_REG, value: false})
+        dispatch({type: actions.SET_SUC_REG, value: false})
       }, 10000)
     }
   }, [store.successfulRegistration])
@@ -36,7 +36,7 @@ function Login() {
         {showAlert ?
           <Alert className="alert alert-style-success"
           onClose={() => {
-            dispatch({type: actions.UPDATE_SUC_REG, value: false})
+            dispatch({type: actions.SET_SUC_REG, value: false})
           }}>
             Registration was successful! — You can now log in.
           </Alert> : undefined}

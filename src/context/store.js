@@ -8,7 +8,6 @@ const socket = io("http://localhost:5000", {
   reconnectionDelayMax: 600,
   withCredentials: true,
   extraHeaders: {
-
   }
 })
 
@@ -18,8 +17,8 @@ const initialState = {
 }
 
 const actions = {
-  UPDATE_TOKEN: "UPDATE_TOKEN",
-  UPDATE_SUC_REG: "UPDATE_SUC_REG"
+  SET_TOKEN: "SET_TOKEN",
+  SET_SUC_REG: "SET_SUC_REG"
 }
 
 const store = createContext(initialState)
@@ -28,9 +27,9 @@ const { Provider } = store
 function StoreProvider( { children } ) {
   const [state, dispatch] = useReducer((state, action) => {
       switch(action.type) {
-        case actions.UPDATE_TOKEN:
+        case actions.SET_TOKEN:
           return { ...state, token: action.value}
-        case actions.UPDATE_SUC_REG:
+        case actions.SET_SUC_REG:
           return { ...state, successfulRegistration: action.value}
         default:
           throw new Error("Undeclared action")

@@ -10,16 +10,20 @@ import Login from './components/login/Login'
 import { useStore } from './context/store'
 
 function App() {
-  const { socket } = useStore()
+  const { store, socket } = useStore()
 
   useEffect(() => {
     return () => {
       socket.removeAllListeners()
       socket.disconnect()
     }
+  }, [store.token])
+
+  useEffect(() => {
+
   }, [socket])
 
-  if (!socket || socket.disconnected) {
+  if (!store.token) {
     return (
       <div className="App">
         <Login />

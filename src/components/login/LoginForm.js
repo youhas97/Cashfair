@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useStore } from "../../context/store"
 import { Alert } from "@material-ui/lab"
 import { Link } from 'react-router-dom'
-import { io } from 'socket.io-client'
 
 import "../../styling/login/LoginForm.css"
 
@@ -10,12 +9,12 @@ function LoginForm() {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [password, setPassword] = useState("")
   const [showLoginFailAlert, setShowLoginFailAlert] = useState(false)
-  const {socket, url} = useStore()
+  const {socket, url, actions, dispatch} = useStore()
 
-  const connect_socket = () => {
+  const connect_socket = (token) => {
     socket.once("connect", () => {
+      dispatch({type: actions.SET_TOKEN, value: token})
       console.log("We have officially connected boiiiiiiiiiis.")
-      socket.emit("protected")
     })
     socket.connect()
   }
@@ -39,7 +38,7 @@ function LoginForm() {
         if (parts.length === 2) var token = parts.pop().split(';').shift()
         socket.io.opts.extraHeaders["X-CSRF-TOKEN"] = token
         /* Start connecting */
-        connect_socket()
+        connect_socket(token)
       } else {
         setShowLoginFailAlert(true)
       }

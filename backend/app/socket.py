@@ -27,9 +27,5 @@ def connect_handler():
   #     broadcast=True)
   # else:
   #   return False  # not allowed here
-  print("---------------- CONNECTED ----------------")
-
-@socketio.on("protected")
-@jwt_required(locations=["cookies"])
-def protected_handler():
   print("USER: " + User.query.get(get_jwt_identity()).phoneNum)
+  print("---------------- CONNECTED ----------------")

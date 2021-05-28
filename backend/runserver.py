@@ -11,14 +11,12 @@ if __name__ == '__main__':
     socketio.run(create_app())
 """
 
-from gevent.pywsgi import WSGIServer
 from app import create_app
-
-from geventwebsocket.handler import WebSocketHandler
+import eventlet
+from eventlet import wsgi
 
 import os
 
 port = int(os.environ.get("PORT", 5000))
 
-http_server = WSGIServer(('', port), create_app(), handler_class=WebSocketHandler)
-http_server.serve_forever()
+wsgi.server(eventlet.listen(('', port)), create_app())
