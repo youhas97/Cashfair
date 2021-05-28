@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-import { useLocation, Route, Switch, NoMatch } from 'react-router-dom'
+import { useLocation, Route, Switch, Redirect } from 'react-router-dom'
 
 import "../styling/Main.css"
 
@@ -28,6 +28,9 @@ function Main() {
         </Route>
         <Route exact path="/groups">
           <h1 style={{margin: "auto", color: "red", marginTop: "10vh"}}>TODO: Implement groups page</h1>
+        </Route>
+        <Route>
+          <Redirect to="/" />
         </Route>
       </Switch>
     </main>
