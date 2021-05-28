@@ -10,35 +10,41 @@ function LoginForm() {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [password, setPassword] = useState("")
   const [showLoginFailAlert, setShowLoginFailAlert] = useState(false)
-  const {actions, dispatch, socket} = useStore()
+  const {socket, url} = useStore()
 
-  function submitForm(e) {
-    e.preventDefault(e)
-    // Need to emit login event here since it depends on the values of phoneNumber and password
+  const connect_socket = () => {
     socket.once("connect", () => {
-      socket.emit("login", phoneNumber, password)
+      console.log("We have officially connected boiiiiiiiiiis.")
+      socket.emit("protected")
     })
     socket.connect()
   }
 
-  // Create listener when component is mounted, remove all listeners when component unmounts
-  useEffect(() => {
-    socket.on("login_success", (token) => {
-      dispatch({type: actions.UPDATE_TOKEN, value: token})
-    })
+  function submitForm(e) {
+    e.preventDefault(e)
 
-    socket.on("login_fail", () => {
-      setShowLoginFailAlert(true)
-    })
-
-    return () => {
-      socket.removeAllListeners()
-
-      socket.on("connect_error", (err) => {
-        console.log('connect error due to ' + err.message)
-      })
+    /* Send login request */
+    let req = new XMLHttpRequest()
+    req.open("POST", url + "/login")
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+    req.responseType = 'json'
+    req.withCredentials = true
+    req.send(JSON.stringify({"phoneNum": phoneNumber, "password": password}))
+    req.onload = () => {
+      if(req.status === 200 && req.response["success"]) {
+        console.log("Let's connect the socket boiiiiiis")
+        /* Save the csrf token */
+        let value = `; ${document.cookie}`;
+        let parts = value.split(`; csrf_access_token=`);
+        if (parts.length === 2) var token = parts.pop().split(';').shift()
+        socket.io.opts.extraHeaders["X-CSRF-TOKEN"] = token
+        /* Start connecting */
+        connect_socket()
+      } else {
+        setShowLoginFailAlert(true)
+      }
     }
-  }, [])
+  }
 
   return (
     <div className="content-div">

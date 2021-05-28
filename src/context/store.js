@@ -5,7 +5,11 @@ const socket = io("http://localhost:5000", {
   autoConnect: false,
   reconnectionAttempts: 5,
   reconnectionDelay: 300,
-  reconnectionDelayMax: 600
+  reconnectionDelayMax: 600,
+  withCredentials: true,
+  extraHeaders: {
+
+  }
 })
 
 const initialState = {
@@ -38,7 +42,8 @@ function StoreProvider( { children } ) {
     store: state,
     dispatch: dispatch,
     // socket is separate from the store state, used like a singleton
-    socket: socket
+    socket: socket,
+    url: "http://localhost:5000"
   }
   return <Provider value={value}>{children}</Provider>;
 };

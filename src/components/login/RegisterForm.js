@@ -13,33 +13,7 @@ function RegisterForm() {
   const [successfulRegistration, setSuccessfulRegistration] = useState(false)
   const [showRegFailAlert, setShowRegFailAlert] = useState(false)
 
-  const { actions, dispatch } = useStore()
-
-  var socket = io("http://localhost:5000", {
-    reconnection: false,
-    autoConnect:false
-  })
-
-  useEffect(() => {
-    socket.on("connect", () => {
-      console.log("Sending user creds")
-      socket.emit("register", phoneNumber, password)
-    })
-
-    socket.on("register_success", () => {
-      setSuccessfulRegistration(true)
-      console.log("User registered!")
-    })
-
-    socket.on("register_fail", () => {
-      setShowRegFailAlert(true)
-      console.log("User was unable to register")
-    })
-
-    return () => {
-      socket.removeAllListeners()
-    }
-  }, [socket])
+  const { actions, dispatch, url } = useStore()
 
   function submitForm(e) {
     e.preventDefault(e)
@@ -52,7 +26,21 @@ function RegisterForm() {
       return
     }
 
-    socket.connect()
+    /* Send register request */
+    let req = new XMLHttpRequest()
+    req.open("POST", url + "/register")
+    req.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+    req.responseType = 'json'
+    req.send(JSON.stringify({"phoneNum": phoneNumber, "password": password, "nickname": "testname"}))
+    req.onload = () => {
+      console.log("RESPONSE: " + JSON.stringify(req.response))
+      if(req.status === 200 && req.response["success"]) {
+        setSuccessfulRegistration(true)
+        console.log("Let's login boiiiiiiis")
+      } else {
+        setShowRegFailAlert(true)
+      }
+    }
   }
 
 

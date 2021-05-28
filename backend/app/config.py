@@ -7,6 +7,8 @@ import os
   # app.config['JWT_BLACKLIST_ENABLED'] = True
   # app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access']
 
+from dotenv import load_dotenv
+load_dotenv()
 
 class Config:
   SECRET_KEY = os.environ["SECRET_KEY"]
@@ -16,6 +18,10 @@ class Config:
   TESTING = False
   SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+  JWT_SECRET_KEY = os.environ["JWT_SECRET_KEY"]
+  JWT_TOKEN_LOCATION = ["cookies"]
+
+
 class ProductionConfig(Config):
   ENV = "production"
 
@@ -23,3 +29,5 @@ class DevelopmentConfig(Config):
   ENV = "development"
   DEBUG = True
   SQLALCHEMY_TRACK_MODIFICATIONS = True
+  JWT_COOKIE_SECURE = False
+  JWT_COOKIE_SAMESITE = "Lax"
