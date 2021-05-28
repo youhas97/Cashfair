@@ -28,7 +28,7 @@ function NavButton(props) {
         {props.item.name}
       </label>
       <div className="nav-menu-bridge">
-        {menuItems ? <NavDropdownMenu item={{menuItems: menuItems}} /> : undefined}
+        {menuItems ? <NavDropdownMenu menuItems={menuItems} /> : undefined}
       </div>
     </NavLink>
   )

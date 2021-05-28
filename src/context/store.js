@@ -33,7 +33,7 @@ function StoreProvider( { children } ) {
         case actions.UPDATE_SUC_REG:
           return { ...state, successfulRegistration: action.value}
         default:
-          throw new Error()
+          throw new Error("Undeclared action")
       }
   }, initialState);
 

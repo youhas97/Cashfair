@@ -4,9 +4,9 @@ import { useLocation, Route, Switch, Redirect } from 'react-router-dom'
 
 import "../styling/Main.css"
 
-import Dashboard from "./dashboard/Dashboard"
-import DashboardLeft from "./dashboard/DashboardLeft"
-import DashboardRight from "./dashboard/DashboardRight"
+import Home from "./home/Home"
+import Groups from "./groups/Groups"
+import Balance from "./balance/Balance"
 
 function Main() {
   let location = useLocation()
@@ -16,18 +16,16 @@ function Main() {
   }, [location])
 
   return (
-    <main className="Main">
+    <main className="main">
       <Switch>
         <Route exact path="/">
-          <DashboardLeft />
-          <Dashboard />
-          <DashboardRight />
+          <Home />
         </Route>
         <Route exact path="/balance">
-          <h1 style={{margin: "auto", color: "red", marginTop: "10vh"}}>TODO: Implement balance page</h1>
+          <Balance />
         </Route>
         <Route exact path="/groups">
-          <h1 style={{margin: "auto", color: "red", marginTop: "10vh"}}>TODO: Implement groups page</h1>
+          <Groups />
         </Route>
         <Route>
           <Redirect to="/" />

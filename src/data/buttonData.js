@@ -1,3 +1,5 @@
+import { handleLogout } from "./dropdownFunctions"
+
 const buttonData = [
   {
     id: 0,
@@ -21,17 +23,19 @@ const buttonData = [
     id: 3,
     name: "Settings",
     float: "right",
-    menuItems: [
-      "Get fucked", "Hello", "Testing"
-    ]
+    // menuItems: [
+    //   "Get fucked", "Hello", "Testing"
+    // ]
   },
   {
     id: 4,
     name: "Account",
     float: "right",
-    menuItems: [
-      "Majmun", "Hello", "Testing"
-    ]
+    // Menu items for drop down menu in form of "key": func,
+    // where the func is the function to be called when the button is clicked.
+    menuItems: {
+      "Log out": handleLogout
+    }
   }
 ]
 

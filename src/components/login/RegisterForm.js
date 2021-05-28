@@ -7,6 +7,7 @@ import { Alert } from "@material-ui/lab"
 import "../../styling/login/RegisterForm.css"
 
 function RegisterForm() {
+  const [nickname, setNickName] = useState("")
   const [phoneNumber, updatePhoneNumber] = useState("")
   const [password, updatePassword] = useState("")
   const [repeatPassword, updateRepeatPassword] = useState("")
@@ -60,6 +61,12 @@ function RegisterForm() {
           Unable to register user.
         </Alert> : undefined }
         <form id="register-form">
+          <input
+          className="form-input"
+          type="text"
+          placeholder="Nickname"
+          onChange={(e) => setNickName(e.target.value)}
+          required/>
           <input
           className="form-input"
           type="number"

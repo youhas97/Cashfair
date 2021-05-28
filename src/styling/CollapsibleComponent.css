@@ -1,18 +1,33 @@
 .collapse-button {
   cursor: pointer;
-  font-size: 26px;
+  font-size: 1.5em;
   float: right;
   margin-right: 10px;
 }
 
 .collapse-bar-title {
-  font-size: 26px;
+  font-size: 1.5em;
   float: left;
   margin-left: 10px;
+}
 
+.collapse-bar-balance {
+  float: left;
+  margin-left: 20px;
+  padding: 0;
+  font-size: 1.5em;
+}
+
+.collapse-bar-pos {
+  color: #40dd48;
+}
+
+.collapse-bar-neg {
+  color: #f57c00;
 }
 
 .collapse-div-bar {
+  text-align: center;
   padding: 0;
   margin: 0;
   width: 100%;
@@ -27,11 +42,7 @@
 }
 
 .collapse-div-bar:hover {
-  background-color: #308551;
-}
-
-.collapse-div-bar:hover > * {
-  color: aquamarine;
+  background-color:#1d5533;
 }
 
 .collapsible-component-container {
