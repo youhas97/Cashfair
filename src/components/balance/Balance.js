@@ -6,6 +6,7 @@ import DashboardLeft from "../dashboard/DashboardLeft"
 import DashboardRight from "../dashboard/DashboardRight"
 import BalanceCard from "./BalanceCard"
 import BalanceList from "./BalanceList"
+import PaymentCreation from "./PaymentCreation"
 
 import { Button } from "@material-ui/core"
 
@@ -24,13 +25,7 @@ function Balance() {
   }, [])
 
   const handleOpen = () => {
-    socket.once("register_payment_response", (resp) => {
-      resp = JSON.parse(resp)
-      if(resp["success"])
-        socket.emit("get_balance", store.phoneNum)
-    })
     // TODO: Emit proper values from a dialog option.
-    socket.emit("register_payment", store.phoneNum, "0736267292", "testdude", "100")
   }
 
   return (
@@ -44,9 +39,7 @@ function Balance() {
       </Dashboard>
       <DashboardRight>
         {/* TODO: Add proper dialog to register new payment */}
-        <Button variant="contained" color="primary" onClick={handleOpen}>
-          Register new payment
-        </Button>
+        <PaymentCreation />
       </DashboardRight>
     </div>
   )

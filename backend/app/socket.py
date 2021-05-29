@@ -35,8 +35,19 @@ def connect_handler():
 
 
 @socketio.on("register_payment")
-def register_payment(userPhone, affiliatePhone, affiliateNickname, amount):
-  emit("register_payment_response", json.dumps(con.register_payment(userPhone, affiliatePhone, affiliateNickname, amount)))
+def register_payment(payload):
+  payload = json.loads(payload)
+  resp = con.register_payment(
+    payload["user_phone"],
+    payload["payment_phone"],
+    payload["payment_nickname"],
+    payload["payment_amount"]
+  )
+  emit("register_payment_response", json.dumps(resp))
+
+  if resp["success"]:
+    emit("balance_update", json.dumps(con.get_balance(payload["user_phone"])))
+
 
 
 @socketio.on("get_balance")
