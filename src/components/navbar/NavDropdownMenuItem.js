@@ -11,9 +11,12 @@ function NavDropdownMenuItem(props) {
     console.log("LOG OUT")
     switch(props.text) {
       case dropDownMenuItems.LOG_OUT:
-          socket.removeAllListeners()
+        socket.removeAllListeners()
         socket.disconnect()
         dispatch({type: actions.SET_TOKEN, value: undefined})
+        break
+      default:
+        break
     }
   }
 

@@ -3,19 +3,20 @@ import os
 
 from datetime import timedelta
 
-from .models import db, User, Association
+from .models import db, User, PaymentAssociation, Group
 from flask_jwt_extended import create_access_token
 
 import re
 SWE_PHONENUM_RE = re.compile("^((\+?46)|\\d)\\d{9}$")
 PASSWORD_RE = re.compile("[A-Za-z0-9@#\$%\^&\+=]{8,128}")
-NICKNAME_RE = re.compile(r"[\w0-9]{5,30}")
+NICKNAME_RE = re.compile(r"[\w0-9\-]{5,30}")
+GROUPNAME_RE = re.compile(r"[\w0-9\-]{5,50}")
 
 ACCESS_EXPIRES = timedelta(minutes=60)
 PW_RESET_EXPIRES = timedelta(minutes=15)
 
 
-def create_user(phoneNum, pword, nickname):
+def create_user(phone_num, pword, nickname):
   """
   Register users with their phone nr, password and nickname.
   Phone numbers are validated before they are stored on the database,
@@ -25,7 +26,7 @@ def create_user(phoneNum, pword, nickname):
   these will all look the same on the database.
   """
   # Validate credentials
-  if not SWE_PHONENUM_RE.match(phoneNum):
+  if not SWE_PHONENUM_RE.match(phone_num):
     return {
       "success": False,
       "msg": "Not a valid Swedish phonenumber."
@@ -41,13 +42,23 @@ def create_user(phoneNum, pword, nickname):
       "msg": "Not a valid nickname."
     }
 
-  phoneNum = phoneNum[-1:-10:-1][::-1] # Get last 9 digits
+  phone_num = phone_num[-1:-10:-1][::-1] # Get last 9 digits
 
-  user = User(
-    phoneNum=phoneNum,
-    nickname=nickname,
-    active=True
-  )
+  user = User.query.filter_by(phone_num=phone_num).first()
+  if user:
+    if(user.active):
+      return {
+        "success": False,
+        "msg": "User already registered."
+      }
+    user.nickname = nickname
+    user.active = True
+  else:
+    user = User(
+      phone_num=phone_num,
+      nickname=nickname,
+      active=True
+    )
 
   user.set_password(pword)
 
@@ -60,13 +71,13 @@ def create_user(phoneNum, pword, nickname):
   }
 
 
-def login_user(phoneNum, pword):
+def login_user(phone_num, pword):
   """
   Login user with their credentials, and return an access_token
   if the credentials are correct.
   """
-  phoneNum = phoneNum[-1:-10:-1][::-1] # Get last 9 digits
-  user = User.query.filter_by(phoneNum=phoneNum).first()
+  phone_num = phone_num[-1:-10:-1][::-1] # Get last 9 digits
+  user = User.query.filter_by(phone_num=phone_num).first()
   if not user:
     return {
       "success": False,
@@ -88,11 +99,11 @@ def login_user(phoneNum, pword):
   # redis_store.set(token_jti, 'false', ACCESS_EXPIRES * 1)
 
   # # if user already has a session, expire that token before returning new one
-  # cached_user_jti = redis_store.get(phoneNum)
+  # cached_user_jti = redis_store.get(phone_num)
   # if cached_user_jti:
   #     redis_store.set(cached_user_jti, 'true', ACCESS_EXPIRES * 1)
 
-  # redis_store.set(phoneNum, token_jti)
+  # redis_store.set(phone_num, token_jti)
 
   return {
     "success": True,
@@ -101,9 +112,9 @@ def login_user(phoneNum, pword):
   }
 
 
-def register_payment(userPhone, affiliatePhone, affiliateNickname, amount):
+def register_payment(user_phone, associate_phone, associate_nickname, amount):
   """
-  Register payments between individual users. If the affiliate user does not exist
+  Register payments between individual users. If the associate user does not exist
   that the requesting user wants to register payments with, then a placeholder
   will be created. All registered payments will have custom nicknames assigned
   by the requesting user.
@@ -111,12 +122,12 @@ def register_payment(userPhone, affiliatePhone, affiliateNickname, amount):
   If a registered payment already exists between two users, then the balance
   of that association will be updated accordingly.
   """
-  if not SWE_PHONENUM_RE.match(affiliatePhone) or not SWE_PHONENUM_RE.match(userPhone):
+  if not SWE_PHONENUM_RE.match(associate_phone) or not SWE_PHONENUM_RE.match(user_phone):
     return {
       "success": False,
       "msg": "Not a swedish phonenum."
     }
-  if not NICKNAME_RE.match(affiliateNickname):
+  if not NICKNAME_RE.match(associate_nickname):
     return {
       "success": False,
       "msg": "Not a valid nickname."
@@ -129,33 +140,33 @@ def register_payment(userPhone, affiliatePhone, affiliateNickname, amount):
       "msg": "Amount is not a valid integer."
     }
 
-  userPhone = userPhone[-1:-10:-1][::-1] # Get last 9 digits
-  affiliatePhone = affiliatePhone[-1:-10:-1][::-1] # Get last 9 digits
+  user_phone = user_phone[-1:-10:-1][::-1] # Get last 9 digits
+  associate_phone = associate_phone[-1:-10:-1][::-1] # Get last 9 digits
 
-  user = User.query.filter_by(phoneNum=userPhone).first()
+  user = User.query.filter_by(phone_num=user_phone).first()
   if not user:
     return {
       "success": False,
       "msg": "User does not exist."
     }
 
-  affiliate = User.query.filter_by(phoneNum=affiliatePhone).first()
-  if not affiliate:
-    # Create placeholder until a user registers with affiliatePhone
-    affiliate = User(phoneNum=affiliatePhone, active=False)
-    db.session.add(affiliate)
+  associate = User.query.filter_by(phone_num=associate_phone).first()
+  if not associate:
+    # Create placeholder until a user registers with associate_phone
+    associate = User(phone_num=associate_phone, active=False)
+    db.session.add(associate)
     db.session.commit()
 
-  assoc = Association.query.filter_by(user_id=user.id, affiliate_id=affiliate.id).first()
+  assoc = PaymentAssociation.query.filter_by(user_id=user.id, associate_id=associate.id).first()
   if assoc: # Check if associations already exist, and update balance if so.
     assoc.balance += int(amount)
-    affiliate_assoc = Association.query.filter_by(user_id=affiliate.id, affiliate_id=user.id).first()
+    affiliate_assoc = PaymentAssociation.query.filter_by(user_id=associate.id, associate_id=user.id).first()
     affiliate_assoc.balance += -int(amount)
     db.session.commit()
   else:
-    user_association = Association(user_id=user.id, affiliate_id=affiliate.id, affiliate_nickname=affiliateNickname, balance=int(amount))
-    affiliate_association = Association(user_id=affiliate.id, affiliate_id=user.id, affiliate_nickname=user.nickname, balance=-int(amount))
-    db.session.add_all([user_association, affiliate_association])
+    user_association = PaymentAssociation(user_id=user.id, associate_id=associate.id, associate_nickname=associate_nickname, balance=int(amount))
+    associate_association = PaymentAssociation(user_id=associate.id, associate_id=user.id, associate_nickname=user.nickname, balance=-int(amount))
+    db.session.add_all([user_association, associate_association])
     db.session.commit()
 
   return {
@@ -164,18 +175,76 @@ def register_payment(userPhone, affiliatePhone, affiliateNickname, amount):
   }
 
 
-def get_balance(phoneNum):
-  phoneNum = phoneNum[-1:-10:-1][::-1] # Get last 9 digits
-  user = User.query.filter_by(phoneNum=phoneNum).first()
+def get_balance(phone_num):
+  phone_num = phone_num[-1:-10:-1][::-1] # Get last 9 digits
+  user = User.query.filter_by(phone_num=phone_num).first()
   if not user:
     return {
       "success": False,
       "msg": "User does not exist."
     }
 
-  affiliates = {asc.affiliate_nickname: asc.balance for asc in user.affiliates}
+  associates = {asc.associate_nickname: asc.balance for asc in user.associations}
 
   return {
     "success": True,
-    "affiliates": affiliates
+    "associates": associates
   }
+
+
+def create_group(name, members):
+  if not GROUPNAME_RE.match(name):
+    return {
+      "success": False,
+      "msg": "Not a valid group name."
+    }
+  group = Group(name=name)
+
+  for user_data in members:
+    phone_num = user_data["phone_num"]
+    if not SWE_PHONENUM_RE.match(phone_num):
+      return {
+        "success": False,
+        "msg": "Not a valid phone number."
+      }
+    phone_num = phone_num[-1:-10:-1][::-1] # Get last 9 digits
+    user = User.query.filter_by(phone_num=phone_num).first()
+    if not user:
+      # Create placeholder until a user registers with associate_phone
+      user = User(phone_num=phone_num, active=False)
+      if not NICKNAME_RE.match(user_data["nickname"]):
+        return {
+          "success": False,
+          "msg": "Not a valid nickname."
+        }
+      user.nickname = user_data["nickname"]
+      db.session.add(user)
+      db.session.commit()
+
+    group.members.append(user)
+
+  db.session.commit()
+
+  return {
+    "success": True,
+    "msg": "Group has been created."
+  }
+
+
+def get_groups(phone_num):
+  phone_num = phone_num[-1:-10:-1][::-1] # Get last 9 digits
+  user = User.query.filter_by(phone_num=phone_num).first()
+
+  if not user:
+    return {
+      "success": False,
+      "msg": "User does not exist."
+    }
+
+  payload = {}
+  payload["groups"] = {}
+  groups = user.groups
+  for group in groups:
+    print(group.name)
+    payload["groups"][group.name] = [{"nickname": user.nickname, "phone_num": user.phone_num} for user in group.members]
+  print(payload)

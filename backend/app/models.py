@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 # https://docs.sqlalchemy.org/en/14/orm/basic_relationships.html#association-object
-class Association(db.Model):
+class PaymentAssociation(db.Model):
   """
   Payment associations between accounts. These will have double entries
   for every payment association so that Users can set different nicknames
@@ -19,10 +19,14 @@ class Association(db.Model):
   for the other user.
   """
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-  affiliate_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-  affiliate_nickname = db.Column(db.String(40), nullable=False)
+  associate_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+  associate_nickname = db.Column(db.String(40), nullable=False)
   balance = db.Column(db.Integer, nullable=False)
 
+groups = db.Table('groups',
+  db.Column('group_id', db.Integer, db.ForeignKey('group.id'), primary_key=True),
+  db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
+)
 
 class User(db.Model):
   """
@@ -38,15 +42,22 @@ class User(db.Model):
   Correctly registered Users will have an active status set to True.
   """
   id = db.Column(db.Integer, primary_key=True)
-  phoneNum = db.Column(db.String(9), unique=True, nullable=False)
+  phone_num = db.Column(db.String(9), unique=True, nullable=False)
   password_hash = db.Column(db.String(256), nullable=True)
   nickname = db.Column(db.String(40), nullable=True)
 
   active = db.Column(db.Boolean, default=False, nullable=False)
 
-  affiliates = db.relationship(
-    'Association',
-    foreign_keys=[Association.user_id],
+  groups = db.relationship(
+    'Group',
+    secondary=groups,
+    lazy='subquery',
+    backref=db.backref('user', lazy=True)
+  )
+
+  associations = db.relationship(
+    'PaymentAssociation',
+    foreign_keys=[PaymentAssociation.user_id],
     lazy='subquery',
     backref=db.backref('user', lazy=True)
   )
@@ -60,7 +71,29 @@ class User(db.Model):
     self.password_hash = generate_password_hash(password).decode("utf-8")
 
 
-# class Group(db.Model):
-#   id = db.Column(db.Integer, primary_key=True)
+# class GroupPaymentAssociation(db.Model):
+#   """
+#   Similar to PaymentAssociation for User, but now also contains group id.
+#   """
+#   group_id = db.Column(db.Integer, db.ForeignKey('group.id'), primary_key=True)
+#   user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+#   associate_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+#   associate_nickname = db.Column(db.String(40), nullable=False)
+#   balance = db.Column(db.Integer, nullable=False)
 
 
+class Group(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(40), nullable=False)
+
+  members = db.relationship('User',
+    secondary=groups,
+    lazy=False,
+    backref=db.backref('group', lazy=True)
+  )
+  # associations = db.relationship(
+  #   'GroupAssociation',
+  #   foreign_keys=[GroupPaymentAssociation.group_id],
+  #   lazy='subquery',
+  #   backref=db.backref('group', lazy=True)
+  # )

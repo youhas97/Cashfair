@@ -3,11 +3,6 @@ import NavDropdownMenuItem from "./NavDropdownMenuItem"
 import "../../styling/navbar/NavDropdownMenu.css"
 
 function NavDropdownMenu(props) {
-
-  const handleClick = () => {
-    alert("Clicked!")
-  }
-
   var key=0;
   const menuItems = props.menuItems.map(item =>
   <NavDropdownMenuItem

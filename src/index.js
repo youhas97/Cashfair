@@ -6,7 +6,6 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { StoreProvider } from './context/store'
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
-import { green } from '@material-ui/core/colors'
 
 import App from './App';
 import reportWebVitals from './reportWebVitals'
@@ -20,7 +19,7 @@ const theme = createMuiTheme({
     secondary: {
       main: "#f5f5f5",
     },
-  },
+  }
 })
 
 ReactDOM.render(

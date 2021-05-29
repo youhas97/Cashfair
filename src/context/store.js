@@ -12,15 +12,18 @@ const socket = io("http://localhost:5000", {
 })
 
 const initialState = {
-  phoneNum: undefined,
+  userData: {
+    phoneNum: undefined,
+    nickname: undefined
+  },
   token: undefined,
   successfulRegistration: false
 }
 
 const actions = {
-  SET_PHONE: "SET_PHONE",
   SET_TOKEN: "SET_TOKEN",
-  SET_SUC_REG: "SET_SUC_REG"
+  SET_SUC_REG: "SET_SUC_REG",
+  SET_USER_DATA: "SET_USER_DATA"
 }
 
 const store = createContext(initialState)
@@ -33,8 +36,8 @@ function StoreProvider( { children } ) {
           return { ...state, token: action.value}
         case actions.SET_SUC_REG:
           return { ...state, successfulRegistration: action.value}
-        case actions.SET_PHONE:
-          return {...state, phoneNum: action.value}
+        case actions.SET_USER_DATA:
+          return {...state, userData: action.value}
         default:
           throw new Error("Undeclared action")
       }

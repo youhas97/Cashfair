@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react"
-import { useGroupStore } from "../../context/groupStore"
+import React, { useState } from "react"
 
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@material-ui/core"
+import { Button, Dialog, DialogActions, DialogContent, Box, DialogTitle } from "@material-ui/core"
 
 import "../../styling/groups/GroupCreation.css"
 import PaymentCreationForm from "./PaymentCreationForm"
@@ -28,7 +27,7 @@ function PaymentCreation() {
   const handleSubmit = (e) => {
     e.preventDefault(e)
     let payload = {
-      "user_phone": store.phoneNum,
+      "user_phone": store.userData.phoneNum,
       "payment_phone": phoneNum,
       "payment_nickname": nickname,
       "payment_amount": amount
@@ -49,9 +48,11 @@ function PaymentCreation() {
 
   return (
     <div className="create-group-btn">
-      <Button variant="contained" color="primary" onClick={handleOpen}>
-        Register New Payment
-      </Button>
+      <Box mb={2}>
+        <Button variant="contained" color="primary" onClick={handleOpen}>
+          Register New Payment
+        </Button>
+      </Box>
       <Dialog
       className="create-group-modal"
       open={open}

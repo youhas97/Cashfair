@@ -4,7 +4,7 @@ import { TextField, FormGroup, Box } from "@material-ui/core"
 import { useGroupStore } from "../../context/groupStore"
 
 function GroupCreationFormInput(props) {
-  const { groupData, actions, dispatch } = useGroupStore()
+  const { actions, dispatch } = useGroupStore()
   const [phoneNum, setPhoneNum] = useState(props.phoneNum)
   const [name, setName] = useState(props.name)
 

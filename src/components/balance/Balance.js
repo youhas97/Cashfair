@@ -8,7 +8,7 @@ import BalanceCard from "./BalanceCard"
 import BalanceList from "./BalanceList"
 import PaymentCreation from "./PaymentCreation"
 
-import { Button } from "@material-ui/core"
+import { Box } from "@material-ui/core"
 
 function Balance() {
   const { store, socket } = useStore()
@@ -16,17 +16,16 @@ function Balance() {
 
   useEffect(() => {
     // Fetch Balance data with API
-    socket.on("balance_update", (resp) => {
+    let balance_update = socket.on("balance_update", (resp) => {
       resp = JSON.parse(resp)
       if(resp["success"])
-        setMembers(resp.affiliates)
+        setMembers(resp.associates)
     })
-    socket.emit("get_balance", store.phoneNum)
+    socket.emit("get_balance", store.userData.phoneNum)
+    return () => {
+      socket.off("balance_update", balance_update)
+    }
   }, [])
-
-  const handleOpen = () => {
-    // TODO: Emit proper values from a dialog option.
-  }
 
   return (
     <div className="main">
@@ -38,8 +37,9 @@ function Balance() {
         members={members}/>
       </Dashboard>
       <DashboardRight>
-        {/* TODO: Add proper dialog to register new payment */}
-        <PaymentCreation />
+        <Box mt={5}>
+          <PaymentCreation />
+        </Box>
       </DashboardRight>
     </div>
   )

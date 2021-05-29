@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 
-import { List, ListItem, ListItemText, Divider } from "@material-ui/core"
+import { Box } from "@material-ui/core"
 
-import { useGroupStore, GroupStoreProvider } from "../../context/groupStore"
+import { GroupStoreProvider } from "../../context/groupStore"
 
 import Dashboard from "../dashboard/Dashboard"
 import DashboardLeft from "../dashboard/DashboardLeft"
@@ -11,10 +11,20 @@ import BalanceList from "../balance/BalanceList"
 
 import BalanceCard from "../balance/BalanceCard"
 import GroupCreation from "./GroupCreation"
+import GroupPayment from "./GroupPayment"
+import { useStore } from "../../context/store"
 
 function Groups() {
+  const { store, socket } = useStore()
+
   useEffect(() => {
-    // TODO: Fetch Groups data with API
+    let groups_update = socket.on("groups_update", (payload) => {
+      console.log("GROUPS: " + payload)
+    })
+    socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
+    return () => {
+      socket.off("groups_update", groups_update)
+    }
   }, [])
 
   return (
@@ -29,7 +39,10 @@ function Groups() {
           <BalanceList type="groupList" title="Group 3" members={{"Mary": -43, "Sven-Göran": -26}} />
         </Dashboard>
         <DashboardRight>
+          <Box mt={5}>
             <GroupCreation />
+            <GroupPayment />
+          </Box>
         </DashboardRight>
       </GroupStoreProvider>
     </div>

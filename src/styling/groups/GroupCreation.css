@@ -1,7 +1,6 @@
 .create-group-btn {
   display: inline-block;
   width: fit-content;
-  margin-top: 5vh;
 }
 
 .create-group-modal {
@@ -21,6 +20,10 @@
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
+}
+
+.create-group-select-input {
+  width: 200px;
 }
 
 .create-group-title {

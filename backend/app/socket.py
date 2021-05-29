@@ -1,6 +1,5 @@
 import functools
 from flask_socketio import disconnect, emit, SocketIO
-import re
 import json
 
 from . import controller as con
@@ -12,7 +11,7 @@ from flask import request
 
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-socketio = SocketIO(cors_allowed_origins=whitelist, logger=True, engineio_logger=True)
+socketio = SocketIO(cors_allowed_origins=whitelist, logger=True, engineio_logger=True, always_connect=True)
 
 @socketio.on("disconnect")
 def disconnect_handler():
@@ -27,11 +26,14 @@ def connect_handler():
   #     broadcast=True)
   # else:
   #   return False  # not allowed here
-  phoneNum = User.query.get(get_jwt_identity()).phoneNum
-  print("USER: " + phoneNum)
+  user = User.query.get(get_jwt_identity())
   print("---------------- CONNECTED ----------------")
 
-  emit("balance", con.get_balance(phoneNum))
+  payload = {
+    "phone_num": user.phone_num,
+    "nickname": user.nickname
+  }
+  emit("user_data", json.dumps(payload))
 
 
 @socketio.on("register_payment")
@@ -49,7 +51,24 @@ def register_payment(payload):
     emit("balance_update", json.dumps(con.get_balance(payload["user_phone"])))
 
 
-
 @socketio.on("get_balance")
-def get_balance(phoneNum):
-  emit("balance_update", json.dumps(con.get_balance(phoneNum)))
+def get_balance(phone_num):
+  emit("balance_update", json.dumps(con.get_balance(phone_num)))
+
+
+@socketio.on("create_group")
+def create_group(payload):
+  payload = json.loads(payload)
+  resp = con.create_group(
+    payload["name"],
+    payload["members"]
+  )
+
+  print("GROUP_RESP: ", json.dumps(resp))
+  emit("create_group_response", json.dumps(resp))
+
+
+@socketio.on("get_groups")
+def get_groups(phone_num):
+  phone_num = json.loads(phone_num)
+  con.get_groups(phone_num)

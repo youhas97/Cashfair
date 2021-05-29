@@ -23,21 +23,20 @@ const { Provider } = groupData
 
 function GroupStoreProvider( { children } ) {
   const [state, dispatch] = useReducer((state, action) => {
+      var members = {...state.members}
+      var len = undefined
       switch(action.type) {
         case actions.SET_INPUT_DICT:
-          var members = {... state.members}
           members[action.value.id].name = action.value.name
           members[action.value.id].phoneNum = action.value.phoneNum
           return {...state, members: members}
         case actions.ADD_INPUT:
-          var members = {... state.members}
-          var len = Object.keys(members).length
+          len = Object.keys(members).length
           members[len] = {component: <GroupCreationFormInput key={len} id={len}/>, name: "", phoneNum: ""}
-          return {... state, members: members}
+          return {...state, members: members}
         case actions.REMOVE_INPUT:
-          var len = Object.keys(state.members).length
+          len = Object.keys(state.members).length
           if (len <= 2) return state
-          var members = {... state.members}
           delete members[len-1]
           return {...state, members: members}
         case actions.SET_GROUP_NAME:
@@ -57,7 +56,7 @@ function GroupStoreProvider( { children } ) {
 
 function useGroupStore() {
   const context = useContext(groupData)
-  if (context == undefined)
+  if (context === undefined)
     throw new Error("useGroupStore must be used within a GroupStoreProvider")
 
     return context

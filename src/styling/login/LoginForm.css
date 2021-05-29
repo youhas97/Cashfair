@@ -15,17 +15,6 @@
   text-align: center;
 }
 
-.form-input {
-  margin: 1.5em auto;
-  font-size: large;
-  display: block;
-  align-content: center;
-  text-align: center;
-  border-radius: 15px;
-  border-width: thin;
-  outline: none;
-}
-
 .form-btn {
   font-size: large;
   border-radius: 10px;
