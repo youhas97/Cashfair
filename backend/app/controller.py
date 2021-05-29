@@ -72,7 +72,11 @@ def login_user(phoneNum, pword):
       "success": False,
       "msg": "User does not exist."
     }
-
+  if not user.active:
+    return {
+      "success": False,
+      "msg": "The user account registered with this phone number is not active. Please register an account with this phone number to login."
+    }
   if not user.check_password(pword):
     return {
       "success": False,
