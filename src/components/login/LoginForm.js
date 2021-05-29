@@ -75,7 +75,7 @@ function LoginForm() {
             <TextField
               variant="outlined"
               margin="normal"
-              onChange={(e) => e.target.value}
+              onChange={(e) => setPhoneNumber(e.target.value)}
               type="number"
               placeholder="Phone number"
               required />

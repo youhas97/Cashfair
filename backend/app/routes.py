@@ -39,11 +39,16 @@ def login():
   but can also be used for other protected endpoints if
   there is a need (e.g. change password).
   """
+  print(request.json)
   phoneNum = escape(request.json["phoneNum"])
   password = request.json["password"]
   resp = con.login_user(phoneNum, password)
-  token = resp["token"]
-  del resp["token"]
-  flask_response = make_response(resp)
-  set_access_cookies(flask_response, token)
-  return flask_response
+  print(resp)
+  if resp["success"]:
+    token = resp["token"]
+    del resp["token"]
+    flask_response = make_response(resp)
+    set_access_cookies(flask_response, token)
+    return flask_response
+  else:
+    return resp

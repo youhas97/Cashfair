@@ -52,7 +52,7 @@ class User(db.Model):
     'Group',
     secondary=groups,
     lazy='subquery',
-    backref=db.backref('user', lazy=True)
+    back_populates="members"
   )
 
   associations = db.relationship(
@@ -89,7 +89,7 @@ class Group(db.Model):
   members = db.relationship('User',
     secondary=groups,
     lazy=False,
-    backref=db.backref('group', lazy=True)
+    back_populates="groups"
   )
   # associations = db.relationship(
   #   'GroupAssociation',
