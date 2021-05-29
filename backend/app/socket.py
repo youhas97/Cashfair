@@ -18,7 +18,7 @@ socketio = SocketIO(cors_allowed_origins=whitelist, logger=True, engineio_logger
 def disconnect_handler():
   print("---------------- DISCONNECTED ----------------")
 
-  phone_num = redis.get(request.sid)
+  phone_num = redis.get(request.sid).decode("utf-8")
   redis.delete(phone_num)
   redis.delete(request.sid)
 
