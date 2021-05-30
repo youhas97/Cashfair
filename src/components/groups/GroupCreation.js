@@ -10,7 +10,7 @@ import { Socket } from "socket.io"
 function GroupCreation() {
   const [open, setOpen] = useState(false)
   const { groupData } = useGroupStore()
-  const { socket } = useStore()
+  const { socket, store } = useStore()
   const formRef = useRef()
 
   const handleOpen = (e) => {
@@ -38,10 +38,11 @@ function GroupCreation() {
         members: members
       }
       socket.once("create_group_response", (payload) => {
-        console.log(payload)
         payload = JSON.parse(payload)
-        if(payload["success"])
+        if(payload["success"]) {
+          socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
           setOpen(false)
+        }
       })
       socket.emit("create_group", JSON.stringify(payload))
     }

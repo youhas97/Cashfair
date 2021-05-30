@@ -9,12 +9,6 @@ import Groups from "./groups/Groups"
 import Balance from "./balance/Balance"
 
 function Main() {
-  let location = useLocation()
-  useEffect(() => {
-    //Backend API calls maybe
-    console.log(location.pathname)
-  }, [location])
-
   return (
     <main className="main">
       <Switch>

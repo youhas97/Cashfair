@@ -12,14 +12,14 @@ import { Box } from "@material-ui/core"
 
 function Balance() {
   const { store, socket } = useStore()
-  const [members, setMembers] = useState({})
+  const [associations, setAssociations] = useState({})
 
   useEffect(() => {
     // Fetch Balance data with API
     let balance_update = socket.on("balance_update", (resp) => {
       resp = JSON.parse(resp)
       if(resp["success"])
-        setMembers(resp.associates)
+        setAssociations(resp.associates)
     })
     socket.emit("get_balance", store.userData.phoneNum)
     return () => {
@@ -30,11 +30,12 @@ function Balance() {
   return (
     <div className="main">
       <DashboardLeft>
-        <BalanceCard key={1} title="Your Balance" value={-19} className="independent-balance-card" />
+        <BalanceCard key={1} title="Your Balance" className="independent-balance-card"
+          value={Object.values(associations).map((asc) => asc["balance"]).reduce(((a,b) => a+b), 0)} />
       </DashboardLeft>
       <Dashboard>
-        <BalanceList title="Your balance"
-        members={members}/>
+        <BalanceList title="Balances"
+        members={associations}/>
       </Dashboard>
       <DashboardRight>
         <Box mt={5}>

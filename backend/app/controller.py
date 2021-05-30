@@ -184,8 +184,10 @@ def get_balance(phone_num):
       "msg": "User does not exist."
     }
 
-  associates = {asc.associate_nickname: asc.balance for asc in user.associations}
-
+  associates = {asc.associate_nickname: {
+    "phone_num": "0"+User.query.filter_by(id=asc.associate_id).first().phone_num,
+    "balance": asc.balance
+    } for asc in user.associations}
   return {
     "success": True,
     "associates": associates
@@ -245,6 +247,9 @@ def get_groups(phone_num):
   payload["groups"] = {}
   groups = user.groups
   for group in groups:
-    print(group.name)
     payload["groups"][group.name] = [{"nickname": user.nickname, "phone_num": user.phone_num} for user in group.members]
-  print(payload)
+
+  return {
+    "success": True,
+    "groups" : payload["groups"]
+  }

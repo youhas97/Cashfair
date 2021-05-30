@@ -82,4 +82,28 @@ def create_group(payload):
 @socketio.on("get_groups")
 def get_groups(phone_num):
   phone_num = json.loads(phone_num)
-  con.get_groups(phone_num)
+  resp = con.get_groups(phone_num)
+  balances = con.get_balance(phone_num)["associates"]
+
+  if (resp["success"]):
+    groups = resp["groups"]
+    # Reformat groups to include balance w.r.t. user who requests groups.
+    for groupName in groups:
+      group = groups[groupName][1:] # Omit self from group
+      groupMembers={}
+      for member in group:
+        if balances.get(member["nickname"]):
+          print("BALANCE: ", balances[member["nickname"]])
+          groupMembers[member["nickname"]] = balances[member["nickname"]]
+        else:
+          groupMembers[member["nickname"]] = {"phone_num": "0"+member["phone_num"], "balance": 0}
+        groups[groupName] = groupMembers
+
+    resp = {
+      "success": True,
+      "groups": json.dumps(groups)
+    }
+
+    emit("groups_update", json.dumps(resp))
+
+  emit("groups_update", json.dumps(resp))

@@ -9,14 +9,16 @@ function BalanceList(props) {
   const [totalBalance, setTotalBalance] = useState(0)
 
   useEffect(() => {
-    if (props.members.length)
-      setTotalBalance(Object.values(props.members).reduce((a, b) => a+b), 0)
+    if (Object.keys(props.members).length) {
+      const balances = Object.values(props.members).map((member) => member["balance"])
+      setTotalBalance(balances.reduce(((a,b) => a+b), 0))
+    }
   }, [props.members])
 
   var listItems
   if (props.members)  {
     var key = 0;
-    listItems = Object.keys(props.members).map(member => <BalanceListItem key={key++} clickable={true} name={member} value={props.members[member]} />)
+    listItems = Object.keys(props.members).map(member => <BalanceListItem key={key++} clickable={true} name={member} value={props.members[member]["balance"]} />)
   }
 
   return (

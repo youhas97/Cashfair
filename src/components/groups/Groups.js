@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 
 import { Box } from "@material-ui/core"
 
@@ -16,27 +16,42 @@ import { useStore } from "../../context/store"
 
 function Groups() {
   const { store, socket } = useStore()
+  const [groups, setGroups] = useState({})
+  const [members, setMembers] = useState({})
 
   useEffect(() => {
-    let groups_update = socket.on("groups_update", (payload) => {
-      console.log("GROUPS: " + payload)
+    let groups_update = socket.on("groups_update", (resp) => {
+      resp = JSON.parse(resp)
+      if(resp["success"])
+        //console.log(resp.groups)
+        setGroups(JSON.parse(resp.groups))
+    })
+    let balance_update = socket.on("balance_update", (resp) => {
+      resp = JSON.parse(resp)
+      if(resp["success"])
+        setMembers(resp.associates)
     })
     socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
+    socket.emit("get_balance", store.userData.phoneNum)
     return () => {
       socket.off("groups_update", groups_update)
+      socket.off("balance_update", balance_update)
     }
   }, [])
 
+  let key = 0;
+  const groupLists = Object.keys(groups).map(groupName => {
+    return <BalanceList key={key++} type="groupList" title={groupName} members={groups[groupName]} />
+  })
   return (
     <div className="main">
       <GroupStoreProvider>
         <DashboardLeft>
-          <BalanceCard key={1} title="Your Balance" value={-19} className="independent-balance-card" />
+          <BalanceCard key={1} title="Your Balance" className="independent-balance-card"
+            value={Object.values(members).map((member) => member["balance"]).reduce(((a,b) => a+b), 0)}/>
         </DashboardLeft>
         <Dashboard>
-          <BalanceList type="groupList" title="Group 1" members={{"Johnny": -160, "Bertil": 60}} />
-          <BalanceList type="groupList" title="Group 2" members={{"Tim": 85, "Calle": 65}} />
-          <BalanceList type="groupList" title="Group 3" members={{"Mary": -43, "Sven-Göran": -26}} />
+          {groupLists}
         </Dashboard>
         <DashboardRight>
           <Box mt={5}>
