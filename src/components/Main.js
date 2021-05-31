@@ -1,6 +1,6 @@
-import React, { useEffect } from "react"
-
-import { useLocation, Route, Switch, Redirect } from 'react-router-dom'
+import React from "react"
+import { GroupStoreProvider } from "../context/groupStore"
+import { Route, Switch, Redirect } from 'react-router-dom'
 
 import "../styling/Main.css"
 
@@ -19,7 +19,9 @@ function Main() {
           <Balance />
         </Route>
         <Route exact path="/groups">
-          <Groups />
+          <GroupStoreProvider>
+            <Groups />
+          </GroupStoreProvider>
         </Route>
         <Route>
           <Redirect to="/" />

@@ -42,7 +42,6 @@ class GroupPaymentAssociation(db.Model):
   associate_nickname = db.Column(db.String(40), nullable=False)
   balance = db.Column(db.Float, nullable=False)
 
-
   """
   TODO:
   This should be used to differentiate payments and loans,

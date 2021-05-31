@@ -1,15 +1,15 @@
 import React, { useRef, useState } from "react"
-import { useGroupStore } from "../../context/groupStore"
+import { useGroupCreationStore } from "../../context/groupCreationStore"
 import { useStore } from "../../context/store"
 import { Button, Dialog, DialogActions, DialogContent, Box, DialogTitle } from "@material-ui/core"
 
-import "../../styling/groups/GroupCreation.css"
+import "../../styling/groups/Groups.css"
 import GroupCreationForm from "./GroupCreationForm"
 import { Socket } from "socket.io"
 
 function GroupCreation() {
   const [open, setOpen] = useState(false)
-  const { groupData } = useGroupStore()
+  const { groupData } = useGroupCreationStore()
   const { socket, store } = useStore()
   const formRef = useRef()
 

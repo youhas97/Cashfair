@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { useGroupStore } from "../../context/groupStore"
+import { useGroupCreationStore } from "../../context/groupCreationStore"
 import { useStore } from "../../context/store"
 
 import { TextField, IconButton, Box } from "@material-ui/core"
@@ -8,7 +8,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import GroupCreationFormInput from "./GroupCreationFormInput"
 
 function GroupCreationForm() {
-  const { groupData, actions, dispatch } = useGroupStore()
+  const { groupData, actions, dispatch } = useGroupCreationStore()
   const { store } = useStore()
 
   const addInput = () => {

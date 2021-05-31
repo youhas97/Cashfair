@@ -1,14 +1,12 @@
 import React, { useState } from "react"
-import { useGroupStore } from "../../context/groupStore"
 
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core"
 
-import "../../styling/groups/GroupCreation.css"
+import "../../styling/groups/Groups.css"
 import GroupPaymentForm from "./GroupPaymentForm"
 
 function GroupPayment() {
   const [open, setOpen] = useState(false)
-  const {groupData} = useGroupStore()
 
   const handleOpen = (e) => {
     e.preventDefault(e)
@@ -23,11 +21,6 @@ function GroupPayment() {
   const handleSubmit = (e) => {
     // TODO: Transmit group data to server using API
     e.preventDefault(e)
-    console.log(groupData.name)
-    var members = groupData.members
-    for (const key in groupData.members) {
-      console.log("name: " + members[key].name + " num: " + members[key].phoneNum)
-    }
     setOpen(false)
   }
 

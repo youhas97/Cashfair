@@ -62,6 +62,7 @@ function RegisterForm() {
         <form ref={formRef}>
         <Box my={2}>
           <TextField
+            autoComplete="nope"
             margin="dense"
             type="text"
             placeholder="Nickname"
@@ -70,6 +71,7 @@ function RegisterForm() {
         </Box>
         <Box mb={2}>
           <TextField
+            autoComplete="nope"
             margin="dense"
             type="number"
             placeholder="Phone number"
@@ -78,6 +80,7 @@ function RegisterForm() {
         </Box>
         <Box mb={2}>
           <TextField
+            autoComplete="nope"
             margin="dense"
             type="password"
             placeholder="Password"
@@ -86,6 +89,7 @@ function RegisterForm() {
         </Box>
         <Box mb={5}>
           <TextField
+            autoComplete="nope"
             margin="dense"
             type="password"
             onChange={(e) => updateRepeatPassword(e.target.value)}

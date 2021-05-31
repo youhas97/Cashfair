@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Button, Dialog, DialogActions, DialogContent, Box, DialogTitle } from "@material-ui/core"
 
-import "../../styling/groups/GroupCreation.css"
+import "../../styling/groups/Groups.css"
 import PaymentCreationForm from "./PaymentCreationForm"
 import { useStore } from "../../context/store"
 

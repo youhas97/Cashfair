@@ -73,6 +73,7 @@ function LoginForm() {
         <form ref={formRef}>
           <Box>
             <TextField
+              autoComplete="nope"
               variant="outlined"
               margin="normal"
               onChange={(e) => setPhoneNumber(e.target.value)}
@@ -82,6 +83,7 @@ function LoginForm() {
           </Box>
           <Box mb={2}>
             <TextField
+              autoComplete="nope"
               variant="outlined"
               margin="normal"
               onChange={(e) => setPassword(e.target.value)}

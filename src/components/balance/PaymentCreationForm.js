@@ -24,9 +24,9 @@ function PaymentCreationForm(props) {
   return (
     <div>
         <Box display="flex" flexDirection="column">
-          <TextField onChange={handleInputChange} label="Phone Number" name="phone" color="secondary" required type="number" />
-          <TextField onChange={handleInputChange} label="Nickname" name="nickname" color="secondary" type="text" required />
-          <TextField onChange={handleInputChange} label="Amount" name="amount" color="secondary" type="number" required />
+          <TextField onChange={handleInputChange} autoComplete="off" label="Phone Number" name="phone" color="secondary" required type="number" />
+          <TextField onChange={handleInputChange} autoComplete="off" label="Nickname" name="nickname" color="secondary" type="text" required />
+          <TextField onChange={handleInputChange} autoComplete="off" label="Amount" name="amount" color="secondary" type="number" required />
         </Box>
     </div>
   )

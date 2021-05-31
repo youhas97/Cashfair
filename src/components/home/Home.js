@@ -14,24 +14,25 @@ function Home() {
 
   // TODO: ERROR - socket.on is not created first time component is mounted
   useEffect(() => {
-    socket.on("groups_update", (resp) => {
-      resp = JSON.parse(resp)
-      if(resp && resp["success"])
-        console.log("GRP: " + JSON.stringify(resp.groups))
-        setGroups(resp.groups)
-    })
-    socket.on("balance_update", (resp) => {
-      resp = JSON.parse(resp)
-      if(resp["success"])
-        setAssociations(resp.associates)
-    })
-    socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
-    socket.emit("get_balance", store.userData.phoneNum)
+    if (store.userData.phoneNum) {
+      socket.on("groups_update", (resp) => {
+        resp = JSON.parse(resp)
+        if(resp && resp["success"])
+          setGroups(resp.groups)
+      })
+      socket.on("balance_update", (resp) => {
+        resp = JSON.parse(resp)
+        if(resp["success"])
+          setAssociations(resp.associates)
+      })
+      socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
+      socket.emit("get_balance", store.userData.phoneNum)
+    }
     return () => {
       socket.off("groups_update")
       socket.off("balance_update")
     }
-  }, [])
+  }, [store.userData])
 
 
   let key = 0;

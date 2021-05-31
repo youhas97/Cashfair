@@ -130,7 +130,6 @@ def register_payment(user_phone, associate_phone, associate_nickname, amount):
     }
 
   user_phone = strip_phone_num(user_phone)
-  associate_phone = strip_phone_num(associate_phone)
 
   user = User.query.filter_by(phone_num=user_phone).first()
   if not user:
@@ -139,12 +138,18 @@ def register_payment(user_phone, associate_phone, associate_nickname, amount):
       "msg": "User does not exist."
     }
 
-  associate = User.query.filter_by(phone_num=associate_phone).first()
-  if not associate:
-    # Create placeholder until a user registers with associate_phone
-    associate = User(phone_num=associate_phone, active=False)
-    db.session.add(associate)
-    db.session.commit()
+  # associate = User.query.filter_by(phone_num=associate_phone).first()
+  # if not associate:
+  #   # Create placeholder until a user registers with associate_phone
+  #   associate = User(phone_num=associate_phone, active=False)
+  #   db.session.add(associate)
+  #   db.session.commit()
+
+  res = get_user_or_placeholder(associate_phone, associate_nickname)
+  if not res["success"]:
+    return res
+
+  associate = res["user"]
 
   assoc = PaymentAssociation.query.filter_by(user_id=user.id, associate_id=associate.id).first()
   if assoc: # Check if associations already exist, and update balance if so.
@@ -201,15 +206,11 @@ def get_balance(phone_num):
   }
 
 
-def get_user_or_placeholder(user_data: dict):
+def get_user_or_placeholder(phone_num, nickname):
   """
   Get user from database or create a placeholder
   if the user dose not exist yet.
-
-  user_data should be a dict containing phonenumber
-  and nickname for the user in case a palceholder has to be created.
   """
-  phone_num = user_data["phone_num"]
   if not SWE_PHONENUM_RE.match(phone_num):
     return {
       "success": False,
@@ -221,17 +222,20 @@ def get_user_or_placeholder(user_data: dict):
   if not user:
     # Create placeholder until a user registers with associate_phone
     user = User(phone_num=phone_num, active=False)
-    if not NICKNAME_RE.match(user_data["nickname"]):
+    if not NICKNAME_RE.match(nickname):
       return {
         "success": False,
         "msg": "Not a valid nickname."
       }
-    user.nickname = user_data["nickname"]
+    user.nickname = nickname
 
     db.session.add(user)
     db.session.commit()
 
-  return user
+  return {
+    "success": True,
+    "user": user
+  }
 
 
 
@@ -244,10 +248,25 @@ def create_group(name, members):
   group = Group(name=name)
 
   for user_data in members:
-    user = get_user_or_placeholder(user_data)
+    res = get_user_or_placeholder(user_data["phone_num"], user_data["nickname"])
+    if not res["success"]:
+      return res
+
+    user = res["user"]
+
     group.members.append(user)
 
   db.session.add(group)
+  db.session.commit()
+
+  # Create initial group associations.
+  for user in group.members:
+    for associate_data in members:
+      associate = User.query.filter_by(phone_num=strip_phone_num(associate_data["phone_num"])).first()
+      if user.id == associate.id:
+        continue
+      register_group_associations(group.id, user, associate, associate_data["nickname"], 0)
+
   db.session.commit()
 
   return {
@@ -280,25 +299,17 @@ def get_groups(phone_num):
       "name": group.name
     }
     members = []
-    for member in group.members:
-      if member.id == user.id:
+    for assoc in user.group_associations:
+      if assoc.group_id != group.id:
         continue
-        # members.append({
-        #   "nickname": user.nickname,
-        #   "phone_num": user.phone_num,
-        #   "balance": 0
-        # })
-      else:
-        assoc = list(filter(lambda g: g.group_id==group.id and g.associate_id==member.id, member.group_associations))
-        # assoc = member.group_associations.filter(
-        #   GroupPaymentAssociation.group_id==group.id, GroupPaymentAssociation.associate_id==member.id
-        # ).first()
 
-        members.append({
-          "nickname": assoc[0].associate_nickname if assoc else member.nickname,
-          "phone_num": '0' + member.phone_num,
-          "balance": assoc[0].balance if assoc else 0
-        })
+      associate = User.query.filter_by(id=assoc.associate_id).first()
+
+      members.append({
+        "nickname":  assoc.associate_nickname,
+        "phone_num": '0' + associate.phone_num,
+        "balance": assoc.balance
+      })
 
     group_dict["members"] = members
     payload["groups"].append(group_dict)
@@ -310,26 +321,21 @@ def get_groups(phone_num):
 
 
 
-def register_group_associations(group_id, requester: User, associate: dict, amount):
+def register_group_associations(group_id, requester: User, associate: User, associate_nickname, amount):
   """
   Helper class for creating group payment associations.
-
-  Used by register_group_payment()
   """
-
-  associate_phone_num = strip_phone_num(associate["phone_num"])
-  associate_user = User.query.filter_by(phone_num=associate_phone_num).first()
 
   assoc = GroupPaymentAssociation.query.filter_by(
     group_id=group_id,
     user_id=requester.id,
-    associate_id=associate_user.id
+    associate_id=associate.id
   ).first()
 
   if assoc: # Check if associations already exist, and update balance if so.
     # Update balance for user association to associate
     assoc.balance += int(amount)
-    assoc.associate_nickname=associate_user.nickname # Update associate_nickname
+    assoc.associate_nickname=associate.nickname # Update associate_nickname
 
     # Update balance for the associate association to user
     associate_assoc = GroupPaymentAssociation.query.filter_by(
@@ -345,7 +351,7 @@ def register_group_associations(group_id, requester: User, associate: dict, amou
       group_id=group_id,
       user_id=requester.id,
       associate_id=associate.id,
-      associate_nickname=associate_user.nickname,
+      associate_nickname=associate_nickname,
       balance=int(amount)
     )
 
@@ -412,7 +418,8 @@ def register_group_payment(group_id, requester_phone_num, associates, amount):
   # Now create group payment associations for all users
   even_amount = amount/len(associates)
   for associate in associates:
-    register_group_associations(group_id, requester, associate, even_amount)
+    associate_user = User.query.filter_by(phone_num=associate["phone_num"]).first()
+    register_group_associations(group_id, requester, associate_user, associate["nickname"], even_amount)
 
   db.session.commit()
 
@@ -420,4 +427,3 @@ def register_group_payment(group_id, requester_phone_num, associates, amount):
     "success": True,
     "msg": "Group payment successfully created!"
   }
-

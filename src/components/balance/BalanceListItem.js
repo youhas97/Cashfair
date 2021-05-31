@@ -11,7 +11,7 @@ function BalanceListItem(props) {
   return (
     <ListItem divider={true} button={props.clickable} onClick={props.clickable ? handleClick : undefined}>
       <ListItemText primary={props.name} />
-      {props.value ? <BalanceText value={props.value}></BalanceText> : undefined}
+      {props.value ? <BalanceText value={props.value} /> : undefined}
     </ListItem>
   )
 }
