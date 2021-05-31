@@ -9,34 +9,36 @@ import CollapseableComponent from "../CollapsibleComponent"
 
 function Home() {
   const { store, socket } = useStore()
-  const [groups, setGroups] = useState({})
-  const [associations, setAssociations] = useState({})
+  const [groups, setGroups] = useState([])
+  const [associations, setAssociations] = useState([])
 
-  // useEffect(() => {
-  //   let groups_update = socket.on("groups_update", (resp) => {
-  //     resp = JSON.parse(resp)
-  //     if(resp["success"])
-  //       setGroups(JSON.parse(resp.groups))
-  //   })
-  //   let balance_update = socket.on("balance_update", (resp) => {
-  //     resp = JSON.parse(resp)
-  //     if(resp["success"])
-  //       setAssociations(resp.associates)
-  //   })
-  //   socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
-  //   socket.emit("get_balance", store.userData.phoneNum)
-  //   return () => {
-  //     socket.off("groups_update", groups_update)
-  //     socket.off("balance_update", balance_update)
-  //   }
-  // }, [])
+  // TODO: ERROR - socket.on is not created first time component is mounted
+  useEffect(() => {
+    socket.on("groups_update", (resp) => {
+      resp = JSON.parse(resp)
+      if(resp && resp["success"])
+        console.log("GRP: " + JSON.stringify(resp.groups))
+        setGroups(resp.groups)
+    })
+    socket.on("balance_update", (resp) => {
+      resp = JSON.parse(resp)
+      if(resp["success"])
+        setAssociations(resp.associates)
+    })
+    socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
+    socket.emit("get_balance", store.userData.phoneNum)
+    return () => {
+      socket.off("groups_update")
+      socket.off("balance_update")
+    }
+  }, [])
 
 
   let key = 0;
-  console.log(groups)
-  const groupCards = Object.keys(groups).map(groupName => {
-    return <BalanceCard key={key++} title={groupName} className="groups-card"
-      value={Object.keys(groups[groupName]).map(name => groups[groupName][name]["balance"]).reduce(((a, b) => a+b), 0)} />
+  const groupCards = groups.map(group => {
+    return <BalanceCard key={key++} title={group["name"]} className="groups-card"
+      value={groups.map(group => group.members.map(member => member["balance"]).reduce((a,b) => a+b, 0)
+      ).reduce((a,b) => a+b, 0)} />
   })
 
   return (
@@ -45,7 +47,7 @@ function Home() {
       <Dashboard>
         <CollapseableComponent title="Self"className="self-balance-card-container">
           <BalanceCard key={1} title="Your Balance" className="self-balance-card"
-            value={Object.values(associations).map((asc) => asc["balance"]).reduce(((a,b) => a+b), 0)} />
+            value={associations.map((asc) => asc["balance"]).reduce(((a,b) => a+b), 0)} />
         </CollapseableComponent>
         <CollapseableComponent title="Groups" className="groups-card-container">
           {groupCards}

@@ -17,10 +17,9 @@ import { useStore } from "../../context/store"
 function Groups() {
   const { store, socket } = useStore()
   const [groups, setGroups] = useState([])
-  const [members, setMembers] = useState({})
 
   useEffect(() => {
-    let groups_update = socket.on("groups_update", (resp) => {
+    socket.on("groups_update", (resp) => {
       resp = JSON.parse(resp)
       if(resp && resp["success"]) {
         setGroups(resp.groups)
@@ -28,7 +27,7 @@ function Groups() {
     })
     socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
     return () => {
-      socket.off("groups_update", groups_update)
+      socket.off("groups_update")
     }
   }, [])
 

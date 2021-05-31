@@ -16,15 +16,14 @@ function Balance() {
 
   useEffect(() => {
     // Fetch Balance data with API
-    let balance_update = socket.on("balance_update", (resp) => {
-      console.log("BALANCE UPDATE: " + resp)
+    socket.on("balance_update", (resp) => {
       resp = JSON.parse(resp)
       if(resp["success"])
         setAssociations(resp.associates)
     })
     socket.emit("get_balance", store.userData.phoneNum)
     return () => {
-      socket.off("balance_update", balance_update)
+      socket.off("balance_update")
     }
   }, [])
 
