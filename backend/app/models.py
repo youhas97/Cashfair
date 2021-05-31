@@ -21,12 +21,41 @@ class PaymentAssociation(db.Model):
   user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
   associate_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
   associate_nickname = db.Column(db.String(40), nullable=False)
-  balance = db.Column(db.Integer, nullable=False)
+  balance = db.Column(db.Float, nullable=False)
+
+
+  """
+  TODO:
+  This should be used to differentiate payments and loans,
+  but was not implemented due to time constraints
+  """
+  # type = db.Column(db.Enum, nullable=False)
+
+
+class GroupPaymentAssociation(db.Model):
+  """
+  Similar to PaymentAssociation for User, but now also contains group id.
+  """
+  group_id = db.Column(db.Integer, db.ForeignKey('group.id'), primary_key=True)
+  user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+  associate_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+  associate_nickname = db.Column(db.String(40), nullable=False)
+  balance = db.Column(db.Float, nullable=False)
+
+
+  """
+  TODO:
+  This should be used to differentiate payments and loans,
+  but was not implemented due to time constraints
+  """
+  # type = db.Column(db.Enum, nullable=False)
+
 
 groups = db.Table('groups',
   db.Column('group_id', db.Integer, db.ForeignKey('group.id'), primary_key=True),
   db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True)
 )
+
 
 class User(db.Model):
   """
@@ -62,6 +91,13 @@ class User(db.Model):
     backref=db.backref('user', lazy=True)
   )
 
+  group_associations = db.relationship(
+    'GroupPaymentAssociation',
+    foreign_keys=[GroupPaymentAssociation.user_id],
+    lazy='subquery',
+    backref=db.backref('user', lazy=True)
+  )
+
   def check_password(self, password):
     if self.password_hash is None:
       return False
@@ -69,17 +105,6 @@ class User(db.Model):
 
   def set_password(self, password):
     self.password_hash = generate_password_hash(password).decode("utf-8")
-
-
-# class GroupPaymentAssociation(db.Model):
-#   """
-#   Similar to PaymentAssociation for User, but now also contains group id.
-#   """
-#   group_id = db.Column(db.Integer, db.ForeignKey('group.id'), primary_key=True)
-#   user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-#   associate_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-#   associate_nickname = db.Column(db.String(40), nullable=False)
-#   balance = db.Column(db.Integer, nullable=False)
 
 
 class Group(db.Model):
@@ -91,9 +116,10 @@ class Group(db.Model):
     lazy=False,
     back_populates="groups"
   )
-  # associations = db.relationship(
-  #   'GroupAssociation',
-  #   foreign_keys=[GroupPaymentAssociation.group_id],
-  #   lazy='subquery',
-  #   backref=db.backref('group', lazy=True)
-  # )
+
+  associations = db.relationship(
+    'GroupPaymentAssociation',
+    foreign_keys=[GroupPaymentAssociation.group_id],
+    lazy='subquery',
+    backref=db.backref('group', lazy=True)
+  )

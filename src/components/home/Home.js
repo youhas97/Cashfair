@@ -12,24 +12,24 @@ function Home() {
   const [groups, setGroups] = useState({})
   const [associations, setAssociations] = useState({})
 
-  useEffect(() => {
-    let groups_update = socket.on("groups_update", (resp) => {
-      resp = JSON.parse(resp)
-      if(resp["success"])
-        setGroups(JSON.parse(resp.groups))
-    })
-    let balance_update = socket.on("balance_update", (resp) => {
-      resp = JSON.parse(resp)
-      if(resp["success"])
-        setAssociations(resp.associates)
-    })
-    socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
-    socket.emit("get_balance", store.userData.phoneNum)
-    return () => {
-      socket.off("groups_update", groups_update)
-      socket.off("balance_update", balance_update)
-    }
-  }, [])
+  // useEffect(() => {
+  //   let groups_update = socket.on("groups_update", (resp) => {
+  //     resp = JSON.parse(resp)
+  //     if(resp["success"])
+  //       setGroups(JSON.parse(resp.groups))
+  //   })
+  //   let balance_update = socket.on("balance_update", (resp) => {
+  //     resp = JSON.parse(resp)
+  //     if(resp["success"])
+  //       setAssociations(resp.associates)
+  //   })
+  //   socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
+  //   socket.emit("get_balance", store.userData.phoneNum)
+  //   return () => {
+  //     socket.off("groups_update", groups_update)
+  //     socket.off("balance_update", balance_update)
+  //   }
+  // }, [])
 
 
   let key = 0;

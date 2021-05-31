@@ -16,39 +16,34 @@ import { useStore } from "../../context/store"
 
 function Groups() {
   const { store, socket } = useStore()
-  const [groups, setGroups] = useState({})
+  const [groups, setGroups] = useState([])
   const [members, setMembers] = useState({})
 
   useEffect(() => {
     let groups_update = socket.on("groups_update", (resp) => {
       resp = JSON.parse(resp)
-      if(resp["success"])
-        //console.log(resp.groups)
-        setGroups(JSON.parse(resp.groups))
-    })
-    let balance_update = socket.on("balance_update", (resp) => {
-      resp = JSON.parse(resp)
-      if(resp["success"])
-        setMembers(resp.associates)
+      if(resp && resp["success"]) {
+        setGroups(resp.groups)
+      }
     })
     socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
-    socket.emit("get_balance", store.userData.phoneNum)
     return () => {
       socket.off("groups_update", groups_update)
-      socket.off("balance_update", balance_update)
     }
   }, [])
 
-  let key = 0;
-  const groupLists = Object.keys(groups).map(groupName => {
-    return <BalanceList key={key++} type="groupList" title={groupName} members={groups[groupName]} />
+  //let key = 0;
+  const groupLists = groups.map(group => {
+    return <BalanceList key={group.id} type="groupList" title={group.name} members={group.members} />
   })
   return (
     <div className="main">
       <GroupStoreProvider>
         <DashboardLeft>
           <BalanceCard key={1} title="Your Balance" className="independent-balance-card"
-            value={Object.values(members).map((member) => member["balance"]).reduce(((a,b) => a+b), 0)}/>
+            value={groups.map(
+                group => group.members.map(member => member["balance"]).reduce((a,b) => a+b, 0)
+              ).reduce((a,b) => a+b, 0) }/>
         </DashboardLeft>
         <Dashboard>
           {groupLists}

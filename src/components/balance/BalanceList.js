@@ -10,7 +10,7 @@ function BalanceList(props) {
 
   useEffect(() => {
     if (Object.keys(props.members).length) {
-      const balances = Object.values(props.members).map((member) => member["balance"])
+      const balances = props.members.map((member) => member["balance"])
       setTotalBalance(balances.reduce(((a,b) => a+b), 0))
     }
   }, [props.members])
@@ -18,7 +18,7 @@ function BalanceList(props) {
   var listItems
   if (props.members)  {
     var key = 0;
-    listItems = Object.keys(props.members).map(member => <BalanceListItem key={key++} clickable={true} name={member} value={props.members[member]["balance"]} />)
+    listItems = props.members.map(member => <BalanceListItem key={key++} clickable={true} name={member["nickname"]} value={member["balance"]} />)
   }
 
   return (

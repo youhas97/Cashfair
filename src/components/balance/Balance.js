@@ -12,11 +12,12 @@ import { Box } from "@material-ui/core"
 
 function Balance() {
   const { store, socket } = useStore()
-  const [associations, setAssociations] = useState({})
+  const [associations, setAssociations] = useState([])
 
   useEffect(() => {
     // Fetch Balance data with API
     let balance_update = socket.on("balance_update", (resp) => {
+      console.log("BALANCE UPDATE: " + resp)
       resp = JSON.parse(resp)
       if(resp["success"])
         setAssociations(resp.associates)

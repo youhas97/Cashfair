@@ -40,7 +40,6 @@ function GroupCreation() {
       socket.once("create_group_response", (payload) => {
         payload = JSON.parse(payload)
         if(payload["success"]) {
-          socket.emit("get_groups", JSON.stringify(store.userData.phoneNum))
           setOpen(false)
         }
       })
