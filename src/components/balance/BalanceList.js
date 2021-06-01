@@ -4,8 +4,10 @@ import { List } from "@material-ui/core"
 
 import CollapseableComponent from "../CollapsibleComponent"
 import BalanceListItem from "./BalanceListItem"
+import { useStore } from "../../context/store"
 
 function BalanceList(props) {
+  const { store } = useStore()
   const [totalBalance, setTotalBalance] = useState(0)
 
   useEffect(() => {
@@ -27,7 +29,7 @@ function BalanceList(props) {
   return (
     <CollapseableComponent title={props.title} totalBalance={totalBalance ? totalBalance : undefined}>
       <List>
-        {props.type==="groupList" ? <BalanceListItem name="You" /> : undefined}
+        {props.type==="groupList" ? <BalanceListItem name={store.userData.nickname + " (you)"} /> : undefined}
         {listItems}
       </List>
     </CollapseableComponent>

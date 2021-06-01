@@ -6,14 +6,19 @@ import { Box, InputLabel, Select, MenuItem, FormControl, Checkbox, ListItemText,
 
 function GroupPaymentForm() {
   const { store } = useStore()
-  const { groups } = useGroupStore()
+  const { groups, actions, dispatch } = useGroupStore()
   const [ selectedGroup, setSelectedGroup ] = useState(groups[0])
   const [ selectedMembers, setSelectedMembers ] = useState([])
   const [ selectAllMembers, setSelectAllMembers ] = useState(false)
 
   useEffect(() => {
-    // Fetch Groups data with API
-  }, [])
+    dispatch({type: actions.SET_SELECTED_GROUP, value: selectedGroup})
+    dispatch({type: actions.SET_SELECTED_MEMBERS, value: selectedMembers})
+  }, [selectedGroup, selectedMembers])
+
+  const isEmpty = (obj) => {
+    return Object.entries(obj).length === 0
+  }
 
   const renderSelectedMembers = () => {
     let key = 0;
@@ -24,7 +29,8 @@ function GroupPaymentForm() {
       <Box display="flex" flexWrap="wrap">
         {selectedMembers.map((member) => (
           <Box mr={1} my={0.6} key={key++}>
-            <Chip key={member["phone_num"]} label={member["nickname"] === store.userData.nickname ? "You" : member["nickname"]} />
+            <Chip key={member["phone_num"]}
+              label={member["nickname"] === store.userData.nickname ? member["nickname"] + " (you)" : member["nickname"]} />
           </Box>
         ))}
       </Box>
@@ -70,7 +76,8 @@ function GroupPaymentForm() {
         <FormControl>
           <Box display="flex" flexDirection="row" flexWrap="wrap">
             <InputLabel id="select-members-label" color="secondary" >Members</InputLabel>
-            <Select disabled={selectAllMembers} color="secondary" className="create-group-select-input" autoWidth={true} labelId="select-members-label" label="select-members"
+            <Select disabled={selectAllMembers} required={!selectAllMembers}
+              color="secondary" className="create-group-select-input" autoWidth={true} labelId="select-members-label" label="select-members"
               value={selectedMembers} multiple onChange={(e) => setSelectedMembers(e.target.value)}
               renderValue={renderSelectedMembers}
               >

@@ -3,7 +3,7 @@ import { io } from 'socket.io-client'
 
 const socket = io("http://localhost:5000", {
   autoConnect: false,
-  reconnectionAttempts: 5,
+  reconnectionAttempts: 10,
   reconnectionDelay: 300,
   reconnectionDelayMax: 600,
   withCredentials: true,

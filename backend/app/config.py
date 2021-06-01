@@ -18,7 +18,7 @@ class Config:
   TESTING = False
   SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-  REDIS_URL = 'redis://localhost:6379'
+  REDIS_HOST = 'redis://localhost:6379'
 
   JWT_SECRET_KEY = os.environ["JWT_SECRET_KEY"]
   JWT_TOKEN_LOCATION = ["cookies"]

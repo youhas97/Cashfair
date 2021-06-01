@@ -1,5 +1,4 @@
-import functools
-from flask_socketio import disconnect, emit, SocketIO
+from flask_socketio import disconnect, emit, SocketIO, join_room, send
 import json
 
 from . import controller as con
@@ -25,7 +24,7 @@ def disconnect_handler():
   """
   print("---------------- DISCONNECTED ----------------")
 
-  phone_num = redis.get(request.sid).decode("utf-8")
+  phone_num = redis.get(request.sid)
   redis.delete(phone_num)
   redis.delete(request.sid)
 
@@ -54,7 +53,6 @@ def connect_handler():
   }
   emit("user_data", json.dumps(payload))
 
-
 @socketio.on("register_payment")
 def register_payment(payload):
   """
@@ -80,9 +78,9 @@ def register_payment(payload):
   if resp["success"]:
     emit("balance_update", json.dumps(con.get_balance(payload["user_phone"])))
     payment_phone = strip_phone_num(payload["payment_phone"])
-    sid = redis.get(payment_phone).decode("utf-8") if redis.get(payment_phone) else None
+    sid = redis.get(payment_phone)
     if sid:
-      emit("balance_update", json.dumps(con.get_balance(payload["payment_phone"])), to=sid)
+      emit("balance_update", json.dumps(con.get_balance(payload["payment_phone"])), room=sid)
 
 
 @socketio.on("get_balance")
@@ -97,7 +95,6 @@ def get_balance(phone_num):
   """
   emit("balance_update", json.dumps(con.get_balance(phone_num)))
 
-
 @socketio.on("create_group")
 def create_group(payload):
   payload = json.loads(payload)
@@ -109,9 +106,9 @@ def create_group(payload):
   if resp["success"]:
     for member in payload["members"]:
       phone_num = strip_phone_num(member["phone_num"])
-      sid = redis.get(phone_num).decode("utf-8") if redis.get(phone_num) else None
+      sid = redis.get(phone_num)
       if sid:
-        emit("groups_update", json.dumps(get_groups(json.dumps(member["phone_num"]))), to=sid)
+        emit("groups_update", json.dumps(con.get_groups(member["phone_num"])), room=sid)
 
   emit("create_group_response", json.dumps(resp))
 

@@ -283,6 +283,7 @@ def get_groups(phone_num):
   """
   phone_num = strip_phone_num(phone_num) # Get last 9 digits
   user = User.query.filter_by(phone_num=phone_num).first()
+  print("USER NAME: ", user.nickname, " --------- USER NUMBER: ", user.phone_num)
 
   if not user:
     return {

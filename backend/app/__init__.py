@@ -7,14 +7,13 @@ from dotenv import load_dotenv
 from .config import DevelopmentConfig
 
 from flask_bcrypt import Bcrypt
-
-from flask_redis import FlaskRedis
+from redis import Redis
 
 load_dotenv() # Get all env variables from .env
 
 whitelist = ["http://localhost:3000"]
 
-redis = FlaskRedis()
+redis = Redis(host="localhost", port=6379, db=0, decode_responses=True, encoding="utf-8")
 
 def create_app():
   app = Flask(__name__)
@@ -31,7 +30,6 @@ def create_app():
 
     jwt.init_app(app)
     socketio.init_app(app)
-    redis.init_app(app)
 
     from . import routes
     from . import socket

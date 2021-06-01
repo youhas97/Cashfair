@@ -1,10 +1,16 @@
+import { makeStyles } from '@material-ui/core';
 import React, { useContext, createContext, useReducer } from 'react';
 
 const initialState = {
+  groups: [],
+  selectedGroup: {},
+  selectedMembers: []
 }
 
 const actions = {
   SET_GROUPS: "SET_GROUPS",
+  SET_SELECTED_GROUP: "SET_SELECTED_GROUP",
+  SET_SELECTED_MEMBERS: "SET_SELECTED_MEMBERS"
 }
 
 const groups = createContext(initialState)
@@ -14,7 +20,11 @@ function GroupStoreProvider({ children }) {
   const [state, dispatch] = useReducer((state, action) => {
       switch(action.type) {
         case actions.SET_GROUPS:
-          return action.value
+          return {...state, groups: action.value}
+        case actions.SET_SELECTED_GROUP:
+          return {...state, selectedGroup: action.value}
+        case actions.SET_SELECTED_MEMBERS:
+          return {...state, selectedMembers: action.value}
         default:
           throw new Error("Undeclared action")
       }
@@ -22,7 +32,9 @@ function GroupStoreProvider({ children }) {
 
   const value = {
     actions: actions,
-    groups: state,
+    groups: state.groups,
+    selectedGroup: state.selectedGroup,
+    selectedMembers: state.selectedMembers,
     dispatch: dispatch
   }
   return <Provider value={value}>{children}</Provider>;

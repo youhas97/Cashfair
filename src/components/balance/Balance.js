@@ -21,6 +21,7 @@ function Balance() {
       if(resp["success"])
         setAssociations(resp.associates)
     })
+
     socket.emit("get_balance", store.userData.phoneNum)
     return () => {
       socket.off("balance_update")
