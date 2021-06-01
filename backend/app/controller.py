@@ -28,7 +28,7 @@ def create_user(phone_num, pword, nickname):
   if not NICKNAME_RE.match(nickname):
     return {
       "success": False,
-      "msg": "Nicknames need to be 2-30 characters long and can only contain letters, numbers, spaces and dashes."
+      "msg": "Nicknames need to be 2-30 characters long and can only contain letters, numbers, spaces, dashes and underscores."
     }
 
   phone_num = strip_phone_num(phone_num) # Get last 9 digits
@@ -119,7 +119,7 @@ def register_payment(user_phone, associate_phone, associate_nickname, amount):
   if not NICKNAME_RE.match(associate_nickname):
     return {
       "success": False,
-      "msg": "Nicknames need to be 2-30 characters long and can only contain letters, numbers, spaces and dashes."
+      "msg": "Nicknames need to be 2-30 characters long and can only contain letters, numbers, spaces, dashes and underscores."
     }
   try:
     int(amount)

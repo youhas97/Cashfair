@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react"
 import { useStore } from "../../context/store"
 import { useGroupStore } from "../../context/groupStore"
 
-import { Box, InputLabel, Select, MenuItem, FormControl, Checkbox, ListItemText, Chip } from "@material-ui/core"
+import { Box, InputLabel, Select, MenuItem, FormControl, Checkbox, ListItemText, Chip, FormControlLabel } from "@material-ui/core"
 
 function GroupPaymentForm() {
   const { store } = useStore()
   const { groups } = useGroupStore()
   const [ selectedGroup, setSelectedGroup ] = useState(groups[0])
   const [ selectedMembers, setSelectedMembers ] = useState([])
+  const [ selectAllMembers, setSelectAllMembers ] = useState(false)
 
   useEffect(() => {
     // Fetch Groups data with API
@@ -16,6 +17,9 @@ function GroupPaymentForm() {
 
   const renderSelectedMembers = () => {
     let key = 0;
+    if (selectAllMembers)
+      return
+
     return (
       <Box display="flex" flexWrap="wrap">
         {selectedMembers.map((member) => (
@@ -57,19 +61,25 @@ function GroupPaymentForm() {
       {selectedGroup ?
       <Box>
         <h3 className="create-group-title">Select which members to split payment with</h3>
+        <Box>
+          <FormControlLabel control={
+              <Checkbox checked={selectAllMembers} onChange={() => setSelectAllMembers(!selectAllMembers)} />
+            }
+            label="Select all members" />
+        </Box>
         <FormControl>
           <Box display="flex" flexDirection="row" flexWrap="wrap">
-          <InputLabel id="select-members-label" color="secondary" >Members</InputLabel>
-          <Select color="secondary" className="create-group-select-input" autoWidth={true} labelId="select-members-label" label="select-members"
-            value={selectedMembers} multiple onChange={(e) => setSelectedMembers(e.target.value)}
-            renderValue={renderSelectedMembers}
-             >
-              <MenuItem value={store.userData}>
-                <Checkbox color="primary" checked={selectedMembers.indexOf(store.userData) > -1} />
-                <ListItemText primary="You" />
-              </MenuItem>
-              {memberMenuItems}
-          </Select>
+            <InputLabel id="select-members-label" color="secondary" >Members</InputLabel>
+            <Select disabled={selectAllMembers} color="secondary" className="create-group-select-input" autoWidth={true} labelId="select-members-label" label="select-members"
+              value={selectedMembers} multiple onChange={(e) => setSelectedMembers(e.target.value)}
+              renderValue={renderSelectedMembers}
+              >
+                <MenuItem value={store.userData}>
+                  <Checkbox color="primary" checked={selectedMembers.indexOf(store.userData) > -1} />
+                  <ListItemText primary="You" />
+                </MenuItem>
+                {memberMenuItems}
+            </Select>
           </Box>
         </FormControl>
       </Box> : undefined}
