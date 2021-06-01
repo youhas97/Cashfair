@@ -38,7 +38,7 @@ def create_user(phone_num, pword, nickname):
     if(user.active):
       return {
         "success": False,
-        "msg": "User already registered."
+        "msg": "Phone number already exists."
       }
     user.nickname = nickname
     user.active = True
@@ -214,7 +214,13 @@ def get_user_or_placeholder(phone_num, nickname):
   if not SWE_PHONENUM_RE.match(phone_num):
     return {
       "success": False,
-      "msg": "Not a valid phone number."
+      "msg": "Swedish format is required for phone number."
+    }
+
+  if not NICKNAME_RE.match(nickname):
+    return {
+      "success": False,
+      "msg": "Nicknames need to be 2-30 characters long and can only contain letters, numbers, spaces, dashes and underscores."
     }
 
   phone_num = strip_phone_num(phone_num) # Get last 9 digits
@@ -243,7 +249,7 @@ def create_group(name, members):
   if not GROUPNAME_RE.match(name):
     return {
       "success": False,
-      "msg": "Not a valid group name."
+      "msg": "Group names need to be 2-50 characters long and can only contain letters, numbers, spaces, dashes and underscores."
     }
   group = Group(name=name)
 
@@ -395,7 +401,7 @@ def register_group_payment(group_id, requester_phone_num, associates, amount):
   if not SWE_PHONENUM_RE.match(requester_phone_num):
     return {
       "success": False,
-      "msg": "Requester does not have a valid swedish phone number."
+      "msg": "Requester does not have a valid Swedish phone number."
     }
   requester_phone_num = strip_phone_num(requester_phone_num)
   requester = User.query.filter_by(phone_num=requester_phone_num).first()

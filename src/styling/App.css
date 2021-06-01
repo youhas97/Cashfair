@@ -13,3 +13,25 @@ button {
   -ms-user-select: none; /* IE10+/Edge */
   user-select: none; /* Standard */
 }
+
+.alert {
+  /*Using important to overwrite component CSS since it is
+  an importet component, otherwise our custom CSS will be overwritten
+  by the component built in CSS*/
+  position: absolute;
+  width: fit-content;
+  top: 5px;
+  left: 0 !important;
+  right: 0 !important;
+  margin: 0 auto;
+}
+
+.alert-style-success {
+  background-color: rgb(20, 88, 35) !important;
+  color: whitesmoke !important;
+}
+
+.alert-style-error {
+  background-color: rgb(179, 10, 10) !important;
+  color: whitesmoke !important;
+}

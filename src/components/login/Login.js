@@ -25,7 +25,7 @@ function Login() {
       // Auto-close modal after 10s.
       setTimeout(() => {
         dispatch({type: actions.SET_SUC_REG, value: false})
-      }, 10000)
+      }, 6000)
     }
   }, [store.successfulRegistration])
 

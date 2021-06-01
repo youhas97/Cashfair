@@ -2,19 +2,21 @@ import React, { useRef, useState } from "react"
 import { useGroupCreationStore } from "../../context/groupCreationStore"
 import { useStore } from "../../context/store"
 import { Button, Dialog, DialogActions, DialogContent, Box, DialogTitle } from "@material-ui/core"
-
+import { Alert } from "@material-ui/lab"
 import "../../styling/groups/Groups.css"
 import GroupCreationForm from "./GroupCreationForm"
-import { Socket } from "socket.io"
 
 function GroupCreation() {
   const [open, setOpen] = useState(false)
   const { groupData } = useGroupCreationStore()
   const { socket, store } = useStore()
+  const [ showAlert, setShowAlert ] = useState(false)
+  const [alertText, setAlertText] = useState("")
   const formRef = useRef()
 
   const handleOpen = (e) => {
     e.preventDefault(e)
+    setShowAlert(false)
     setOpen(true)
   }
 
@@ -40,6 +42,9 @@ function GroupCreation() {
         payload = JSON.parse(payload)
         if(payload["success"]) {
           setOpen(false)
+        } else {
+          setShowAlert(true)
+          setAlertText(payload["msg"])
         }
       })
       socket.emit("create_group", JSON.stringify(payload))
@@ -59,6 +64,14 @@ function GroupCreation() {
       onClose={handleClose} >
         <form ref={formRef} >
           <DialogTitle className="create-group-title">Group Creation</DialogTitle>
+          {showAlert ? <Alert style={{
+            margin: "auto",
+            maxWidth: "500px"
+          }}
+          severity="error"
+          >
+            {alertText}
+          </Alert> : undefined }
           <DialogContent className="create-group-modal-content">
             <GroupCreationForm />
           </DialogContent>

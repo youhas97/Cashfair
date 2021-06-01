@@ -10,7 +10,8 @@ function RegisterForm() {
   const [password, updatePassword] = useState("")
   const [repeatPassword, updateRepeatPassword] = useState("")
   const [successfulRegistration, setSuccessfulRegistration] = useState(false)
-  const [showRegFailAlert, setShowRegFailAlert] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
+  const [alertText, setAlertText] = useState(false)
   const formRef = useRef()
   const { actions, dispatch, url } = useStore()
 
@@ -20,8 +21,8 @@ function RegisterForm() {
       // TODO: Check validity of phoneNumber
 
       if(password !== repeatPassword) {
-        // TODO: popup or some other method to show user that passwords don't match
-        alert("Passwords don't match!")
+        setShowAlert(true)
+        setAlertText("Passwords don't match.")
         return
       }
 
@@ -35,9 +36,9 @@ function RegisterForm() {
         console.log("RESPONSE: " + JSON.stringify(req.response))
         if(req.status === 200 && req.response["success"]) {
           setSuccessfulRegistration(true)
-          console.log("Let's login boiiiiiiis")
         } else {
-          setShowRegFailAlert(true)
+          setShowAlert(true)
+          setAlertText(req.response["msg"])
         }
       }
     }
@@ -52,12 +53,13 @@ function RegisterForm() {
     <div className="content-div">
       <div className="login-form">
         <h1>Register Account</h1>
-        {showRegFailAlert ? <Alert style={{
-          margin: "auto"
+        {showAlert ? <Alert style={{
+          margin: "auto",
+          maxWidth: "20em"
         }}
         severity="error"
         >
-          Unable to register user.
+          {alertText}
         </Alert> : undefined }
         <form ref={formRef}>
         <Box my={2}>
