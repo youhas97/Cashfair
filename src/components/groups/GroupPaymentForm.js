@@ -13,12 +13,11 @@ function GroupPaymentForm() {
 
   useEffect(() => {
     dispatch({type: actions.SET_SELECTED_GROUP, value: selectedGroup})
-    dispatch({type: actions.SET_SELECTED_MEMBERS, value: selectedMembers})
-  }, [selectedGroup, selectedMembers])
-
-  const isEmpty = (obj) => {
-    return Object.entries(obj).length === 0
-  }
+    if(selectAllMembers)
+      dispatch({type: actions.SET_SELECTED_MEMBERS, value: selectedGroup["members"]})
+    else
+      dispatch({type: actions.SET_SELECTED_MEMBERS, value: selectedMembers})
+  }, [selectedGroup, selectedMembers, selectAllMembers])
 
   const renderSelectedMembers = () => {
     let key = 0;
@@ -30,7 +29,7 @@ function GroupPaymentForm() {
         {selectedMembers.map((member) => (
           <Box mr={1} my={0.6} key={key++}>
             <Chip key={member["phone_num"]}
-              label={member["nickname"] === store.userData.nickname ? member["nickname"] + " (you)" : member["nickname"]} />
+              label={member["nickname"] + (member["phone_num"] === store.userData.phoneNum ? " (you)" : "")} />
           </Box>
         ))}
       </Box>
@@ -44,7 +43,7 @@ function GroupPaymentForm() {
     memberMenuItems = selectedGroup["members"].map(member =>
       <MenuItem key={selectedGroup["members"].indexOf(member)} value={member}>
         <Checkbox color="primary" checked={selectedMembers.indexOf(member) > -1} />
-        <ListItemText primary={member["nickname"]}/>
+        <ListItemText primary={member["nickname"] + (member["phone_num"] === store.userData.phoneNum ? " (you)" : "")}/>
       </MenuItem>)
   }
 
@@ -81,10 +80,6 @@ function GroupPaymentForm() {
               value={selectedMembers} multiple onChange={(e) => setSelectedMembers(e.target.value)}
               renderValue={renderSelectedMembers}
               >
-                <MenuItem value={store.userData}>
-                  <Checkbox color="primary" checked={selectedMembers.indexOf(store.userData) > -1} />
-                  <ListItemText primary="You" />
-                </MenuItem>
                 {memberMenuItems}
             </Select>
           </Box>

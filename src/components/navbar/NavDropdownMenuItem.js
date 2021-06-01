@@ -8,7 +8,6 @@ function NavDropdownMenuItem(props) {
   const { actions, dispatch, socket } = useStore()
 
   const handleClick = () => {
-    console.log("LOG OUT")
     switch(props.text) {
       case dropDownMenuItems.LOG_OUT:
         socket.removeAllListeners()

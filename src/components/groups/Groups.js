@@ -21,7 +21,6 @@ function Groups() {
     socket.on("groups_update", (resp) => {
       resp = JSON.parse(resp)
       if(resp && resp["success"]) {
-        console.log(resp.groups)
         setGroups(resp.groups)
         dispatch({type: actions.SET_GROUPS, value: resp.groups})
       }

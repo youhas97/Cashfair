@@ -8,7 +8,7 @@ import { useGroupStore } from "../../context/groupStore"
 
 function GroupPayment() {
   const [open, setOpen] = useState(false)
-  const { groups, actions, dispatch } = useGroupStore()
+  const { groups, selectedGroup, selectedMembers } = useGroupStore()
   const [ showAlert, setShowAlert ] = useState(false)
   const formRef = useRef()
 
@@ -33,7 +33,9 @@ function GroupPayment() {
     // TODO: Transmit group data to server using API
     e.preventDefault(e)
     if (formRef.current.reportValidity()) {
-      console.log("forms are valid")
+      console.log("SEL_GRP: " + JSON.stringify(selectedGroup))
+      console.log("SEL_MEM: " + JSON.stringify(selectedMembers))
+      alert("forms are valid")
       setOpen(false)
     }
   }

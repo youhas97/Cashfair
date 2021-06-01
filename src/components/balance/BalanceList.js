@@ -21,7 +21,8 @@ function BalanceList(props) {
   if (props.members)  {
     var key = 0;
     listItems = props.members.map(member =>
-      <BalanceListItem key={key++} clickable={true} name={member["nickname"]}
+      <BalanceListItem key={key++} clickable={!(member["phone_num"] === store.userData.phoneNum)}
+        name={member["nickname"] + (member["phone_num"] === store.userData.phoneNum ? " (you)" : "")}
         value={member["balance"] == 0 ? "Settled up!" : member["balance"]} />
     )
   }
@@ -29,7 +30,6 @@ function BalanceList(props) {
   return (
     <CollapseableComponent title={props.title} totalBalance={totalBalance ? totalBalance : undefined}>
       <List>
-        {props.type==="groupList" ? <BalanceListItem name={store.userData.nickname + " (you)"} /> : undefined}
         {listItems}
       </List>
     </CollapseableComponent>

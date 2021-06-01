@@ -305,7 +305,12 @@ def get_groups(phone_num):
       "id": group.id,
       "name": group.name
     }
-    members = []
+
+    members = [{
+      "nickname": user.nickname,
+      "phone_num": "0" + user.phone_num,
+      "balance": None
+    }]
     for assoc in user.group_associations:
       if assoc.group_id != group.id:
         continue

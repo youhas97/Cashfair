@@ -24,7 +24,6 @@ function LoginForm() {
     })
     socket.once("connect", () => {
       dispatch({type: actions.SET_TOKEN, value: token})
-      console.log("We have officially connected boiiiiiiiiiis.")
     })
     socket.connect()
   }
@@ -42,7 +41,6 @@ function LoginForm() {
       req.send(JSON.stringify({"phoneNum": phoneNumber, "password": password}))
       req.onload = () => {
         if(req.status === 200 && req.response["success"]) {
-          console.log("Let's connect the socket boiiiiiis")
 
           /* Save the csrf token */
           let value = `; ${document.cookie}`;
