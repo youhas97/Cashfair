@@ -24,7 +24,6 @@ function GroupCreation() {
   }
 
   const handleSubmit = () => {
-    console.log(formRef)
     if (formRef.current.reportValidity()) {
       let members = []
       for (const key in groupData.members) {

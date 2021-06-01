@@ -30,9 +30,9 @@
 .create-group-title {
   background-color: #32BB64;
   color: whitesmoke;
+  font-weight: normal;
 }
 
-.create-group-title > h3 {
-  font-weight: normal;
-  color: black;
+.create-group-title > h2 {
+  text-transform: capitalize;
 }

@@ -18,17 +18,17 @@ def create_user(phone_num, pword, nickname):
   if not SWE_PHONENUM_RE.match(phone_num):
     return {
       "success": False,
-      "msg": "Not a valid Swedish phonenumber."
+      "msg": "Swedish format is required for phone number."
     }
   if not PASSWORD_RE.match(pword):
     return {
       "success": False,
-      "msg": "Not a valid password."
+      "msg": "Password needs to be between 8 and 128 characters, and can only contain letters, numbers, spaces and the following characters: @#$%^&+="
     }
   if not NICKNAME_RE.match(nickname):
     return {
       "success": False,
-      "msg": "Not a valid nickname."
+      "msg": "Nicknames need to be 2-30 characters long and can only contain letters, numbers, spaces and dashes."
     }
 
   phone_num = strip_phone_num(phone_num) # Get last 9 digits
@@ -114,12 +114,12 @@ def register_payment(user_phone, associate_phone, associate_nickname, amount):
   if not SWE_PHONENUM_RE.match(associate_phone) or not SWE_PHONENUM_RE.match(user_phone):
     return {
       "success": False,
-      "msg": "Not a swedish phonenum."
+      "msg": "Swedish format is required for phone number."
     }
   if not NICKNAME_RE.match(associate_nickname):
     return {
       "success": False,
-      "msg": "Not a valid nickname."
+      "msg": "Nicknames need to be 2-30 characters long and can only contain letters, numbers, spaces and dashes."
     }
   try:
     int(amount)

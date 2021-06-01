@@ -39,7 +39,12 @@ function Balance() {
       </Dashboard>
       <DashboardRight>
         <Box mt={5}>
-          <PaymentCreation />
+          <Box>
+            <PaymentCreation />
+          </Box>
+          <Box>
+            <PaymentCreation type="loan"/>
+          </Box>
         </Box>
       </DashboardRight>
     </div>

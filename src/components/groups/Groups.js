@@ -47,12 +47,16 @@ function Groups() {
         {groupLists}
       </Dashboard>
       <DashboardRight>
-        <Box mt={5}>
-        <GroupCreationStoreProvider>
-          <GroupCreation />
-        </GroupCreationStoreProvider>
-          <GroupPayment />
+      <Box mt={5}>
+        <Box>
+          <GroupCreationStoreProvider>
+            <GroupCreation />
+          </GroupCreationStoreProvider>
         </Box>
+        <Box>
+            <GroupPayment />
+        </Box>
+      </Box>
       </DashboardRight>
     </div>
   )
