@@ -43,7 +43,7 @@ function GroupPayment() {
   return (
     <div className="create-group-btn">
       {showAlert ?
-          <Alert severity="error" className="alert alert-style-error"
+          <Alert variant="filled" severity="error" className="alert"
           onClose={() => setShowAlert(false)}>
             You are not part of any groups.
           </Alert> : undefined}

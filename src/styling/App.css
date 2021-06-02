@@ -25,13 +25,3 @@ button {
   right: 0 !important;
   margin: 0 auto;
 }
-
-.alert-style-success {
-  background-color: rgb(20, 88, 35) !important;
-  color: whitesmoke !important;
-}
-
-.alert-style-error {
-  background-color: rgb(179, 10, 10) !important;
-  color: whitesmoke !important;
-}
