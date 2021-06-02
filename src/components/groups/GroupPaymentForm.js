@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react"
 import { useStore } from "../../context/store"
 import { useGroupStore } from "../../context/groupStore"
 
-import { Box, InputLabel, Select, MenuItem, FormControl, Checkbox, ListItemText, Chip, FormControlLabel } from "@material-ui/core"
+import { Box, InputLabel, Select, MenuItem,
+  FormControl, Checkbox, ListItemText,
+  Chip, FormControlLabel, TextField } from "@material-ui/core"
 
 function GroupPaymentForm() {
   const { store } = useStore()
@@ -10,14 +12,16 @@ function GroupPaymentForm() {
   const [ selectedGroup, setSelectedGroup ] = useState(groups[0])
   const [ selectedMembers, setSelectedMembers ] = useState([])
   const [ selectAllMembers, setSelectAllMembers ] = useState(false)
+  const [ amount, setAmount ] = useState("")
 
   useEffect(() => {
+    dispatch({type: actions.SET_AMOUNT, value: amount})
     dispatch({type: actions.SET_SELECTED_GROUP, value: selectedGroup})
     if(selectAllMembers)
       dispatch({type: actions.SET_SELECTED_MEMBERS, value: selectedGroup["members"]})
     else
       dispatch({type: actions.SET_SELECTED_MEMBERS, value: selectedMembers})
-  }, [selectedGroup, selectedMembers, selectAllMembers])
+  }, [selectedGroup, selectedMembers, selectAllMembers, amount])
 
   const renderSelectedMembers = () => {
     let key = 0;
@@ -82,6 +86,11 @@ function GroupPaymentForm() {
               >
                 {memberMenuItems}
             </Select>
+          </Box>
+          <Box mt={3}>
+          <h3 className="create-group-title">Payment amount</h3>
+          <TextField onChange={(e) => setAmount(e.target.value)} type="number"
+            required autoComplete="nope" className="create-group-input" color="secondary" label="Amount"/>
           </Box>
         </FormControl>
       </Box> : undefined}

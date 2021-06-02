@@ -25,7 +25,7 @@ function BalanceListItem(props) {
     if( formRef.current.reportValidity()) {
       if (amount <= 0) {
         setShowAlert(true)
-        setAlertText("Amount has to be greater than 0")
+        setAlertText("Amount has to be greater than 0.")
         return
       }
       setOpen(false)
@@ -43,17 +43,19 @@ function BalanceListItem(props) {
       open={open}
       onClose={handleClose} >
         <form ref={formRef}>
-          <DialogTitle className="create-group-title">Payment to {props.name}</DialogTitle>
-          {showAlert ? <Alert style={{
-            margin: "auto",
-            maxWidth: "250px"
-          }}
-          severity="error"
-          >
-            {alertText}
-          </Alert> : undefined }
+          <DialogTitle className="uncapitalized-dialog-title">Payment to {props.name}</DialogTitle>
+          <Box>
+            {showAlert ? <Alert style={{
+              margin: "auto",
+              maxWidth: "250px"
+            }}
+            severity="error"
+            >
+              {alertText}
+            </Alert> : undefined }
+          </Box>
           <DialogContent className="create-group-modal-content">
-          <TextField onChange={(e) => setAmount(e.target.value)}
+          <TextField onChange={(e) => setAmount(e.target.value)} type="number"
             required autoComplete="nope" className="create-group-input" color="secondary" label="Amount"/>
           </DialogContent>
           <DialogActions className="create-group-modal-content">

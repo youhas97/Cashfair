@@ -31,11 +31,11 @@ function Balance() {
   return (
     <div className="main">
       <DashboardLeft>
-        <BalanceCard key={1} title="Your Balance" className="independent-balance-card"
+        <BalanceCard key={1} title="Total Individual Balance" className="independent-balance-card"
           value={Object.values(associations).map((asc) => asc["balance"]).reduce(((a,b) => a+b), 0)} />
       </DashboardLeft>
       <Dashboard>
-        <BalanceList title="Balance"
+        <BalanceList title="Individual balance"
         members={associations}/>
       </Dashboard>
       <DashboardRight>

@@ -73,14 +73,16 @@ function PaymentCreation(props) {
       onClose={handleClose} >
         <form ref={formRef} >
           <DialogTitle className="create-group-title">Register {!props.type ? "Payment" : props.type}</DialogTitle>
-          {showAlert ? <Alert style={{
-            margin: "auto",
-            maxWidth: "250px"
-          }}
-          severity="error"
-          >
-            {alertText}
-          </Alert> : undefined }
+          <Box>
+            {showAlert ? <Alert style={{
+              margin: "auto",
+              maxWidth: "250px"
+            }}
+            severity="error"
+            >
+              {alertText}
+            </Alert> : undefined }
+          </Box>
           <DialogContent className="create-group-modal-content">
             <PaymentCreationForm setPhoneNum={setPhoneNum} setNickname={setNickname} setAmount={setAmount} />
           </DialogContent>

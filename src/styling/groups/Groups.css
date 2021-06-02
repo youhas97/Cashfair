@@ -27,7 +27,7 @@
   max-width: 300px;
 }
 
-.create-group-title {
+.create-group-title{
   background-color: #32BB64;
   color: whitesmoke;
   font-weight: normal;
@@ -35,4 +35,10 @@
 
 .create-group-title > h2 {
   text-transform: capitalize;
+}
+
+.uncapitalized-dialog-title {
+  background-color: #32BB64;
+  color: whitesmoke;
+  font-weight: normal;
 }

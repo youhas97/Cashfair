@@ -408,6 +408,13 @@ def register_group_payment(group_id, requester_phone_num, associates, amount):
       "success": False,
       "msg": "Requester does not have a valid Swedish phone number."
     }
+  try:
+    amount = float(amount)
+  except ValueError:
+    return {
+      "success": False,
+      "msg": "Amount is not a valid decimal number."
+    }
   requester_phone_num = strip_phone_num(requester_phone_num)
   requester = User.query.filter_by(phone_num=requester_phone_num).first()
   if not requester:
@@ -420,7 +427,7 @@ def register_group_payment(group_id, requester_phone_num, associates, amount):
   for associate in associates:
     phone_num = strip_phone_num(associate["phone_num"])
 
-    if not group.users.filter_by(phone_num):
+    if not group.members.filter_by(phone_num=phone_num):
       return {
         "success": False,
         "msg": "An associate (number: {}) is not part of this group with group id: {}".format(associate["phone_num"], group_id)
@@ -430,7 +437,9 @@ def register_group_payment(group_id, requester_phone_num, associates, amount):
   # Now create group payment associations for all users
   even_amount = amount/len(associates)
   for associate in associates:
-    associate_user = User.query.filter_by(phone_num=associate["phone_num"]).first()
+    associate_user = User.query.filter_by(phone_num=strip_phone_num(associate["phone_num"])).first()
+    if requester.id == associate_user.id: # skip registering an association to self.
+      continue
     register_group_associations(group_id, requester, associate_user, associate["nickname"], even_amount)
 
   db.session.commit()

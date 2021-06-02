@@ -38,16 +38,20 @@ function Home() {
   let key = 0;
   const groupCards = groups.map(group => {
     return <BalanceCard key={key++} title={group["name"]} className="groups-card"
-      value={groups.map(group => group.members.map(member => member["balance"]).reduce((a,b) => a+b, 0)
-      ).reduce((a,b) => a+b, 0)} />
+      value={group.members.map(member => member["balance"]).reduce((a,b) => a+b, 0)} />
   })
 
   return (
     <div className="main">
-      <DashboardLeft />
+      <DashboardLeft>
+        <BalanceCard key={1} title="Total Balance" className="independent-balance-card"
+          value={groups.map(
+              group => group.members.map(member => member["balance"]).reduce((a,b) => a+b, 0)
+            ).reduce((a,b) => a+b, 0) + associations.map((asc) => asc["balance"]).reduce(((a,b) => a+b), 0)}/>
+      </DashboardLeft>
       <Dashboard>
         <CollapseableComponent title="Self"className="self-balance-card-container">
-          <BalanceCard key={1} title="Your Balance" className="self-balance-card"
+          <BalanceCard key={1} title="Individual Balance" className="self-balance-card"
             value={associations.map((asc) => asc["balance"]).reduce(((a,b) => a+b), 0)} />
         </CollapseableComponent>
         <CollapseableComponent title="Groups" className="groups-card-container">

@@ -125,3 +125,26 @@ def get_groups(phone_num):
   resp = con.get_groups(phone_num)
 
   emit("groups_update", json.dumps(resp))
+
+
+@socketio.on("register_group_payment")
+def register_group_payment(payload):
+  payload = json.loads(payload)
+  requester = payload["requester_phone_num"]
+  selected_group_id = payload["selected_group_id"]
+  selected_members = payload["selected_members"]
+  amount = payload["amount"]
+
+  resp = con.register_group_payment(selected_group_id, requester, selected_members, amount)
+  if resp["success"]:
+    list_of_phonenums = [member["phone_num"] for member in payload["selected_members"]]
+    for phone_num in list_of_phonenums:
+      phone_num = strip_phone_num(phone_num)
+      sid = redis.get(phone_num)
+      if sid:
+        emit("groups_update", json.dumps(con.get_groups(phone_num)), room=sid)
+
+    if requester not in phone_num:
+      emit("groups_update", json.dumps(con.get_groups(requester)))
+
+  emit("register_group_payment_response", json.dumps(resp))

@@ -112,7 +112,7 @@ class Group(db.Model):
 
   members = db.relationship('User',
     secondary=groups,
-    lazy=False,
+    lazy="dynamic",
     back_populates="groups"
   )
 

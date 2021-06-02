@@ -38,7 +38,7 @@ function Groups() {
   return (
     <div className="main">
       <DashboardLeft>
-        <BalanceCard key={1} title="Your Balance" className="independent-balance-card"
+        <BalanceCard key={1} title="Total Group Balance" className="independent-balance-card"
           value={groups.map(
               group => group.members.map(member => member["balance"]).reduce((a,b) => a+b, 0)
             ).reduce((a,b) => a+b, 0) }/>
