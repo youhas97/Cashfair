@@ -45,6 +45,9 @@ function GroupCreation() {
         if(payload["success"]) {
           setAlertText(payload["msg"])
           setShowAlert(true)
+          setTimeout(() => {
+            setShowAlert(false)
+          }, 6000)
           setOpen(false)
         } else {
           setAlertText(payload["msg"])
@@ -92,7 +95,7 @@ function GroupCreation() {
             </Button>
             <Button onClick={handleSubmit}
               color="secondary" >
-              Create
+              Create Group
             </Button>
           </DialogActions>
         </form>

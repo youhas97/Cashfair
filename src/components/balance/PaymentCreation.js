@@ -91,7 +91,7 @@ function PaymentCreation(props) {
               Cancel
             </Button>
             <Button onClick={handleSubmit} color="secondary" >
-              Create
+              {"Register " + (props.type ? props.type : "payment")}
             </Button>
           </DialogActions>
         </form>

@@ -289,7 +289,6 @@ def get_groups(phone_num):
   """
   phone_num = strip_phone_num(phone_num) # Get last 9 digits
   user = User.query.filter_by(phone_num=phone_num).first()
-  print("USER NAME: ", user.nickname, " --------- USER NUMBER: ", user.phone_num)
 
   if not user:
     return {
@@ -347,7 +346,8 @@ def register_group_associations(group_id, requester: User, associate: User, asso
   if assoc: # Check if associations already exist, and update balance if so.
     # Update balance for user association to associate
     assoc.balance += int(amount)
-    assoc.associate_nickname=associate.nickname # Update associate_nickname
+
+    assoc.associate_nickname=associate_nickname # Update associate_nickname
 
     # Update balance for the associate association to user
     associate_assoc = GroupPaymentAssociation.query.filter_by(
@@ -435,11 +435,12 @@ def register_group_payment(group_id, requester_phone_num, associates, amount):
 
 
   # Now create group payment associations for all users
-  even_amount = amount/len(associates)
+  even_amount = round(amount/len(associates), 2)
   for associate in associates:
     associate_user = User.query.filter_by(phone_num=strip_phone_num(associate["phone_num"])).first()
     if requester.id == associate_user.id: # skip registering an association to self.
       continue
+
     register_group_associations(group_id, requester, associate_user, associate["nickname"], even_amount)
 
   db.session.commit()

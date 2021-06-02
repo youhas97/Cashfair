@@ -111,7 +111,7 @@ function GroupPayment() {
             Cancel
           </Button>
           <Button onClick={handleSubmit} color="secondary" >
-            Create
+            Register Payment
           </Button>
         </DialogActions>
       </Dialog>

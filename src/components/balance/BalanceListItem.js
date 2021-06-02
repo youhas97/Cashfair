@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react"
-import {ListItem, ListItemText, Button, Dialog, DialogActions, DialogContent, Box, DialogTitle, TextField} from "@material-ui/core"
+import {ListItem, ListItemText, Button, Dialog,
+  DialogActions, DialogContent, Box, DialogTitle,
+  TextField, FormControlLabel, Checkbox } from "@material-ui/core"
 import { Alert } from "@material-ui/lab"
 import BalanceText from "./BalanceText"
 
@@ -7,6 +9,7 @@ function BalanceListItem(props) {
   const [open, setOpen] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
   const [alertText, setAlertText] = useState("")
+  const [ payWithSwish, setPayWithSwish] = useState(false)
   const [amount, setAmount] = useState("")
   const formRef = useRef()
 
@@ -55,15 +58,23 @@ function BalanceListItem(props) {
             </Alert> : undefined }
           </Box>
           <DialogContent className="create-group-modal-content">
-          <TextField onChange={(e) => setAmount(e.target.value)} type="number"
-            required autoComplete="nope" className="create-group-input" color="secondary" label="Amount"/>
+            <Box>
+              <FormControlLabel control={
+                  <Checkbox checked={payWithSwish} onChange={() => setPayWithSwish(!payWithSwish)} />
+                }
+                label="Pay with Swish" />
+            </Box>
+            <Box>
+              <TextField onChange={(e) => setAmount(e.target.value)} type="number"
+                required autoComplete="nope" className="create-group-input" color="secondary" label="Amount"/>
+            </Box>
           </DialogContent>
           <DialogActions className="create-group-modal-content">
             <Button onClick={handleClose} color="secondary" >
               Cancel
             </Button>
             <Button onClick={handleSubmit} color="secondary" >
-              Create
+              Register Payment
             </Button>
           </DialogActions>
         </form>
