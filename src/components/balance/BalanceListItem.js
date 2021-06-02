@@ -48,6 +48,7 @@ function BalanceListItem(props) {
           "payer": store.userData.phoneNum,
           "payee": props.number,
           "amount": amount,
+          "pay_with_swish": payWithSwish
         }
         if( props.type === "group") {
           payload["group_id"] = props.groupId

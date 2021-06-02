@@ -157,6 +157,7 @@ def pay_user(payload):
   payer = payload["payer"]
   payee = payload["payee"]
   amount = payload["amount"]
+  pay_with_swish = payload["pay_with_swish"]
 
   resp = con.pay_user(payer, payee, amount)
   emit("payment_response", json.dumps(resp))
@@ -173,6 +174,7 @@ def pay_user(payload):
   payee = payload["payee"]
   amount = payload["amount"]
   group_id = payload["group_id"]
+  pay_with_swish = payload["pay_with_swish"]
 
   resp = con.pay_user(payer, payee, amount, group=True, group_id=group_id)
   emit("payment_response", json.dumps(resp))
