@@ -24,4 +24,5 @@ button {
   left: 0 !important;
   right: 0 !important;
   margin: 0 auto;
+  z-index: 100;
 }

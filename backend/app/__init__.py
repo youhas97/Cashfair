@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from .config import DevelopmentConfig
 
 from flask_bcrypt import Bcrypt
+
 from redis import Redis
 
 load_dotenv() # Get all env variables from .env
@@ -14,6 +15,8 @@ load_dotenv() # Get all env variables from .env
 whitelist = ["http://localhost:3000"]
 
 redis = Redis(host="localhost", port=6379, db=0, decode_responses=True, encoding="utf-8")
+
+swish_base_url = "https://cpc.getswish.net/swish-cpcapi"
 
 def create_app():
   app = Flask(__name__)
