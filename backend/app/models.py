@@ -79,21 +79,21 @@ class User(db.Model):
   groups = db.relationship(
     'Group',
     secondary=groups,
-    lazy='subquery',
+    lazy='dynamic',
     back_populates="members"
   )
 
   associations = db.relationship(
     'PaymentAssociation',
     foreign_keys=[PaymentAssociation.user_id],
-    lazy='subquery',
+    lazy='dynamic',
     backref=db.backref('user', lazy=True)
   )
 
   group_associations = db.relationship(
     'GroupPaymentAssociation',
     foreign_keys=[GroupPaymentAssociation.user_id],
-    lazy='subquery',
+    lazy='dynamic',
     backref=db.backref('user', lazy=True)
   )
 
@@ -119,6 +119,6 @@ class Group(db.Model):
   associations = db.relationship(
     'GroupPaymentAssociation',
     foreign_keys=[GroupPaymentAssociation.group_id],
-    lazy='subquery',
+    lazy='dynamic',
     backref=db.backref('group', lazy=True)
   )

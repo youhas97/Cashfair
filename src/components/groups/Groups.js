@@ -33,7 +33,7 @@ function Groups() {
 
   //let key = 0;
   const groupLists = groups.map(group => {
-    return <BalanceList key={group.id} title={group.name} members={group.members} />
+    return <BalanceList type="group" groupId={group.id} key={group.id} title={group.name} members={group.members} />
   })
   return (
     <div className="main">

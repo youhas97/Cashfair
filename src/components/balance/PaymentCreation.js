@@ -13,6 +13,7 @@ function PaymentCreation(props) {
   const [nickname, setNickname] = useState("")
   const [amount, setAmount] = useState("")
   const [showAlert, setShowAlert] = useState(false)
+  const [showDialogAlert, setShowDialogAlert] = useState(false)
   const [alertText, setAlertText] = useState("")
 
 
@@ -20,7 +21,7 @@ function PaymentCreation(props) {
 
   const handleOpen = (e) => {
     e.preventDefault(e)
-    setShowAlert(false)
+    setShowDialogAlert(false)
     setOpen(true)
   }
 
@@ -40,21 +41,26 @@ function PaymentCreation(props) {
           "payment_amount": !props.type ? amount : -amount
         }
 
-        socket.once("register_payment_response", (resp) => {
-          resp = JSON.parse(resp)
-          if(resp["success"])
-            // TODO: Show alert for success
-            setOpen(false)
-          else
-            // TODO: Show alert for fail
+        socket.once("register_payment_response", (payload) => {
+          payload = JSON.parse(payload)
+          if(payload["success"]) {
+            setAlertText(payload["msg"])
             setShowAlert(true)
-            setAlertText(resp.msg)
+            setTimeout(() => {
+              setShowAlert(false)
+            }, 6000)
+            setOpen(false)
+          }
+          else {
+            setAlertText(payload["msg"])
+            setShowDialogAlert(true)
+          }
         })
 
         socket.emit("register_payment", JSON.stringify(payload))
       }
       else {
-        setShowAlert(true)
+        setShowDialogAlert(true)
         setAlertText("Amount has to be greater than 0")
       }
     }
@@ -62,6 +68,11 @@ function PaymentCreation(props) {
 
   return (
     <div className="create-group-btn">
+      {showAlert ?
+          <Alert variant="filled" className="alert"
+          onClose={() => setShowAlert(false)}>
+            {alertText}
+          </Alert> : undefined}
       <Box mb={2}>
         <Button variant="contained" color="primary" onClick={handleOpen}>
           Register New {!props.type? "Payment" : props.type }
@@ -74,7 +85,7 @@ function PaymentCreation(props) {
         <form ref={formRef} >
           <DialogTitle className="create-group-title">Register {!props.type ? "Payment" : props.type}</DialogTitle>
           <Box>
-            {showAlert ? <Alert style={{
+            {showDialogAlert ? <Alert style={{
               margin: "auto",
               maxWidth: "250px"
             }}

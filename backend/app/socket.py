@@ -1,3 +1,4 @@
+from re import I
 from flask_socketio import disconnect, emit, SocketIO, join_room, send
 import json
 
@@ -148,3 +149,36 @@ def register_group_payment(payload):
       emit("groups_update", json.dumps(con.get_groups(requester)))
 
   emit("register_group_payment_response", json.dumps(resp))
+
+
+@socketio.on("pay_user")
+def pay_user(payload):
+  payload = json.loads(payload)
+  payer = payload["payer"]
+  payee = payload["payee"]
+  amount = payload["amount"]
+
+  resp = con.pay_user(payer, payee, amount)
+  emit("payment_response", json.dumps(resp))
+  if resp["success"]:
+    emit("balance_update", json.dumps(con.get_balance(strip_phone_num(payer))))
+    payee_sid = redis.get(strip_phone_num(payee))
+    if payee_sid:
+      emit("balance_update", json.dumps(con.get_balance(strip_phone_num(payee))), room=payee_sid)
+
+@socketio.on("pay_group_user")
+def pay_user(payload):
+  payload = json.loads(payload)
+  payer = payload["payer"]
+  payee = payload["payee"]
+  amount = payload["amount"]
+  group_id = payload["group_id"]
+
+  resp = con.pay_user(payer, payee, amount, group=True, group_id=group_id)
+  emit("payment_response", json.dumps(resp))
+
+  if resp["success"]:
+    emit("groups_update", json.dumps(con.get_groups(strip_phone_num(payer))))
+    payee_sid = redis.get(strip_phone_num(payee))
+    if payee_sid:
+      emit("groups_update", json.dumps(con.get_groups(strip_phone_num(payee))), room=payee_sid)

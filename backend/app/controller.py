@@ -449,3 +449,57 @@ def register_group_payment(group_id, requester_phone_num, associates, amount):
     "success": True,
     "msg": "Group payment successfully created!"
   }
+
+
+def pay_user(payer, payee, amount, group=False, group_id=None):
+  if not SWE_PHONENUM_RE.match(payer) or not SWE_PHONENUM_RE.match(payee):
+    return {
+      "success": False,
+      "msg": "One of the user phone numbers provided is not a Swedish phone number."
+    }
+  try:
+    amount = float(amount)
+  except ValueError:
+    return {
+      "success": False,
+      "msg": "Amount is not a valid decimal number."
+    }
+
+  payer_user = User.query.filter_by(phone_num=strip_phone_num(payer)).first()
+  payee_user = User.query.filter_by(phone_num=strip_phone_num(payee)).first()
+  if not group:
+    payer_assoc = payer_user.associations.filter_by(associate_id=payee_user.id).first()
+    payee_assoc = payee_user.associations.filter_by(associate_id=payer_user.id).first()
+    if not payer_assoc or not payee_assoc:
+      return {
+        "success": False,
+        "msg": "No payment registered between payer and payee. Please register a payment before trying to pay."
+      }
+
+    payer_assoc.balance -= amount
+    payee_assoc.balance += amount
+  else:
+    group = Group.query.filter_by(id=group_id).first()
+    if not group:
+      return {
+        "success": False,
+        "msg": "The group does not exist."
+      }
+
+    payer_assoc = payer_user.group_associations.filter_by(group_id=group_id, associate_id=payee_user.id).first()
+    payee_assoc = payee_user.group_associations.filter_by(group_id=group_id, associate_id=payer_user.id).first()
+    if not payer_assoc or not payee_assoc:
+      return {
+        "success": False,
+        "msg": "No payment registered between payer and payee. Please register a payment before trying to pay."
+      }
+
+    payer_assoc.balance -= amount
+    payee_assoc.balance += amount
+
+  db.session.commit()
+
+  return {
+    "success": True,
+    "msg": "Payment successful!"
+  }

@@ -18,9 +18,9 @@ button {
   /*Using important to overwrite component CSS since it is
   an importet component, otherwise our custom CSS will be overwritten
   by the component built in CSS*/
-  position: absolute;
+  position: fixed;
   width: fit-content;
-  top: 5px;
+  top: 5vh;
   left: 0 !important;
   right: 0 !important;
   margin: 0 auto;
