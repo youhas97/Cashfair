@@ -35,7 +35,7 @@ function Balance() {
           value={Object.values(associations).map((asc) => asc["balance"]).reduce(((a,b) => a+b), 0)} />
       </DashboardLeft>
       <Dashboard>
-        <BalanceList title="Balances"
+        <BalanceList title="Balance"
         members={associations}/>
       </Dashboard>
       <DashboardRight>
