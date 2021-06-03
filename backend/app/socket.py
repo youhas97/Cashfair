@@ -157,14 +157,19 @@ def pay_user(payload):
   payer = payload["payer"]
   payee = payload["payee"]
   amount = payload["amount"]
+  pay_with_swish = payload["pay_with_swish"]
 
   resp = con.pay_user(payer, payee, amount)
-  emit("payment_response", json.dumps(resp))
   if resp["success"]:
+    if(pay_with_swish):
+      resp["msg"] = "Payment has been registered — Open Swish on your device and scan the QR Code to Swish the money!"
+      resp["qr_code"] = con.get_swish_qr_code(payee, amount)
     emit("balance_update", json.dumps(con.get_balance(strip_phone_num(payer))))
     payee_sid = redis.get(strip_phone_num(payee))
     if payee_sid:
       emit("balance_update", json.dumps(con.get_balance(strip_phone_num(payee))), room=payee_sid)
+
+  emit("payment_response", json.dumps(resp))
 
 @socketio.on("pay_group_user")
 def pay_user(payload):
@@ -173,12 +178,16 @@ def pay_user(payload):
   payee = payload["payee"]
   amount = payload["amount"]
   group_id = payload["group_id"]
+  pay_with_swish = payload["pay_with_swish"]
 
   resp = con.pay_user(payer, payee, amount, group=True, group_id=group_id)
-  emit("payment_response", json.dumps(resp))
-
   if resp["success"]:
+    if(pay_with_swish):
+      resp["msg"] = "Payment has been registered — Open Swish on your device and scan the QR Code to Swish the money!"
+      resp["qr_code"] = con.get_swish_qr_code(payee, amount)
     emit("groups_update", json.dumps(con.get_groups(strip_phone_num(payer))))
     payee_sid = redis.get(strip_phone_num(payee))
     if payee_sid:
       emit("groups_update", json.dumps(con.get_groups(strip_phone_num(payee))), room=payee_sid)
+
+  emit("payment_response", json.dumps(resp))

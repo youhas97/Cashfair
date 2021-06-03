@@ -12,7 +12,7 @@ from redis import Redis
 
 load_dotenv() # Get all env variables from .env
 
-whitelist = ["http://localhost:3000"]
+whitelist = ["https://localhost:3000"]
 
 redis = Redis(host="localhost", port=6379, db=0, decode_responses=True, encoding="utf-8")
 

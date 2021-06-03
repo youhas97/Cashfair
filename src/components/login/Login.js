@@ -12,7 +12,7 @@ function Login() {
   const [showAlert, setShowAlert] = useState(false)
   const [alertText, setAlertText] = useState("")
   const [isErrorAlert, setIsErrorAlert] = useState(false)
-  const { store, actions, dispatch } = useStore()
+  const { store, actions, dispatch, socket } = useStore()
 
   useEffect(() => {
     setShowAlert(store.successfulRegistration)

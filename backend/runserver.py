@@ -19,4 +19,13 @@ import os
 
 port = int(os.environ.get("PORT", 5000))
 
-wsgi.server(eventlet.listen(('', port)), create_app())
+dirname = os.path.dirname(__file__)
+certfile_path = os.path.join(dirname, "certs/server.crt")
+keyfile_path = os.path.join(dirname, "certs/server.key")
+wsgi.server(eventlet.wrap_ssl(
+            eventlet.listen(('', port)),
+            certfile=certfile_path,
+            keyfile=keyfile_path,
+            server_side=True,
+        ),
+    create_app())

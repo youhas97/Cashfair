@@ -4,6 +4,10 @@ from flask_jwt_extended import create_access_token
 from .utils.controller import SWE_PHONENUM_RE, PASSWORD_RE, NICKNAME_RE, GROUPNAME_RE
 from .utils.controller import strip_phone_num
 
+import requests
+
+import base64
+
 
 def create_user(phone_num, pword, nickname):
   """
@@ -476,8 +480,8 @@ def pay_user(payer, payee, amount, group=False, group_id=None):
         "msg": "No payment registered between payer and payee. Please register a payment before trying to pay."
       }
 
-    payer_assoc.balance -= amount
-    payee_assoc.balance += amount
+    payer_assoc.balance += amount
+    payee_assoc.balance -= amount
   else:
     group = Group.query.filter_by(id=group_id).first()
     if not group:
@@ -494,8 +498,8 @@ def pay_user(payer, payee, amount, group=False, group_id=None):
         "msg": "No payment registered between payer and payee. Please register a payment before trying to pay."
       }
 
-    payer_assoc.balance -= amount
-    payee_assoc.balance += amount
+    payer_assoc.balance += amount
+    payee_assoc.balance -= amount
 
   db.session.commit()
 
@@ -503,3 +507,23 @@ def pay_user(payer, payee, amount, group=False, group_id=None):
     "success": True,
     "msg": "Payment successful!"
   }
+
+def get_swish_qr_code(payee, amount):
+  r = requests.post('https://mpc.getswish.net/qrg-swish/api/v1/prefilled', json={
+      'payee': {
+          'value': payee,
+          'editable': False,
+      },
+      'amount': {
+          'value': amount,
+          'editable': False,
+      },
+      'message': {
+          'value': 'Cashfair payment',
+          'editable': False,
+      },
+      'format': 'png',
+      'size': 300
+    })
+
+  return base64.b64encode(r.content).decode("utf-8")

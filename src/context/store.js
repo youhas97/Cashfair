@@ -1,7 +1,9 @@
 import React, { useContext, createContext, useReducer } from 'react';
 import { io } from 'socket.io-client'
 
-const socket = io("http://localhost:5000", {
+const url = "https://localhost:5000"
+
+const socket = io(url, {
   autoConnect: false,
   reconnectionAttempts: 10,
   reconnectionDelay: 300,
@@ -49,7 +51,7 @@ function StoreProvider( { children } ) {
     dispatch: dispatch,
     // socket is separate from the store state, used like a singleton
     socket: socket,
-    url: "http://localhost:5000"
+    url: url
   }
   return <Provider value={value}>{children}</Provider>;
 };

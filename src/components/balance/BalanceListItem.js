@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import {ListItem, ListItemText, Button, Dialog,
   DialogActions, DialogContent, Box, DialogTitle,
-  TextField, FormControlLabel, Checkbox, Stepper } from "@material-ui/core"
+  TextField, FormControlLabel, Checkbox } from "@material-ui/core"
 import { Alert } from "@material-ui/lab"
 import BalanceText from "./BalanceText"
 import { useStore } from "../../context/store"
@@ -15,6 +15,7 @@ function BalanceListItem(props) {
   const [amount, setAmount] = useState("")
   const { store, socket } = useStore()
   const [ showQRCode, setShowQRCode ] = useState(false)
+  const [ qrCode, setQRCode ] = useState("")
   const formRef = useRef()
 
   const handleClick = (e) => {
@@ -26,43 +27,7 @@ function BalanceListItem(props) {
   }
 
   const handleClose = () => {
-    setOpen(false)
-  }
 
-  const getSwishQRCode = (payee, amount) => {
-    let swish_url = "https://mpc.getswish.net/qrg-swish"
-    /* Send Swish QR Code request */
-    let req = new XMLHttpRequest()
-    req.open("POST", swish_url + "/api/v1/prefilled")
-    req.setRequestHeader("Content-Type", "application/json; charset=utf-8")
-    req.responseType = 'json'
-    req.withCredentials = true
-
-    req.send(JSON.stringify({
-      "format": "svg",
-      "payee": {
-        value: payee,
-        editable: false
-      },
-      "amount": {
-        value: amount,
-        editable: false
-      },
-      message: {
-        value: "CashFair payment",
-        editable: false
-      },
-    }))
-
-    req.onload = () => {
-      if(req.status === 200) {
-        setShowQRCode(true)
-        console.log(req)
-      } else {
-        setAlertText("Swish QR Code retrieval error.")
-        setShowDialogAlert(true)
-      }
-    }
   }
 
   const handleSubmit = () => {
@@ -71,16 +36,18 @@ function BalanceListItem(props) {
         socket.on("payment_response", (payload) => {
           payload = JSON.parse(payload)
           if(payload["success"]) {
-            if (payWithSwish) {
-              getSwishQRCode(props.number, amount)
-            }
-
             setAlertText(payload["msg"])
-            setShowAlert(true)
-            setTimeout(() => {
-              setShowAlert(false)
-            }, 6000)
-            setOpen(false)
+            if(payWithSwish) {
+              setQRCode(payload["qr_code"])
+              setShowQRCode(true)
+            }
+            else {
+              setShowAlert(true)
+              setTimeout(() => {
+                setShowAlert(false)
+              }, 6000)
+              setOpen(false)
+            }
           }
           else {
             setAlertText(payload["msg"])
@@ -91,6 +58,7 @@ function BalanceListItem(props) {
           "payer": store.userData.phoneNum,
           "payee": props.number,
           "amount": amount,
+          "pay_with_swish": payWithSwish
         }
         if( props.type === "group") {
           payload["group_id"] = props.groupId
@@ -118,40 +86,58 @@ function BalanceListItem(props) {
       </ListItem>
       <Dialog
       className="create-group-modal"
-      open={open}
-      onClose={handleClose} >
+      open={open}>
         <form ref={formRef}>
-          <DialogTitle className="uncapitalized-dialog-title">Payment to {props.name}</DialogTitle>
+          <DialogTitle className="uncapitalized-dialog-title">
+            {showQRCode ? alertText : ("Payment to " + props.name)}
+          </DialogTitle>
+          { showQRCode ?
           <Box>
-            {showDialogAlert ? <Alert style={{
-              margin: "auto",
-              maxWidth: "250px"
-            }}
-            severity="error"
-            >
-              {alertText}
-            </Alert> : undefined }
+            <DialogContent className="create-group-modal-content">
+              <Box textAlign="center">
+                <img src={`data:image/png;base64, ${qrCode}`}  />
+              </Box>
+            </DialogContent>
+            <DialogActions className="create-group-modal-content">
+              <Button onClick={() => setOpen(false)} color="secondary" >
+                Close
+              </Button>
+            </DialogActions>
           </Box>
-          <DialogContent className="create-group-modal-content">
+          :
+          <Box>
             <Box>
-              <FormControlLabel control={
-                  <Checkbox checked={payWithSwish} onChange={() => setPayWithSwish(!payWithSwish)} />
-                }
-                label="Pay with Swish" />
+              {showDialogAlert ? <Alert style={{
+                margin: "auto",
+                maxWidth: "250px"
+              }}
+              severity="error"
+              >
+                {alertText}
+              </Alert> : undefined }
             </Box>
-            <Box>
-              <TextField onChange={(e) => setAmount(e.target.value)} type="number"
-                required autoComplete="nope" className="create-group-input" color="secondary" label="Amount"/>
-            </Box>
-          </DialogContent>
-          <DialogActions className="create-group-modal-content">
-            <Button onClick={handleClose} color="secondary" >
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} color="secondary" >
-              Register Payment
-            </Button>
-          </DialogActions>
+            <DialogContent className="create-group-modal-content">
+              <Box>
+                <FormControlLabel control={
+                    <Checkbox checked={payWithSwish} onChange={() => setPayWithSwish(!payWithSwish)} />
+                  }
+                  label="Pay with Swish" />
+              </Box>
+              <Box>
+                <TextField onChange={(e) => setAmount(e.target.value)} type="number"
+                  required autoComplete="nope" className="create-group-input" color="secondary" label="Amount"/>
+              </Box>
+            </DialogContent>
+            <DialogActions className="create-group-modal-content">
+              <Button onClick={() => setOpen(false)} color="secondary" >
+                Cancel
+              </Button>
+              <Button onClick={handleSubmit} color="secondary" >
+                Register Payment
+              </Button>
+            </DialogActions>
+          </Box>
+          }
         </form>
       </Dialog>
     </Box>
