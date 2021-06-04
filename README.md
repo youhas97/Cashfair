@@ -34,10 +34,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `npm start`
+### `HTTPS=true npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [https://localhost:3000](https://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
@@ -96,3 +96,26 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Start the back-end server
+
+## Installing required python packages
+
+To install the required python packages simply run `pip install -r requirements.txt` from the root of the directory.
+
+## Launching the docker environments
+
+From the root of the directory, run `docker-compose up -d`.
+
+## Creating the database
+
+If it is the first time running the backend, then the following commands have to be run as well:
+
+        source .env
+        flask db init
+        flask db migrate -m "init"
+        flask db upgrade
+
+## Launching the server
+
+Run the command `python backend/runserver.py` from the root of the directory.
