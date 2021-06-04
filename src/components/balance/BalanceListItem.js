@@ -26,10 +26,6 @@ function BalanceListItem(props) {
     setOpen(true)
   }
 
-  const handleClose = () => {
-
-  }
-
   const handleSubmit = () => {
     if( formRef.current.reportValidity()) {
       if (amount > 0) {
