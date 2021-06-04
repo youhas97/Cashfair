@@ -1,105 +1,32 @@
-import React, { useRef, useState } from "react"
-import { useGroupCreationStore } from "../../context/groupCreationStore"
-import { useStore } from "../../context/store"
-import { Button, Dialog, DialogActions, DialogContent, Box, DialogTitle } from "@material-ui/core"
+import React, { useState } from "react"
+import { Button, Box } from "@material-ui/core"
 import { Alert } from "@material-ui/lab"
 import "../../styling/groups/Groups.css"
-import GroupCreationForm from "./GroupCreationForm"
+import GroupCreationDialog from "./GroupCreationDialog"
 
 function GroupCreation() {
-  const [open, setOpen] = useState(false)
-  const { groupData } = useGroupCreationStore()
-  const { socket, store } = useStore()
+  const [ renderDialog, setRenderDialog] = useState(false)
   const [ showAlert, setShowAlert ] = useState(false)
-  const [ showDialogAlert, setShowDialogAlert ] = useState(false)
   const [ alertText, setAlertText ] = useState("")
-  const [ isErrorAlert, setIsErrorAlert ] = useState(false)
-  const formRef = useRef()
-
-  const handleOpen = (e) => {
-    e.preventDefault(e)
-    setShowDialogAlert(false)
-    setOpen(true)
-  }
-
-  const handleClose = (e) => {
-    e.preventDefault(e)
-    setOpen(false)
-  }
-
-  const handleSubmit = () => {
-    if (formRef.current.reportValidity()) {
-      let members = []
-      for (const key in groupData.members) {
-        members.push({
-          nickname: groupData.members[key].name,
-          phone_num: groupData.members[key].phoneNum
-        })
-      }
-      let payload = {
-        name: groupData.name,
-        members: members
-      }
-      socket.once("create_group_response", (payload) => {
-        payload = JSON.parse(payload)
-        if(payload["success"]) {
-          setAlertText(payload["msg"])
-          setShowAlert(true)
-          setTimeout(() => {
-            setShowAlert(false)
-          }, 6000)
-          setOpen(false)
-        } else {
-          setAlertText(payload["msg"])
-          setShowDialogAlert(true)
-        }
-      })
-      socket.emit("create_group", JSON.stringify(payload))
-    }
-  }
 
   return (
     <div className="create-group-btn">
     {showAlert ?
-          <Alert variant="filled" severity={isErrorAlert ? "error" : "success"} className="alert"
+          <Alert variant="filled" className="alert"
           onClose={() => setShowAlert(false)}>
             {alertText}
           </Alert> : undefined}
       <Box mb={2}>
-        <Button variant="contained" color="primary" onClick={handleOpen}>
+        <Button variant="contained" color="primary" onClick={() => setRenderDialog(true)}>
           Create new group
         </Button>
       </Box>
-      <Dialog
-      className="create-group-modal"
-      open={open}
-      onClose={handleClose} >
-        <form ref={formRef} >
-          <DialogTitle className="create-group-title">Group Creation</DialogTitle>
-          <Box>
-            {showDialogAlert ? <Alert style={{
-              margin: "auto",
-              maxWidth: "500px"
-            }}
-            severity="error"
-            >
-              {alertText}
-            </Alert> : undefined }
-          </Box>
-          <DialogContent className="create-group-modal-content">
-            <GroupCreationForm />
-          </DialogContent>
-          <DialogActions className="create-group-modal-content">
-            <Button onClick={handleClose} color="secondary" >
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit}
-              color="secondary" >
-              Create Group
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
+      { renderDialog ?
+        <GroupCreationDialog
+          setRenderDialog={setRenderDialog}
+          setShowAlert={setShowAlert}
+          setAlertText={setAlertText}/>
+      : undefined}
     </div>
   )
 }
