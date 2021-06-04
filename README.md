@@ -4,6 +4,8 @@
 
 ## [Link to project screencast](https://www.youtube.com/watch?v=bzb-7-w5fVo)
 
+## [Link to youha847 individual oral code screencast](https://www.youtube.com/watch?v=MWot8eLkIy0)
+
 ## Functional specification
 
 ### Project vision
