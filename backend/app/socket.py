@@ -5,7 +5,6 @@ import json
 from . import controller as con
 from . import whitelist
 from . import redis
-from .auth import authenticated_only
 from .models import User
 
 from flask import request
