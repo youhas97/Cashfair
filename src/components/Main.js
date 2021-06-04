@@ -1,6 +1,6 @@
-import React, { useEffect } from "react"
-
-import { useLocation, Route, Switch, Redirect } from 'react-router-dom'
+import React from "react"
+import { GroupStoreProvider } from "../context/groupStore"
+import { Route, Switch, Redirect } from 'react-router-dom'
 
 import "../styling/Main.css"
 
@@ -9,12 +9,6 @@ import Groups from "./groups/Groups"
 import Balance from "./balance/Balance"
 
 function Main() {
-  let location = useLocation()
-  useEffect(() => {
-    //Backend API calls maybe
-    console.log(location.pathname)
-  }, [location])
-
   return (
     <main className="main">
       <Switch>
@@ -25,7 +19,9 @@ function Main() {
           <Balance />
         </Route>
         <Route exact path="/groups">
-          <Groups />
+          <GroupStoreProvider>
+            <Groups />
+          </GroupStoreProvider>
         </Route>
         <Route>
           <Redirect to="/" />

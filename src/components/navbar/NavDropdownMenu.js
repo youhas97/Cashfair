@@ -3,20 +3,12 @@ import NavDropdownMenuItem from "./NavDropdownMenuItem"
 import "../../styling/navbar/NavDropdownMenu.css"
 
 function NavDropdownMenu(props) {
-
-  const handleClick = () => {
-    alert("Clicked!")
-  }
-
-  const menuItems = []
-  var key = 0;
-  Object.keys(props.menuItems).forEach(item => {
-    menuItems.push(
-    <NavDropdownMenuItem
-      onClick={props.menuItems[item]}
-      key={key++}>
-      {item}
-    </NavDropdownMenuItem>)})
+  var key=0;
+  const menuItems = props.menuItems.map(item =>
+  <NavDropdownMenuItem
+    onClick={props.menuItems[item]}
+    key={key++}
+    text={item} />)
 
   return (
     <ul className="nav-menu-list" >

@@ -1,10 +1,8 @@
-import React, { useState, useEffect} from "react"
+import React, { useState, useEffect, useRef} from "react"
 import { useStore } from "../../context/store"
 import { Redirect, Link } from 'react-router-dom'
-import { io } from "socket.io-client"
 import { Alert } from "@material-ui/lab"
-
-import "../../styling/login/RegisterForm.css"
+import { Button, TextField, Box } from "@material-ui/core"
 
 function RegisterForm() {
   const [nickname, setNickName] = useState("")
@@ -12,84 +10,101 @@ function RegisterForm() {
   const [password, updatePassword] = useState("")
   const [repeatPassword, updateRepeatPassword] = useState("")
   const [successfulRegistration, setSuccessfulRegistration] = useState(false)
-  const [showRegFailAlert, setShowRegFailAlert] = useState(false)
-
+  const [showAlert, setShowAlert] = useState(false)
+  const [alertText, setAlertText] = useState(false)
+  const formRef = useRef()
   const { actions, dispatch, url } = useStore()
 
   function submitForm(e) {
     e.preventDefault(e)
+    if (formRef.current.reportValidity()) {
+      // TODO: Check validity of phoneNumber
 
-    // TODO: Check validity of phoneNumber
+      if(password !== repeatPassword) {
+        setShowAlert(true)
+        setAlertText("Passwords don't match.")
+        return
+      }
 
-    if(password !== repeatPassword) {
-      // TODO: popup or some other method to show user that passwords don't match
-      alert("Passwords don't match!")
-      return
-    }
-
-    /* Send register request */
-    let req = new XMLHttpRequest()
-    req.open("POST", url + "/register")
-    req.setRequestHeader("Content-Type", "application/json; charset=utf-8")
-    req.responseType = 'json'
-    req.send(JSON.stringify({"phoneNum": phoneNumber, "password": password, "nickname": "testname"}))
-    req.onload = () => {
-      console.log("RESPONSE: " + JSON.stringify(req.response))
-      if(req.status === 200 && req.response["success"]) {
-        setSuccessfulRegistration(true)
-        console.log("Let's login boiiiiiiis")
-      } else {
-        setShowRegFailAlert(true)
+      /* Send register request */
+      let req = new XMLHttpRequest()
+      req.open("POST", url + "/register")
+      req.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+      req.responseType = 'json'
+      req.send(JSON.stringify({"phoneNum": phoneNumber, "password": password, "nickname": nickname}))
+      req.onload = () => {
+        if(req.status === 200 && req.response["success"]) {
+          setSuccessfulRegistration(true)
+        } else {
+          setShowAlert(true)
+          setAlertText(req.response["msg"])
+        }
       }
     }
   }
 
 
   useEffect(() => {
-    dispatch({type: actions.UPDATE_SUC_REG, value: successfulRegistration})
+    dispatch({type: actions.SET_SUC_REG, value: successfulRegistration})
   }, [successfulRegistration])
 
   return (
     <div className="content-div">
       <div className="login-form">
         <h1>Register Account</h1>
-        {showRegFailAlert ? <Alert style={{
-          margin: "auto"
+        {showAlert ? <Alert style={{
+          margin: "auto",
+          maxWidth: "20em"
         }}
         severity="error"
         >
-          Unable to register user.
+          {alertText}
         </Alert> : undefined }
-        <form id="register-form">
-          <input
-          className="form-input"
-          type="text"
-          placeholder="Nickname"
-          onChange={(e) => setNickName(e.target.value)}
-          required/>
-          <input
-          className="form-input"
-          type="number"
-          placeholder="Phone number"
-          onChange={(e) => updatePhoneNumber(e.target.value)}
-          required/>
-          <input
-          className="form-input"
-          type="password"
-          placeholder="Password"
-          onChange={(e) => updatePassword(e.target.value)}
-          required/>
-          <input
-          className="form-input"
-          type="password"
-          onChange={(e) => updateRepeatPassword(e.target.value)}
-          placeholder="Repeat password"
-          required/>
-          <input
-          className="form-btn"
-          type="submit"
-          onClick={submitForm}
-          value="Register"/>
+        <form ref={formRef}>
+        <Box my={2}>
+          <TextField
+            autoComplete="nope"
+            margin="dense"
+            type="text"
+            placeholder="Nickname"
+            onChange={(e) => setNickName(e.target.value)}
+            required/>
+        </Box>
+        <Box mb={2}>
+          <TextField
+            autoComplete="nope"
+            margin="dense"
+            type="number"
+            placeholder="Phone number"
+            onChange={(e) => updatePhoneNumber(e.target.value)}
+            required/>
+        </Box>
+        <Box mb={2}>
+          <TextField
+            autoComplete="nope"
+            margin="dense"
+            type="password"
+            placeholder="Password"
+            onChange={(e) => updatePassword(e.target.value)}
+            required/>
+        </Box>
+        <Box mb={5}>
+          <TextField
+            autoComplete="nope"
+            margin="dense"
+            type="password"
+            onChange={(e) => updateRepeatPassword(e.target.value)}
+            placeholder="Repeat password"
+            required/>
+        </Box>
+        <Box mb={2}>
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={submitForm}>
+              Register
+          </Button>
+        </Box>
         </form>
       </div>
       <div>

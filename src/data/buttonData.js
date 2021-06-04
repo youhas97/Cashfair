@@ -1,4 +1,6 @@
-import { handleLogout } from "./dropdownFunctions"
+const dropDownMenuItems = {
+  LOG_OUT: "Log out",
+}
 
 const buttonData = [
   {
@@ -33,10 +35,8 @@ const buttonData = [
     float: "right",
     // Menu items for drop down menu in form of "key": func,
     // where the func is the function to be called when the button is clicked.
-    menuItems: {
-      "Log out": handleLogout
-    }
+    menuItems: [dropDownMenuItems.LOG_OUT]
   }
 ]
 
-export default buttonData
+export { buttonData, dropDownMenuItems }

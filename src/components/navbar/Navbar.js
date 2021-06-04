@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import "../../styling/navbar/Navbar.css"
 import NavButton from "./NavButton"
 
-import buttonData from "../../data/buttonData"
+import { buttonData } from "../../data/buttonData"
 
 function Navbar() {
   const [buttons] = useState(buttonData)

@@ -11,14 +11,21 @@ if __name__ == '__main__':
     socketio.run(create_app())
 """
 
-from gevent.pywsgi import WSGIServer
 from app import create_app
-
-from geventwebsocket.handler import WebSocketHandler
+import eventlet
+from eventlet import wsgi
 
 import os
 
 port = int(os.environ.get("PORT", 5000))
 
-http_server = WSGIServer(('', port), create_app(), handler_class=WebSocketHandler)
-http_server.serve_forever()
+dirname = os.path.dirname(__file__)
+certfile_path = os.path.join(dirname, "certs/server.crt")
+keyfile_path = os.path.join(dirname, "certs/server.key")
+wsgi.server(eventlet.wrap_ssl(
+            eventlet.listen(('', port)),
+            certfile=certfile_path,
+            keyfile=keyfile_path,
+            server_side=True,
+        ),
+    create_app())

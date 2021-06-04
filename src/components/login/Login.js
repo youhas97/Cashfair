@@ -10,11 +10,12 @@ import RegisterForm from "./RegisterForm"
 
 function Login() {
   const [showAlert, setShowAlert] = useState(false)
-  const { store, actions, dispatch } = useStore()
+  const [alertText, setAlertText] = useState("")
+  const [isErrorAlert, setIsErrorAlert] = useState(false)
+  const { store, actions, dispatch, socket } = useStore()
 
   useEffect(() => {
     setShowAlert(store.successfulRegistration)
-
     /*
     Only want to start timeout if component is actually rendered,
     since useEffect is called once when component is mounted it will
@@ -23,9 +24,11 @@ function Login() {
     */
     if (store.successfulRegistration) {
       // Auto-close modal after 10s.
+      setAlertText("Registration was successful! — You can now log in.")
+      setIsErrorAlert(false)
       setTimeout(() => {
-        dispatch({type: actions.UPDATE_SUC_REG, value: false})
-      }, 10000)
+        dispatch({type: actions.SET_SUC_REG, value: false})
+      }, 6000)
     }
   }, [store.successfulRegistration])
 
@@ -34,11 +37,11 @@ function Login() {
       <Switch>
         <Route exact path="/login">
         {showAlert ?
-          <Alert className="alert alert-style-success"
+          <Alert variant="filled" severity={isErrorAlert ? "error" : "success"} className="alert"
           onClose={() => {
-            dispatch({type: actions.UPDATE_SUC_REG, value: false})
+            dispatch({type: actions.SET_SUC_REG, value: false})
           }}>
-            Registration was successful! — You can now log in.
+            {alertText}
           </Alert> : undefined}
           <LoginForm />
         </Route>

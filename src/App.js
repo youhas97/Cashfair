@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect } from "react";
 import './styling/App.css';
 
 import Header from './components/Header'
@@ -10,7 +10,22 @@ import Login from './components/login/Login'
 import { useStore } from './context/store'
 
 function App() {
-  const { socket } = useStore()
+  const { store, socket } = useStore()
+
+  /**
+   * Careful about cleaning socket on store token.
+   * Socket will be cleaned up on every change for token.
+   * Now we check if token is undefined before deciding to cleanup,
+   * which works on the initial socket connect.
+   */
+  useEffect(() => {
+    if(store.token) {
+      return () => {
+        socket.removeAllListeners()
+        socket.disconnect()
+      }
+    }
+  }, [store.token])
 
   useEffect(() => {
     return () => {
@@ -19,7 +34,7 @@ function App() {
     }
   }, [socket])
 
-  if (!socket || socket.disconnected) {
+  if (!store.token) {
     return (
       <div className="App">
         <Login />

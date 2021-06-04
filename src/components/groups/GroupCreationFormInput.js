@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 
 import { TextField, FormGroup, Box } from "@material-ui/core"
-import { useGroupStore } from "../../context/groupStore"
+import { useGroupCreationStore } from "../../context/groupCreationStore"
 
 function GroupCreationFormInput(props) {
-  const { groupData, actions, dispatch } = useGroupStore()
+  const { actions, dispatch } = useGroupCreationStore()
   const [phoneNum, setPhoneNum] = useState(props.phoneNum)
   const [name, setName] = useState(props.name)
 
