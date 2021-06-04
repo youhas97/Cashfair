@@ -142,12 +142,11 @@ def register_payment(user_phone, associate_phone, associate_nickname, amount):
       "msg": "User does not exist."
     }
 
-  # associate = User.query.filter_by(phone_num=associate_phone).first()
-  # if not associate:
-  #   # Create placeholder until a user registers with associate_phone
-  #   associate = User(phone_num=associate_phone, active=False)
-  #   db.session.add(associate)
-  #   db.session.commit()
+  if user.id == User.query.filter_by(phone_num=strip_phone_num(associate_phone)).first().id:
+    return {
+      "success": False,
+      "msg": "You cannot register payments with yourself."
+    }
 
   res = get_user_or_placeholder(associate_phone, associate_nickname)
   if not res["success"]:
