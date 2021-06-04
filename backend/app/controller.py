@@ -142,7 +142,8 @@ def register_payment(user_phone, associate_phone, associate_nickname, amount):
       "msg": "User does not exist."
     }
 
-  if user.id == User.query.filter_by(phone_num=strip_phone_num(associate_phone)).first().id:
+  associate_user = User.query.filter_by(phone_num=strip_phone_num(associate_phone)).first()
+  if associate_user and associate_user.id == user.id:
     return {
       "success": False,
       "msg": "You cannot register payments with yourself."
