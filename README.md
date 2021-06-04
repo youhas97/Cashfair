@@ -6,7 +6,7 @@
 
 ## [Link to youha847 individual oral code screencast](https://www.youtube.com/watch?v=MWot8eLkIy0)
 
-## [Link to elmzi904 individual oral code screencast](https://www.youtube.com/watch?v=OGY_aXJvmiY)
+## [Link to elmzi904 individual oral code screencast](https://www.youtube.com/watch?v=OGY_aXJvmiY) (see video description for an EDIT)
 
 ## Functional specification
 
