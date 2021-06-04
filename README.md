@@ -2,7 +2,7 @@
 
 ## [Link to mid-course screencast](https://www.youtube.com/watch?v=avGOSQFu8PI)
 
-## [Link to project screencast](https://www.youtube.com/watch?v=kbLCmbG9yAI)
+## [Link to project screencast](https://www.youtube.com/watch?v=bzb-7-w5fVo)
 
 ## Functional specification
 
