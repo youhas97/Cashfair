@@ -1,13 +1,5 @@
 # <span style="color:#32BB64">cash</span><span style="color:orange">fair</span>
 
-## [Link to mid-course screencast](https://www.youtube.com/watch?v=avGOSQFu8PI)
-
-## [Link to project screencast](https://www.youtube.com/watch?v=bzb-7-w5fVo)
-
-## [Link to youha847 individual oral code screencast](https://www.youtube.com/watch?v=MWot8eLkIy0)
-
-## [Link to elmzi904 individual oral code screencast](https://www.youtube.com/watch?v=OGY_aXJvmiY) (see video description for an EDIT)
-
 ## Functional specification
 
 ### Project vision
